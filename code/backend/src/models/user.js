@@ -27,6 +27,6 @@ const User = db.define(
   }
 );
 
-Event.sync()
+User.sync()
 
 module.exports= User;
