@@ -3,7 +3,7 @@ const Joi = require('joi');
 const getAllUsersSchema = () => Joi.object().keys({});
 
 const getUserSchema = () => Joi.object().keys({
-    id: Joi.alternatives(Joi.string(), Joi.number()).required(),
+    userid: Joi.alternatives(Joi.string(), Joi.number()).required(),
   });
 
 const setUserSchema = () => Joi.object().keys({
@@ -20,7 +20,7 @@ const updateUserSchema = () => Joi.object().keys({
   });
 
 const deleteUserSchema = () => Joi.object().keys({
-    id: Joi.alternatives(Joi.string(), Joi.number()).required(),
+    userid: Joi.alternatives(Joi.string(), Joi.number()).required(),
   });
 
 

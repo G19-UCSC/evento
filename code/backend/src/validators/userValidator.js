@@ -1,6 +1,6 @@
 const validate = require('../utilities/validationHelper')
-
-const {getAllUsersSchema,
+const {
+    getAllUsersSchema,
     getUserSchema,
     setUserSchema,
     updateUserSchema,
@@ -8,14 +8,14 @@ const {getAllUsersSchema,
 } = require('../schema/userSchema');
 
 const getAllUsers = async(req)=>{
-    const attributes = {id:req.params.id}
+    const attributes = {userid:req.params.userid}
     return validate(getAllUsersSchema(), attributes);
 }
 
 const getUser = async(req)=>{
-    const attributes = {id:req.params.id}
+    const attributes = {userid:req.params.userid}
     return validate(getUserSchema(), attributes);
-}
+};
 
 const setUser = async(req)=>{
     const attributes = {
@@ -24,10 +24,29 @@ const setUser = async(req)=>{
         lastname: req.body.lastname
     }
     return validate(setUserSchema(), attributes);
-}
+};
+
+const updateUser = async (req) => {
+    const attributes = {
+        userid:req.params.id,
+        email: req.body.email,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname
+    }
+    return validate(updateUserSchema(), attributes);
+};
+
+const deleteUser = async (req) => {
+    const attributes = {
+        userid:req.params.id
+    }
+    return validate(deleteUserSchema(), attributes);
+};
 
 module.exports = {
     getAllUsers,
     getUser,
-    setUser
+    setUser,
+    updateUser,
+    deleteUser
 }
