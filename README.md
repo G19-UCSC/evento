@@ -51,7 +51,6 @@ README.md
 ...
 ```
 
-# Usage (run fullstack app on your machine)
 
 ## Prerequisites
 - [PostgreSQL](https://www.postgresql.org/download/windows/)
@@ -60,43 +59,36 @@ README.md
 
 notice, you need client and server runs concurrently in different terminal session, in order to make them talk to each other
 
-## Server usage(PORT: 5000)
-```terminal
-$ cd code/backend   // go to backe d folder
-$ npm i             // npm install packages
-$ npm run dev      // run it locally
+## Server-side(PORT: 5000)
 
-## Client-side usage(PORT: 3000)
+###Set your postgres properties in .env file
 ```terminal
-$ cd client   // go to client folder
+// in the root level
+$ echo "DB_USERNAME = YOUR_DB_USERNAME" >> ./backend/src/.env
+$ echo "DB_PASSWORD = YOUR_DB_PASSWORD" >> ./backend/src/.env
+$ echo "DB_NAME = YOUR_DB_NAME" >> ./backend/src/.env
+$ echo "DB_HOST = YOUR_DB_HOST" >> ./backend/src/.env
+$ echo "DB_PORT = YOUR_DB_PORT" >> ./backend/src/.env
+$ echo "DIALECT = YOUR_DIALECT" >> ./backend/src/.env
+```
+
+### Start
+```terminal
+$ cd backend   // go to server folder
+$ npm i       // npm install packages
+$ npm run dev // run it locally
+$ npm run build // this will build the backend code to es5 js codes and generate a dist file
+```
+
+## Client-side usage(Admin_PORT: 3000, Portal_PORT: 4000)
+```terminal
+$ cd frontend   // go to client folder
 $ npm i       // npm install packages
 $ npm run dev // run it locally
 
 // deployment for client app
 $ npm run build // this will compile the react code using webpack and generate a folder called docs in the root level
 $ npm run start // this will run the files in docs, this behavior is exactly the same how gh-pages will run your static site
-```
-
-## Server-side usage(PORT: 8000)
-
-### Prepare your secret
-
-run the script at the first level:
-
-(You need to add a JWT_SECRET in .env to connect to MongoDB)
-
-```terminal
-// in the root level
-$ echo "JWT_SECRET=YOUR_JWT_SECRET" >> ./server/src/.env
-```
-
-### Start
-
-```terminal
-$ cd server   // go to server folder
-$ npm i       // npm install packages
-$ npm run dev // run it locally
-$ npm run build // this will build the server code to es5 js codes and generate a dist file
 ```
 
 ## Deploy Server to [Heroku](https://dashboard.heroku.com/)
@@ -123,14 +115,19 @@ remember to update the file of [client/webpack.prod.js](https://github.com/amazi
 Client-side | Server-side
 --- | ---
 axios: ^0.15.3 | bcrypt-nodejs: ^0.0.3
-babel-preset-stage-1: ^6.1.18|body-parser: ^1.15.2
-lodash: ^3.10.1 | cors: ^2.8.1
-react: ^16.2.0 | dotenv: ^2.0.0
-react-dom: ^16.2.0 | express: ^4.14.0
-react-redux: ^4.0.0 | jwt-simple: ^0.5.1
-react-router-dom: ^4.2.2 | mongoose: ^4.7.4
-redux: ^3.7.2 | morgan: ^1.7.0
-redux-thunk: ^2.1.0 |
+bootstrap: ^5.1.3|body-parser: ^1.15.2
+dotenv: ^16.0.1 | cors: ^2.8.1
+next: 12.2.0 | dotenv: ^2.0.0
+next-auth: ^4.10.0 | express: ^4.14.0
+nodemailer: ^6.7.7 | express-async-handler: ^1.2.0
+react: 17.0.0 | joi: ^17.6.0
+react-bootstrap-table-next: ^4.0.3 | nodemon: ^2.0.15
+react-bootstrap-table2-paginator: ^2.1.2 | pg: ^8.7.3
+react-bootstrap-table2-toolkit: ^2.1.3 | pg-hstore: ^2.3.4
+react-datepicker: ^4.8.0 | sequelize: ^6.21.3
+react-dom: 17.0.0 | colors: ^1.4.0
+react-hook-form: ^7.33.1 | concurrently: ^7.1.0
+react-icons": ^4.4.0 | 
 
 # Screenshots of this project
 
@@ -144,10 +141,11 @@ User can sign in or sign up
 
 ## BUGs or comments
 
-[Create new Issues](https://github.com/amazingandyyy/mern/issues) (preferred)
+[Create new Issues](https://github.com/G19-UCSC/evento/issues) (preferred)
 
 
 ## Author
 [G19-UCSC](https://github.com/G19-UCSC)
 
 ### License
+MIT
