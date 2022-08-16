@@ -14,9 +14,7 @@ function packages() {
                                 <div className="row">
                                     <div className="col-md-12 mb-5">
                                         <div className="float-md-left mb-6">
-                                            <div className="col-md-7">
-                                                <h2>Our Packages</h2>
-                                            </div>
+                                            <h2>Our Packages</h2>
                                         </div>
 
                                         <div className="d-flex">

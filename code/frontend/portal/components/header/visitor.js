@@ -84,7 +84,7 @@ function VisitorH() {
                                         <Link href="/visitor/packages">Packages</Link>
                                     </li>
                                     <li>
-                                        <Link href="/vistor/products">Products</Link>
+                                        <Link href="/visitor/products">Products</Link>
                                     </li>
                                     <li>
                                         <Link href="/visitor/services">Services</Link>
