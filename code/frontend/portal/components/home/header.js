@@ -1,98 +1,80 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.css";
+import Image from 'next/image'
 
 export default function header() {
   return (
-    <div>
-      <header>
-        <>
-          <nav className="navbar navbar-expand-lg navbar-primary ">
-            <div className="container-fluid">
-              <a className="navbar-brand" href="/">
-                <h2>YIT Platform</h2>
-              </a>
-              <button
-                className="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-                <span className="navbar-toggler-icon"></span>
-              </button>
+    <header class="site-navbar" role="banner">
+      <div class="site-navbar-top">
+        <div class="container">
+          <div class="row align-items-center">
 
-              <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li className="nav-item">
-                    <a className="nav-link active" aria-current="page" href="/">
-                      Home
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link " onClick={() => window.location.replace("/#about")}>
-                      About
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/">
-                      Ourvalues
-                    </a>
-                  </li>
-
-                  <li className="nav-item">
-                    <a className="nav-link" href="/initiative">
-                      Initiatives
-                    </a>
-                  </li>
-                  <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-                    <ul class="navbar-nav">
-                      <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" href="/" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Events
-                        </a>
-                        <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                          <li><a className="dropdown-item" href="/upcomingevent ">Upcoming events</a></li>
-                          <li><a className="dropdown-item" href="/pastevent">Past events</a></li>
-                        </ul>
-                      </li>
-                    </ul></div>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/volunteer">
-                      volunteers
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/">
-                      Partners
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/">
-                      Contact details
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/signup">
-                      SignUp
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/login">
-                      Signin
-                    </a>
-                  </li>
-                </ul>
-
-              </div>
-
+            <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
+              <form action="" class="site-block-top-search">
+                <span class="icon icon-search2"></span>
+                <input type="text" class="form-control border-0" placeholder="Search" />
+              </form>
             </div>
-          </nav>
-          <br />
-          <br />
-        </>
-      </header>
-    </div>
+
+            <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
+              <div class="site-logo">
+                <a href="index.html" class="js-logo-clone">evento</a>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-4 order-3 order-md-3 text-right">
+              <div class="site-top-icons">
+                <ul>
+                  <li><a href="#"><span class="icon icon-person"></span></a></li>
+                  <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
+                  <li>
+                    <a href="cart.html" class="site-cart">
+                      <span class="icon icon-shopping_cart"></span>
+                      <span class="count">2</span>
+                    </a>
+                  </li> 
+                  <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
+                </ul>
+              </div> 
+            </div>
+
+          </div>
+        </div>
+      </div> 
+      <nav class="site-navigation text-right text-md-center" role="navigation">
+        <div class="container">
+          <ul class="site-menu js-clone-nav d-none d-md-block">
+            <li class="has-children active">
+              <a href="index.html">Home</a>
+              <ul class="dropdown">
+                <li><a href="#">Menu One</a></li>
+                <li><a href="#">Menu Two</a></li>
+                <li><a href="#">Menu Three</a></li>
+                <li class="has-children">
+                  <a href="#">Sub Menu</a>
+                  <ul class="dropdown">
+                    <li><a href="#">Menu One</a></li>
+                    <li><a href="#">Menu Two</a></li>
+                    <li><a href="#">Menu Three</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="has-children">
+              <a href="about.html">About</a>
+              <ul class="dropdown">
+                <li><a href="#">Menu One</a></li>
+                <li><a href="#">Menu Two</a></li>
+                <li><a href="#">Menu Three</a></li>
+              </ul>
+            </li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="#">Catalogue</a></li>
+            <li><a href="#">New Arrivals</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
   )
 }
