@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link';
 import "bootstrap/dist/css/bootstrap.css";
@@ -11,6 +11,11 @@ import Footer from "../components/dashboard/footer";
 import ToolkitProvider from 'react-bootstrap-table2-toolkit';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import BootstrapTable from 'react-bootstrap-table-next';
+
+var $ = require('jquery');
+import 'datatables.net';
+// import 'datatables.net-dt';
+import 'datatables.net-bs4';
 
 export default function account () {
 
@@ -51,26 +56,42 @@ export default function account () {
     },{
         dataField: 'name',
         text: 'Name'
-      },{
+    },{
         dataField: 'username',
         text: 'Username'
-      }, {
+    },{
         dataField: 'email',
         text: 'Email'
-      }, {
+    }, {
         dataField: 'status',
         text: 'Status'
-      },];
+    },];
 
-      function onClickCreate(e){
+    function onClickCreate(e){
         if(create){
             setCreate(false);
         }
         else{
             setCreate(true);
         }
-        document.getElementById("accountsTable").classList.toggle("col-lg-6");
-      }
+        document.getElementById("accountsTableCard").classList.toggle("col-lg-6");
+    }
+
+    useEffect(()=>{
+        const table = () => {
+            $(function() {
+                $('#accountsTable').DataTable({
+                    ordering:true,
+                    select: true,
+                    responsive: true,
+                    buttons: [
+                        'copy','excel','pdf'
+                    ]
+                });
+            });
+        }
+        table();
+    },[]);
 
     return(
         <>
@@ -87,45 +108,51 @@ export default function account () {
                         </button>
                     </div>
                     <div className='row'>
-                        <div className='card shadow mb-4'>
-                            <div className='card-body'>
-                                <ToolkitProvider
-                                keyField="name"
-                                data={ accounts }
-                                columns={ columns }
-                                pagination={ paginationFactory() }
-                                >
-                                    {
-                                        props =>{
-                                            <div>
-                                                <BootstrapTable keyField='id' data={accounts} columns={columns} />
-                                            </div>
-                                        }
-                                    }
-                                </ToolkitProvider>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div id="accountsTable" className='mb-4'>
+                    <div className='mb-4' id="accountsTableCard">
                             <div className='card shadow md-4'>
+                                <div className='card-header'>User Accounts</div>
                                 <div className='card-body'>
-                                    <BootstrapTable keyField='id' data={accounts} columns={columns} />
+                                    <div className='table-responsive'>
+                                        <table className='table' id="accountsTable">
+                                            <thead>
+                                                <tr>
+                                                    {columns.map((c)=> (
+                                                        <th>{c.text}</th>
+                                                    ))}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {accounts.map((a)=> (
+                                                    <tr>
+                                                        <td>{a.id}</td>
+                                                        <td>{a.name}</td>
+                                                        <td>{a.username}</td>
+                                                        <td>{a.email}</td>
+                                                        <td>{a.status}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div className='col-lg-6 mb-4'>
-                            <div>
+                        <div className='col-lg-6 mb-4' id="createCard">
+                            <div className='card shadow md-4'>
                                 {create && (
                                     <>
-                                    <h1>This is the Create Account Section</h1>
-                                    <form>
-                                        Name : <input type="text"/> <br/><br/>
-                                        Email : <input type="text"/> <br/><br/>
-                                    </form>
-                                    <button className='btn' onClick={e=>onClickCreate()} >
-                                        Create
-                                    </button>
+                                        <div className='card-header'>
+                                            This is the Create Account Section
+                                        </div>
+                                        <div className='card-body'>
+                                            <form>
+                                                Name : <input type="text"/> <br/><br/>
+                                                Email : <input type="text"/> <br/><br/>
+                                            </form>
+                                            <button className='btn' onClick={e=>onClickCreate()} >
+                                                Create
+                                            </button>
+                                        </div>
                                     </>
                                 )}
                             </div>
