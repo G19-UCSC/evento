@@ -2,14 +2,13 @@
 import Footer from "../components/home/footer"
 import Header from "../components/home/header"
 
-import Image from 'next/image'
 
 export default function Home() {
   return (
      <div class="site-wrap">
      <Header />
  
-     <div class="site-blocks-cover" data-aos="fade">
+     <div class="site-blocks-cover" style={{ backgroundImage: `url(${"images/hero_1.jpg"})`}} data-aos="fade">
        <div class="container">
          <div class="row align-items-start align-items-md-center justify-content-end">
            <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
@@ -65,7 +64,7 @@ export default function Home() {
            <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
              <a class="block-2-item" href="#">
                <figure class="image">
-                 <Image src="/images/women.jpg" layout='fill' alt="" class="img-fluid"/>
+                 <img src="/images/women.jpg" layout='fill' alt="" class="img-fluid"/>
                </figure>
                <div class="text">
                  <span class="text-uppercase">Collections</span>
@@ -76,7 +75,7 @@ export default function Home() {
            <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="100">
              <a class="block-2-item" href="#">
                <figure class="image">
-                 <Image src="/images/children.jpg" layout='fill' alt="" class="img-fluid"/>
+                 <img src="/images/children.jpg" layout='fill' alt="" class="img-fluid"/>
                </figure>
                <div class="text">
                  <span class="text-uppercase">Collections</span>
@@ -87,7 +86,7 @@ export default function Home() {
            <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="200">
              <a class="block-2-item" href="#">
                <figure class="image">
-                 <Image src="/images/men.jpg" layout='fill' alt="" class="img-fluid" />
+                 <img src="/images/men.jpg" layout='fill' alt="" class="img-fluid" />
                </figure>
                <div class="text">
                  <span class="text-uppercase">Collections</span>
@@ -112,7 +111,7 @@ export default function Home() {
                <div class="item">
                  <div class="block-4 text-center">
                    <figure class="block-4-image">
-                     <Image src="/images/cloth_1.jpg" layout='fill' alt="Image placeholder" class="img-fluid" />
+                     <img src="/images/cloth_1.jpg" layout='fill' alt="Image placeholder" class="img-fluid" />
                    </figure>
                    <div class="block-4-text p-4">
                      <h3><a href="#">Tank Top</a></h3>
@@ -124,7 +123,7 @@ export default function Home() {
                <div class="item">
                  <div class="block-4 text-center">
                    <figure class="block-4-image">
-                     <Image src="/images/shoe_1.jpg" layout='fill' alt="Image placeholder" class="img-fluid" />
+                     <img src="/images/shoe_1.jpg" layout='fill' alt="Image placeholder" class="img-fluid" />
                    </figure>
                    <div class="block-4-text p-4">
                      <h3><a href="#">Corater</a></h3>
@@ -136,7 +135,7 @@ export default function Home() {
                <div class="item">
                  <div class="block-4 text-center">
                    <figure class="block-4-image">
-                     <Image src="/images/cloth_2.jpg" layout='fill' alt="Image placeholder" class="img-fluid" />
+                     <img src="/images/cloth_2.jpg" layout='fill' alt="Image placeholder" class="img-fluid" />
                    </figure>
                    <div class="block-4-text p-4">
                      <h3><a href="#">Polo Shirt</a></h3>
@@ -148,7 +147,7 @@ export default function Home() {
                <div class="item">
                  <div class="block-4 text-center">
                    <figure class="block-4-image">
-                     <Image src="/images/cloth_3.jpg" layout='fill' alt="Image placeholder" class="img-fluid" />
+                     <img src="/images/cloth_3.jpg" layout='fill' alt="Image placeholder" class="img-fluid" />
                    </figure>
                    <div class="block-4-text p-4">
                      <h3><a href="#">T-Shirt Mockup</a></h3>
@@ -160,7 +159,7 @@ export default function Home() {
                <div class="item">
                  <div class="block-4 text-center">
                    <figure class="block-4-image">
-                     <Image src="/images/shoe_1.jpg" layout='fill' alt="Image placeholder" class="img-fluid" />
+                     <img src="/images/shoe_1.jpg" layout='fill' alt="Image placeholder" class="img-fluid" />
                    </figure>
                    <div class="block-4-text p-4">
                      <h3><a href="#">Corater</a></h3>
@@ -184,7 +183,7 @@ export default function Home() {
          </div>
          <div class="row align-items-center">
            <div class="col-md-12 col-lg-7 mb-5">
-             <a href="#"><Image src="/images/blog_1.jpg" layout='fill' alt="Image placeholder" class="img-fluid rounded" /></a>
+             <a href="#"><img src="/images/blog_1.jpg" layout='fill' alt="Image placeholder" class="img-fluid rounded" /></a>
            </div>
            <div class="col-md-12 col-lg-5 text-center pl-md-5">
              <h2><a href="#">50% less in all items</a></h2>
