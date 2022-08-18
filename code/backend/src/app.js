@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: false}))
 // Routes
 app.use('/api/event', require('./routes/eventRoutes'))
 app.use('/api/user', require('./routes/userRoutes'))
-
+app.use('/api/product', require('./routes/productRoutes'))
 // Custom error handler
 app.use(errorHandler)
 
