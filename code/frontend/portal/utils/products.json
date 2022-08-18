@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "name": "Choholate cake",
+    "slug": "chocolate_cake",
+    "description": "chocolate cake",
+    "image": "/images/chocolate-chocolate-cake-1.jpg",
+    "catogery": "cake",
+    "price": "5200",
+    "provider": "XZY backers",
+    "rating": 4.5
+  },
+  {
+    "id": 2,
+    "name": "Choholate cake",
+    "slug": "chocolate_cake",
+    "description": "chocolate cake",
+    "image": "/images/chocolate-chocolate-cake-1.jpg",
+    "catogery": "cake",
+    "price": "5200",
+    "provider": "XZY backers",
+    "rating": 4.5
+  },
+  {
+    "id": 3,
+    "name": "Choholate cake",
+    "slug": "chocolate_cake",
+    "description": "chocolate cake",
+    "image": "/images/chocolate-chocolate-cake-1.jpg",
+    "catogery": "cake",
+    "price": "5200",
+    "provider": "XZY backers",
+    "rating": 4.5
+  },
+  {
+    "id": 4,
+    "name": "Choholate cake",
+    "slug": "chocolate_cake",
+    "description": "chocolate cake",
+    "image": "/images/chocolate-chocolate-cake-1.jpg",
+    "catogery": "cake",
+    "price": "5200",
+    "provider": "XZY backers",
+    "rating": 4.5
+  }
+]
