@@ -4,7 +4,7 @@ import Header from "../components/home/header"
 
 import Image from 'next/image'
 
-export default function Home() {
+export default function Shop() {
   return (
      <div class="site-wrap">
      <Header />
@@ -12,7 +12,7 @@ export default function Home() {
      <div class="bg-light py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
+          <div class="col-md-12 mb-0"><a href="index.html">Shop</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
         </div>
       </div>
     </div>
