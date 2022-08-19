@@ -1,10 +1,24 @@
+import React, { useState,useEffect } from 'react'
+import Link from 'next/link';
+import axios from '../utils/axios'
 
+// Components
 import Footer from "../components/home/footer"
 import Header from "../components/home/header"
 
 
 export default function Home() {
+  const [products, setProducts] = useState([])
+  useEffect(() => {
+    axios.get("/product").then((res)=>{
+    setProducts(res.data.products)
+}).catch((error) => {
+    console.log(error.response.data)
+})}, [])
   return (
+
+    
+
      <div class="site-wrap">
      <Header />
  
@@ -105,21 +119,25 @@ export default function Home() {
              <h2>Featured Products</h2>
            </div>
          </div>
+         
          <div class="row">
            <div class="col-md-12">
              <div class="nonloop-block-3 owl-carousel">
+             {products.map((item, i) => (
                <div class="item">
                  <div class="block-4 text-center">
                    <figure class="block-4-image">
-                     <img src="/images/cloth_1.jpg" layout='fill' alt="Image placeholder" class="img-fluid" />
+                     <img src={item.image_path} layout='fill' alt="Image placeholder" class="img-fluid" />
                    </figure>
                    <div class="block-4-text p-4">
-                     <h3><a href="#">Tank Top</a></h3>
-                     <p class="mb-0">Finding perfect t-shirt</p>
-                     <p class="text-primary font-weight-bold">$50</p>
+                     <h3><a href="#">{item.name}</a></h3>
+                     <p class="mb-0">{item.description}</p>
+                     <p class="text-primary font-weight-bold">{item.price}</p>
                    </div>
                  </div>
                </div>
+                 ))
+                }
                <div class="item">
                  <div class="block-4 text-center">
                    <figure class="block-4-image">
@@ -171,6 +189,7 @@ export default function Home() {
              </div>
            </div>
          </div>
+       
        </div>
      </div>
  
