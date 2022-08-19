@@ -18,7 +18,7 @@ const Product = db.define(
       allowNull: false,
     },
     price: {
-        type: DataTypes.NUMBER(100),
+        type: DataTypes.FLOAT(3),
         allowNull: false,
       },
     category: {
@@ -26,10 +26,14 @@ const Product = db.define(
       allowNull: false,
     },
     comission: {
-      type: DataTypes.NUMBER(),
+      type: DataTypes.FLOAT(3),
       allowNull: false,
     },
-    status: {
+    count: {
+      type: DataTypes.INTEGER(30),
+      allowNull: true,
+    },
+    image_path: {
       type: DataTypes.STRING(),
       allowNull: false,
     }
@@ -41,12 +45,16 @@ const Product = db.define(
 
 Product.sync()
 
-// Event.sync().then((res) => {
-//   Event.create({ 
-//     title: "Create business website", 
-//     location: "Jaffna",
-//     category: "Workshop",
-//     date: "2020-01-01" 
+// Product.sync().then((res) => {
+//   Product.create({ 
+//     name: "Black Forest", 
+//     description: "Black forest cake",
+//     price : 1200,
+//     category: "food",
+//     comission : 50,
+//     count: 20,
+//     image_path:"https://i.ytimg.com/vi/PDxvTCFutc8/maxresdefault.jpg"
+
 //   }).then((res) => {
 //     console.log(`Insert successful: ${res._id}`);
 //   });

@@ -3,8 +3,38 @@ import Footer from "../components/home/footer"
 import Header from "../components/home/header"
 
 import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
+import { CartContext, CartDispatchContext } from '../context/productContext';
+import axios from '../utils/axios'
+import React, { useContext, useState,useEffect } from 'react'
 
 export default function Shop() {
+  const [setCart, setPrices] = useContext(CartDispatchContext);
+  const [cart,prices]= useContext(CartContext);
+
+
+  const [products, setProducts] = useState([])
+  // const [cart, setCart] = useState([])
+  const router = useRouter()
+  
+
+
+  useEffect(() => {
+    axios.get("/product").then((res)=>{
+    setProducts(res.data.products)
+}).catch((error) => {
+    console.log(error.response.data)
+})}, [])
+
+const handleClick = (item) => {
+  item.amount = 1
+  if (cart.indexOf(item) !== -1) return;
+  setCart([...cart, item]);
+  router.push("/cart")
+};
+
   return (
      <div class="site-wrap">
      <Header />
@@ -52,20 +82,27 @@ export default function Shop() {
               </div>
             </div>
             <div class="row mb-5">
-
-              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+            {products.map((item, i) => (
+              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up" key={i}>
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
-                    <a href="shop-single.html"><img src="images/cloth_1.jpg" layout='fill' alt="Image placeholder" class="img-fluid" /></a>
+                    <a href="shop-single.html"><img src={item.image_path} layout='fill' alt="Image placeholder" class="img-fluid" /></a>
                   </figure>
                   <div class="block-4-text p-4">
-                    <h3><a href="shop-single.html">Tank Top</a></h3>
-                    <p class="mb-0">Finding perfect t-shirt</p>
-                    <p class="text-primary font-weight-bold">$50</p>
+                    <h3><a href="shop-single.html">{item.name}</a></h3>
+                    <p class="mb-0">{item.description}</p>
+                    <p class="text-primary font-weight-bold">${item.price}</p>
+                  </div>
+                  <div class="d-flex justify-content-between mb-2" style={{ marginTop: "20px"}}>
+                    <button type="button" class="w-100 btn btn-outline-dark" onClick={() => handleClick(item)}>Add to cart</button>
+                    <Link href=" "><button type="button" class="w-100 btn btn-dark">View Product</button></Link>
                   </div>
                 </div>
               </div>
-              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+              ))
+            }
+
+              {/* <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
                     <a href="shop-single.html"><img src="images/shoe_1.jpg" layout='fill' alt="Image placeholder" class="img-fluid" /></a>
@@ -199,7 +236,7 @@ export default function Shop() {
                     <p class="text-primary font-weight-bold">$50</p>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
 
             </div>

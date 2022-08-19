@@ -29,7 +29,8 @@ const setProduct = async (attributes) => {
             price: attributes.price,
             category: attributes.category,
             comission: attributes.comission,
-            status: attributes.status 
+            count: attributes.count,
+            image_path : attributes.image_path,
           }).then((res) => {
             console.log(`Insert successful: ${res._id}`);
             return {
@@ -53,7 +54,8 @@ const updateProduct = async (attributes) => {
             price: attributes.price,
             category: attributes.category,
             comission: attributes.comission,
-            status: attributes.status 
+            count: attributes.count,
+            image_path : attributes.image_path,
           },{
             where: { _id: attributes.id },
             returning: true,

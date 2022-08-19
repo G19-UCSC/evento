@@ -29,7 +29,8 @@ const setProduct  = async (req) => {
         price: req.body.price,
         category: req.body.category,
         comission: req.body.comission,
-        status: req.body.status,
+        count: req.body.count,
+        image_path : req.body.image_path,
     }
     
     return validate(setProductSchema(), attributes);
@@ -44,7 +45,8 @@ const updateProduct  = async (req) => {
         price: req.body.price,
         category: req.body.category,
         comission: req.body.comission,
-        status: req.body.status,
+        count: req.body.count,
+        image_path : req.body.image_path,
     }
     
     return validate(updateProductSchema(), attributes);
