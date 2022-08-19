@@ -140,7 +140,7 @@ const event = () => {
     <div id="wrapper">
 
         {/* Sidebar */}
-        <Sidebar />
+        <Sidebar linkId="event"/>
         {/* End of Sidebar */}
 
         {/* Content Wrapper */}
