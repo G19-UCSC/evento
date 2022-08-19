@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "name": "Lunch",
+    "slug": "fancy_lunch",
+    "description": "Fancy Lunch",
+    "image": "/images/chocolate-chocolate-cake-1.jpg",
+    "catogery": "lunch",
+    "price": "75000",
+    "provider": "ABC Caters",
+    "rating": 3.5
+  },
+  {
+    "id": 2,
+    "name": "Lunch",
+    "slug": "fancy_lunch",
+    "description": "Fancy Lunch",
+    "image": "/images/chocolate-chocolate-cake-1.jpg",
+    "catogery": "lunch",
+    "price": "75000",
+    "provider": "ABC Caters",
+    "rating": 3.5
+  },
+  {
+    "id": 3,
+    "name": "Lunch",
+    "slug": "fancy_lunch",
+    "description": "Fancy Lunch",
+    "image": "/images/chocolate-chocolate-cake-1.jpg",
+    "catogery": "lunch",
+    "price": "75000",
+    "provider": "ABC Caters",
+    "rating": 3.5
+  },
+  {
+    "id": 4,
+    "name": "Lunch",
+    "slug": "fancy_lunch",
+    "description": "Fancy Lunch",
+    "image": "/images/chocolate-chocolate-cake-1.jpg",
+    "catogery": "lunch",
+    "price": "75000",
+    "provider": "ABC Caters",
+    "rating": 3.5
+  },
+  {
+    "id": 5,
+    "name": "Lunch",
+    "slug": "fancy_lunch",
+    "description": "Fancy Lunch",
+    "image": "/images/chocolate-chocolate-cake-1.jpg",
+    "catogery": "lunch",
+    "price": "75000",
+    "provider": "ABC Caters",
+    "rating": 3.5
+  }
+]
