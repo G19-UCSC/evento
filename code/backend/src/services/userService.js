@@ -8,7 +8,7 @@ const getAllUsers = async()=>{
 };
 
 const getUser = async(attributes)=>{
-    const user = await User.findByPk(attributes.id);
+    const user = await User.findByPk(attributes.userid);
     return {
         user
     };
