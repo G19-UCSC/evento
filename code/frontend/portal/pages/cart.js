@@ -5,7 +5,7 @@ import Header from "../components/home/header"
 
 import { CartContext, CartDispatchContext } from '../context/productContext';
 import React, { useContext, useState, useEffect } from "react";
-
+import Link from 'next/link'
 export default function Cart() {
   const [cart,prices]= useContext(CartContext);
   const [setCart, setPrices] = useContext(CartDispatchContext);
@@ -173,7 +173,8 @@ export default function Cart() {
 
                 <div class="row">
                   <div class="col-md-12">
-                    <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='checkout.html'">Proceed To Checkout</button>
+                  <Link href="/checkout"><button class="btn btn-primary btn-lg py-3 btn-block" >Proceed To Checkout</button></Link>
+                    {/* <Link to="/checkout"><button type="button" class="btn btn-primary" data-bs-toggle="button">Checkout</button></Link> */}
                   </div>
                 </div>
               </div>
