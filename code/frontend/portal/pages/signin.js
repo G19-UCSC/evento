@@ -49,7 +49,7 @@ const Signin = () => {
     signIn('email', { email, redirect: false })
   }
   return (
-    <div style={{ backgroundImage: `url(${"../images/login.jpg"})`,backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}>
+    <div style={{ backgroundImage: `url(${"images/login.jpg"})`,backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}>
     <div className="Auth-form-container">
     <form className="Auth-form">
       <div className="Auth-form-content">
