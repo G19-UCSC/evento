@@ -8,15 +8,18 @@ import { BsGithub, BsTwitter, BsGoogle } from 'react-icons/bs'
 const providers = [
   {
     name: 'github',
-    Icon: BsGithub,
+    Icon: BsGithub, 
+    color:'dark'
   },
   {
     name: 'linkedIn',
     Icon: BsTwitter,
+    color:'primary'
   },
   {
     name: 'google',
     Icon: BsGoogle,
+    color:'danger'
   },
 ]
 
@@ -46,20 +49,46 @@ const Signin = () => {
     signIn('email', { email, redirect: false })
   }
   return (
-    <div>
-      <form class="form-floating">
-        <div className="form-floating mb-3">
-          <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" onChange={(e) => setEmail(e.target.value)} />
-          <label for="floatingInput">Email address</label>
+    <div style={{ backgroundImage: `url(${"../images/login.jpg"})`,backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}>
+    <div className="Auth-form-container">
+    <form className="Auth-form">
+      <div className="Auth-form-content">
+        <h3 className="Auth-form-title">Sign In</h3>
+        <div className="form-group mt-3">
+          <label>Email address</label>
+          <input
+            type="email"
+            className="form-control mt-1"
+            placeholder="Enter email"
+          />
         </div>
-        <button type="button" className="btn btn-primary">Login</button>
-      </form>
-        <div className='center'>
-          {providers.map(({ name, Icon }) => (
-           <button type="button" className="btn btn-primary" key={name} leftIcon={<Icon />} onClick={handleOAuthSignIn(name)}>Sign in with {name}</button>
+        <div className="form-group mt-3">
+          <label>Password</label>
+          <input
+            type="password"
+            className="form-control mt-1"
+            placeholder="Enter password"
+          />
+        </div>
+        <div className="d-grid gap-2 mt-3">
+          <button type="submit" className="btn btn-success">
+            Submit
+          </button>
+        </div>
+        <p className="forgot-password text-right mt-2">
+          Forgot <a href="#">password?</a>
+        </p>
+        <hr />
+        <div className='d-grid gap-2 mt-3'>
+          {providers.map(({ name, Icon, color }) => (
+           <button type="button" className={`btn btn-${color}`} key={name} leftIcon={<Icon />} onClick={handleOAuthSignIn(name)}>Sign in with {name}</button>
           ))}
+          
         </div>
-    </div>
+      </div>
+    </form>
+  </div>
+  </div>
   )
 }
 export default Signin

@@ -1,6 +1,7 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.css";
-import Image from 'next/image'
+import { BsFillCartFill, BsHeart, BsPersonFill } from "react-icons/bs";
+
 
 export default function header() {
   return (
@@ -23,13 +24,13 @@ export default function header() {
             </div>
 
             <div class="col-6 col-md-4 order-3 order-md-3 text-right">
-              <div class="site-top-icons">
+              <div class="site-top-icons" style={{float: 'right'}}>
                 <ul>
-                  <li><a href="#"><span class="icon icon-person"></span></a></li>
-                  <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
+                  <li><a href="/signin"><span class="icon icon-person"><BsPersonFill /></span></a></li>
+                  <li><a href="#"><span class="icon icon-heart-o"><BsHeart /></span></a></li>
                   <li>
                     <a href="cart.html" class="site-cart">
-                      <span class="icon icon-shopping_cart"></span>
+                      <span class="icon icon-shopping_cart"><BsFillCartFill /></span>
                       <span class="count">2</span>
                     </a>
                   </li> 
@@ -44,9 +45,9 @@ export default function header() {
       <nav class="site-navigation text-right text-md-center" role="navigation">
         <div class="container">
           <ul class="site-menu js-clone-nav d-none d-md-block">
-            <li class="has-children active">
-              <a href="index.html">Home</a>
-              <ul class="dropdown">
+            <li>
+              <a href="/">Home</a>
+              {/* <ul class="dropdown">
                 <li><a href="#">Menu One</a></li>
                 <li><a href="#">Menu Two</a></li>
                 <li><a href="#">Menu Three</a></li>
@@ -58,20 +59,20 @@ export default function header() {
                     <li><a href="#">Menu Three</a></li>
                   </ul>
                 </li>
-              </ul>
+              </ul> */}
             </li>
-            <li class="has-children">
-              <a href="about.html">About</a>
-              <ul class="dropdown">
+            <li>
+              <a href="/about">About</a>
+              {/* <ul class="dropdown">
                 <li><a href="#">Menu One</a></li>
                 <li><a href="#">Menu Two</a></li>
                 <li><a href="#">Menu Three</a></li>
-              </ul>
+              </ul> */}
             </li>
-            <li><a href="shop.html">Shop</a></li>
-            <li><a href="#">Catalogue</a></li>
-            <li><a href="#">New Arrivals</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="/shop">Shop</a></li>
+            <li><a href="/service">Service</a></li>
+            <li><a href="/event">Event</a></li>
+            <li><a href="/contact">Contact</a></li>
           </ul>
         </div>
       </nav>
