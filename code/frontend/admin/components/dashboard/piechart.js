@@ -1,8 +1,10 @@
 // import Chart from 'chart.js/auto';
 import { Bar, line, Scatter, Bubble, Line, PolarArea, Pie } from 'react-chartjs-2';
 import "bootstrap/dist/css/bootstrap.css";
-import ApexCharts from 'apexcharts';
+// import ApexCharts from 'apexcharts';
 import Chart from 'react-apexcharts';
+import dynamic from 'next/dynamic';
+const ApexCharts = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 export default function Piechart () {
 
@@ -41,7 +43,9 @@ export default function Piechart () {
     return(
         <>
         {/* <Pie data={data} options={options} /> */}
+        {(typeof window !== 'undefined') && 
         <Chart options={options1} series={series} type="donut" width="300" />
+        }
         </>
     )
 }
