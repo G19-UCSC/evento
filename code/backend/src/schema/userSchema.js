@@ -10,6 +10,7 @@ const setUserSchema = () => Joi.object().keys({
   email: Joi.string().required(),
   firstname: Joi.string().required(),
   lastname: Joi.string().required(),
+  
 });
 
 const updateUserSchema = () => Joi.object().keys({
