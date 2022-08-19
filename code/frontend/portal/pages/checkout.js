@@ -5,12 +5,16 @@ import Header from "../components/home/header"
 
 import { CartContext } from '../context/productContext';
 import React, { useContext, useState,useEffect} from "react";
-import { useForm } from 'react-hook-form';
+import { useForm,setValue } from 'react-hook-form';
 import axios from '../utils/axios'
 export default function Checkout() {
   const [cart,price]= useContext(CartContext);
   const [user, setUser] = useState([])
-  const {
+  const [ruser, setRuser] = useState([])
+  const [id, setId] = useState('87adfe52-d2b8-42cd-91ff-6c764e97e717')
+  
+ 
+  const{
     register,
     handleSubmit
     } = useForm();
@@ -20,12 +24,24 @@ export default function Checkout() {
       
     }
     useEffect(() => {
-      axios.get("/user").then((res)=>{
+      axios.get(`/user/${id}`).then((res)=>{
       setUser(res.data.user)
+      setValue("firstname", res.data.user.firstname);
+      setValue("lastname", res.data.user.lastname);
+      setValue("email", res.data.user.email);
+      }).catch((error) => {
+          console.log(error.response.data)
+      })
+      axios.get(`/registereduser/${id}`).then((res)=>{
+        setRuser(res.data.ruser)
+        setValue("address", res.data.ruser.address);
+        setValue("contact", res.data.ruser.contact);
+        
+        }).catch((error) => {
+            console.log(error.response.data)
+        })}
+  , [])
 
-  }).catch((error) => {
-      console.log(error.response.data)
-  })}, [])
    
   return (
      <div class="site-wrap">
@@ -53,17 +69,18 @@ export default function Checkout() {
 
             <h2 class="h3 mb-3 text-black">Billing Details</h2>
             <form className="needs-validation" noValidate="" onSubmit={handleSubmit(onSubmit)}>
+            
             <div class="p-3 p-lg-5 border">
               
               <div class="form-group row">
               
                 <div class="col-md-6">
                   <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_fname" name="c_fname" {...register('firstname')}/>
+                  <input type="text" class="form-control" id="c_fname" name="c_fname" />
                 </div>
                 <div class="col-md-6">
                   <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_lname" name="c_lname" {...register('lastname')}/>
+                  <input type="text" class="form-control" id="c_lname" name="c_lname" />
                 </div>
               
               </div>
@@ -74,29 +91,29 @@ export default function Checkout() {
                   <input type="text" class="form-control" id="c_companyname" name="c_companyname" />
                 </div>
               </div> */}
-
+              
               <div class="form-group row">
                 <div class="col-md-12">
                   <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_address" name="c_address" placeholder="Street address" {...register('address')}/>
+                  <input type="text" class="form-control" id="c_address" name="c_address"  placeholder="Street address" {...register('address')}/>
                 </div>
               </div>
 
               <div class="form-group">
                 <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)" />
               </div>
-
-              <div class="form-group row mb-5">
+              {/* {ruser.map((items,i) => ( */}
+              <div class="form-group row mb-5" >
                 <div class="col-md-6">
                   <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_email_address" name="c_email_address" {...register('email')}/>
+                  <input type="text" class="form-control" id="c_email_address"  name="c_email_address" {...register('email')}/>
                 </div>
                 <div class="col-md-6">
                   <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_phone" name="c_phone" placeholder="Phone Number" {...register('contactno')}/>
+                  <input type="text" class="form-control" id="c_phone" name="c_phone"  placeholder="Phone Number" {...register('contactno')}/>
                 </div>
               </div>
-
+              {/* ))} */}
               {/* <div class="form-group">
                 <label for="c_create_account" class="text-black" data-toggle="collapse" href="#create_an_account" role="button" aria-expanded="false" aria-controls="create_an_account"><input type="checkbox" value="1" id="c_create_account" /> Create an account?</label>
                 <div class="collapse" id="create_an_account">
@@ -192,11 +209,12 @@ export default function Checkout() {
                 <label for="c_order_notes" class="text-black">Order Notes</label>
                 <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control" placeholder="Write your notes here..."></textarea>
               </div> */}
+              
             <div class="form-group">
                 <button class="btn btn-primary btn-lg py-3 btn-block" >Place Order</button>
             </div>
             </div>
-            
+          
             </form>
           </div>
           <div class="col-md-6">
