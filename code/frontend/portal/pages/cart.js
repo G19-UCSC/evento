@@ -2,9 +2,43 @@
 import Footer from "../components/home/footer"
 import Header from "../components/home/header"
 
-import Image from 'next/image'
+
+import { CartContext, CartDispatchContext } from '../context/productContext';
+import React, { useContext, useState, useEffect } from "react";
 
 export default function Cart() {
+  const [cart,prices]= useContext(CartContext);
+  const [setCart, setPrices] = useContext(CartDispatchContext);
+
+  const handleClick = (item) => {
+    if (cart.indexOf(item) !== -1) return;
+    setCart([...cart, item]);
+  };
+
+  const handleChange = (item, d) => {
+    const ind = cart.indexOf(item);
+    const arr = cart;
+    arr[ind].amount += d;
+
+    if (arr[ind].amount === 0) arr[ind].amount = 1;
+    setCart([...arr]);
+  };
+  
+  const handleRemove = (id) => {
+    const arr = cart.filter((item) => item._id !== id);
+    setCart(arr);
+    handlePrice();
+  };
+
+  const handlePrice = () => {
+    let ans = 0;
+    cart.map((item) => (ans += item.amount * item.price));
+    setPrices(ans);
+  };
+
+  useEffect(() => {
+    handlePrice();
+  });
   return (
      <div class="site-wrap">
      <Header />
@@ -27,38 +61,40 @@ export default function Cart() {
                   <tr>
                     <th class="product-thumbnail">Image</th>
                     <th class="product-name">Product</th>
-                    <th class="product-price">Price</th>
+                    <th class="product-price">Unit Price</th>
                     <th class="product-quantity">Quantity</th>
-                    <th class="product-total">Total</th>
+                    
                     <th class="product-remove">Remove</th>
                   </tr>
                 </thead>
                 <tbody>
+                {cart.map((item) => (
                   <tr>
+                  
                     <td class="product-thumbnail">
-                      <img src="images/cloth_1.jpg" layout='fill' alt="Image" class="img-fluid" />
+                      <img src={item.image_path} layout='fill' alt="Image" class="img-fluid" />
                     </td>
                     <td class="product-name">
-                      <h2 class="h5 text-black">Top Up T-Shirt</h2>
+                      <h2 class="h5 text-black">{item.name}</h2>
                     </td>
-                    <td>$49.00</td>
+                    <td>{item.price}</td>
                     <td>
-                      <div class="input-group mb-3" style={{maxWidth: "120px"}}>
+                      <div class="input-group mb-3 ml-6" style={{maxWidth: "120px"}}>
                         <div class="input-group-prepend">
-                          <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                          <button onClick={() => handleChange(item, -1)} class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                         </div>
-                        <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                        <input type="text" class="form-control text-center" value={item.amount} placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" />
                         <div class="input-group-append">
-                          <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                          <button onClick={() => handleChange(item, 1)} class="btn btn-outline-primary " type="button">+</button>
                         </div>
                       </div>
 
                     </td>
-                    <td>$49.00</td>
-                    <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
+                    
+                    <td><button onClick={() => handleRemove(item._id)} class="btn btn-primary btn-sm">X</button></td>
                   </tr>
-
-                  <tr>
+                  ))}
+                  {/* <tr>
                     <td class="product-thumbnail">
                       <img src="images/cloth_2.jpg" layout='fill' alt="Image" class="img-fluid" />
                     </td>
@@ -80,7 +116,7 @@ export default function Cart() {
                     </td>
                     <td>$49.00</td>
                     <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
-                  </tr>
+                  </tr> */}
                 </tbody>
               </table>
             </div>
@@ -91,14 +127,14 @@ export default function Cart() {
           <div class="col-md-6">
             <div class="row mb-5">
               <div class="col-md-6 mb-3 mb-md-0">
-                <button class="btn btn-primary btn-sm btn-block">Update Cart</button>
+                <button class="btn btn-primary btn-sm btn-block">Continue Shopping</button>
               </div>
-              <div class="col-md-6">
+              {/* <div class="col-md-6">
                 <button class="btn btn-outline-primary btn-sm btn-block">Continue Shopping</button>
-              </div>
+              </div> */}
             </div>
             <div class="row">
-              <div class="col-md-12">
+              {/* <div class="col-md-12">
                 <label class="text-black h4" for="coupon">Coupon</label>
                 <p>Enter your coupon code if you have one.</p>
               </div>
@@ -107,7 +143,7 @@ export default function Cart() {
               </div>
               <div class="col-md-4">
                 <button class="btn btn-primary btn-sm">Apply Coupon</button>
-              </div>
+              </div> */}
             </div>
           </div>
           <div class="col-md-6 pl-5">
@@ -123,7 +159,7 @@ export default function Cart() {
                     <span class="text-black">Subtotal</span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <strong class="text-black">$230.00</strong>
+                    <strong class="text-black">{prices}</strong>
                   </div>
                 </div>
                 <div class="row mb-5">
@@ -131,7 +167,7 @@ export default function Cart() {
                     <span class="text-black">Total</span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <strong class="text-black">$230.00</strong>
+                    <strong class="text-black">{prices}</strong>
                   </div>
                 </div>
 

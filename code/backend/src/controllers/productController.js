@@ -1,6 +1,6 @@
 const controller = require('../controller');
-const eventValidator = require('../validators/productValidator');
-const eventService = require('../services/productService');
+const productValidator = require('../validators/productValidator');
+const productService = require('../services/productService');
 
 const getAllProducts = async (req,res) => {
     await controller(req, res, {

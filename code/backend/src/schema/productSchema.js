@@ -13,6 +13,7 @@ const setProductSchema = () => Joi.object().keys({
   category: Joi.string().required(),
   comission: Joi.number().precision(2).required(),
   status: Joi.string().required(),
+  image_path : Joi.string().required(),
 });
 
 const updateProductSchema = () => Joi.object().keys({
@@ -23,6 +24,7 @@ const updateProductSchema = () => Joi.object().keys({
     category: Joi.string().required(),
     comission: Joi.number().precision(2).required(),
     status: Joi.string().required(),
+    image_path : Joi.string().required(),
   });
 
 const deleteProductSchema = () => Joi.object().keys({
