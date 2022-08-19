@@ -27,14 +27,13 @@ const User = db.define(
   }
 );
 
-User.sync({force:true})
+User.sync()
 // User.sync().then((res) => {
 //   User.create({ 
 //     email: "vinothini123@gmail.com", 
 //     firstname: "Vinothini",
-//     lastname : "Vijay",
-//     address: "Station road, kodikaamam",
-//     contactno : "0771234567"
+//     lastname : "Vijay"
+
 
 //   }).then((res) => {
 //     console.log(`Insert successful: ${res._id}`);
