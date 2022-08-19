@@ -1,70 +1,126 @@
-import React from 'react'
 
-export default function signup() {
-    return (
-        <div class="container">
-            <form class="row g-3">
-                <div class="col-md-6">
-                    <label for="inputEmail4" class="form-label">Firstname</label>
-                    <input type="text" class="form-control" id="inputfirstname" />
-                </div>
-                <div class="col-md-6">
-                    <label for="inputPassword4" class="form-label">Lastname</label>
-                    <input type="text" class="form-control" id="inputlastname" />
-                </div>
-                <div class="col-12">
-                    <label for="inputAddress" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="inputEmail4" />
-                </div>
-                <div class="col-12">
-                    <label for="inputAddress" class="form-label">Contact number</label>
-                    <input type="text" class="form-control" id="inputContactnumber" />
-                </div>
-                <div class="col-12">
-                    <label for="inputAddress" class="form-label">Profession</label>
-                    <input type="text" class="form-control" id="inputProfession" />
-                </div>
-                <div class="col-12">
-                    <label for="inputCity" class="form-label">City</label>
-                    <input type="text" class="form-control" id="inputCity" />
-                </div>
-                <div class="col-12">
-                    <label for="inputCountry" class="form-label">Country</label>
-                    <input type="text" class="form-control" id="inputCountry" />
-                </div>
-                <div class="col-md-6">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
-                        <label class="form-check-label" for="inlineCheckbox1">join as volunteer</label>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
-                    <label class="form-check-label" for="inlineCheckbox1">join as registered user</label>
-                </div>
-                </div>
-                <div class="col-12">
-                    <label for="inputCountry" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="inputCountry" />
-                </div>
-                <div class="col-12">
-                    <label for="inputCountry" class="form-label">Password</label>
-                    <input type="text" class="form-control" id="inputCountry" />
-                </div>
-                <div class="col-12">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="gridCheck" />
-                        <label class="form-check-label" for="gridCheck">
-                            I agree the terms and conditions
-                        </label>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Register</button>
-                </div>
-            </form>
+import React, { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useSession, signIn, signOut } from 'next-auth/react'
+import { BsGithub, BsTwitter, BsGoogle } from 'react-icons/bs'
+const dotenv = require('dotenv').config()
+// Form
+import { Controller,useForm } from "react-hook-form";
 
-        </div>
-    )
+
+
+const providers = [
+  {
+    name: 'github',
+    Icon: BsGithub, 
+    color:'dark'
+  },
+  {
+    name: 'linkedIn',
+    Icon: BsTwitter,
+    color:'primary'
+  },
+  {
+    name: 'google',
+    Icon: BsGoogle,
+    color:'danger'
+  },
+]
+
+const Signup = () => {
+  const { data: session, status } = useSession()
+  const { push } = useRouter()
+
+  
+  const { register, handleSubmit, watch, control,reset, setValue, formState: { errors } } = useForm();
+  
+  const cancel = () => {
+    if(update){
+        setUpdate(false)
+
+    }
+    reset({
+        title:'',
+        location:'',
+        category:'',
+        date:''
+      })
 }
+
+const onSubmit = (formData) => {
+
+   axios.post("/ruser",formData).then((res)=>{
+        console.log(res)
+        }).catch((error) => {
+            console.log(error)
+          })
+}
+
+  
+  if (status === 'loading') return <h1>Checking Authentication...</h1>
+
+  if (session) {
+    setTimeout(() => {
+      push('/')
+    }, 5000)
+
+    return <h1>you are already signed in</h1>
+  }
+
+  const handleOAuthSignIn = (provider) => () => signIn(provider)
+
+  return (
+    <div style={{ backgroundImage: `url(${"images/login.jpg"})`,backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}>
+    <div className="Auth-form-container">
+    <form className="Auth-form" onSubmit={handleSubmit(onSubmit)}>
+      <div className="Auth-form-content">
+        <h3 className="Auth-form-title">Sign up</h3>
+        <div className="form-group mt-3">
+          <label>First Name</label>
+          <input
+            type="fname"
+            className="form-control mt-1"
+            placeholder="Enter first name"
+            {...register("fname", { required: true })}
+          />
+        </div>
+        <div className="form-group mt-3">
+          <label>Last Name</label>
+          <input
+            type="fname"
+            className="form-control mt-1"
+            placeholder="Enter last name"
+            {...register("lname", { required: true })}
+          />
+        </div>
+        <div className="form-group mt-3">
+          <label>Password</label>
+          <input
+            type="password"
+            className="form-control mt-1"
+            placeholder="Enter password"
+            {...register("password", { required: true })}
+          />
+        </div>
+        <div className="d-grid gap-2 mt-3">
+          <button type="submit" className="btn btn-success">
+            Submit
+          </button>
+        </div>
+        <p className="forgot-password text-right mt-2">
+          Forgot <a href="#">password?</a>
+        </p>
+        <hr />
+        <div className='d-grid gap-2 mt-3'>
+          {providers.map(({ name, Icon, color }) => (
+           <button type="button" className={`btn btn-${color}`} key={name} leftIcon={<Icon />} onClick={handleOAuthSignIn(name)}>Sign in with {name}</button>
+          ))}
+          
+        </div>
+      </div>
+    </form>
+  </div>
+  </div>
+  )
+}
+export default Signup

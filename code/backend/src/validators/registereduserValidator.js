@@ -13,7 +13,7 @@ const getAllUsers = async(req)=>{
 }
 
 const getUser = async(req)=>{
-    const attributes = {userid:req.params.userid}
+    const attributes = {userid:req.params.id}
     return validate(getUserSchema(), attributes);
 };
 
