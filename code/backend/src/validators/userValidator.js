@@ -28,7 +28,7 @@ const setUser = async(req)=>{
 
 const updateUser = async (req) => {
     const attributes = {
-        userid:req.params.id,
+        userid:req.params.userid,
         email: req.body.email,
         firstname: req.body.firstname,
         lastname: req.body.lastname
@@ -38,7 +38,7 @@ const updateUser = async (req) => {
 
 const deleteUser = async (req) => {
     const attributes = {
-        userid:req.params.id
+        userid:req.params.userid
     }
     return validate(deleteUserSchema(), attributes);
 };
