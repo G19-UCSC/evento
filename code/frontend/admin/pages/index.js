@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Header from  "../components/dashboard/header";
 import Sidebar from "../components/dashboard/sidebar";
 import Footer from "../components/dashboard/footer";
+import { FaCalendar, FaDownload } from 'react-icons/fa';
 
 const dashboard = () => {
 
@@ -13,7 +14,7 @@ const dashboard = () => {
 
         {/* Sidebar */}
         
-        <Sidebar />
+        <Sidebar linkId="dashboard" />
         {/* End of Sidebar */}
 
         {/* Content Wrapper */}
@@ -32,8 +33,8 @@ const dashboard = () => {
                     {/* Page Heading */}
                     <div className="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 className="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                className="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        <a href="#" className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                            <FaDownload/> Generate Report</a>
                     </div>
 
                     {/* Content Row */}
@@ -50,7 +51,7 @@ const dashboard = () => {
                                             <div className="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
                                         </div>
                                         <div className="col-auto">
-                                            <i className="fas fa-calendar fa-2x text-gray-300"></i>
+                                            <FaCalendar />
                                         </div>
                                     </div>
                                 </div>

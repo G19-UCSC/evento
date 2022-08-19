@@ -1,131 +1,208 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link';
 import "bootstrap/dist/css/bootstrap.css";
-import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
-import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
-import { FaTachometerAlt, FaUserPlus } from 'react-icons/fa';
+import { FaCross, FaEdit, FaTachometerAlt, FaUserPlus, FaWindowClose } from 'react-icons/fa';
 import Header from  "../components/dashboard/header";
 import Sidebar from "../components/dashboard/sidebar";
 import Footer from "../components/dashboard/footer";
-import ToolkitProvider from 'react-bootstrap-table2-toolkit';
-import paginationFactory from 'react-bootstrap-table2-paginator';
-import BootstrapTable from 'react-bootstrap-table-next';
+
+var $ = require('jquery');
+import 'datatables.net';
+import 'datatables.net-bs4';
+import axios from '../utils/axios';
+import { useForm } from 'react-hook-form';
 
 export default function account () {
 
-    const [create,setCreate] = useState(false)
-    
-    const accounts = [{
-        id: "1",
-        name: "Nimal",
-        email: "nimal@email.com",
-    },{
-        id: "2",
-        name: "Nimal",
-        email: "nimal@email.com",
-    },];
+    // const [create,setCreate] = useState(false)
+    // const [update,setUpdate] = useState(false)
+    const [btn,setBtn] = useState('null')
+    const [accounts,setAccounts] = useState([])
+    const [registered_accounts,setRegistered_accounts] = useState([])
+    const { register, handleSubmit, watch, control,reset, setValue, formState: { errors } } = useForm();
 
-    const registered_accounts = [{
-        id: "1",
-        username: "nimal@1",
-        status: "blocked"
-    },{
-        id: "2",
-        username: "nimal@2",
-        status: "pending"
-    },];
+    // const registered_accounts = [{
+    //     id: "1",
+    //     username: "nimal@1",
+    //     status: "blocked"
+    // },{
+    //     id: "2",
+    //     username: "nimal@2",
+    //     status: "pending"
+    // },];
 
     accounts.forEach(a => {
         registered_accounts.forEach(r => {
             if(a.id === r.id){
                 a.username = r.username;
                 a.status = r.status;
+                
             }
         })
     });
 
     const columns = [{
-        dataField: 'id',
-        text: 'Account ID'
-    },{
-        dataField: 'name',
         text: 'Name'
-      },{
-        dataField: 'username',
+    },{
         text: 'Username'
-      }, {
-        dataField: 'email',
+    },{
         text: 'Email'
-      }, {
-        dataField: 'status',
+    }, {
         text: 'Status'
-      },];
+    }, {
+        text: 'Action'
+    },];
 
-      function onClickCreate(e){
-        if(create){
-            setCreate(false);
+    let createFormViewBtn;
+
+    if(btn == 'null'){
+        createFormViewBtn = <button className="btn" onClick={e=>onClickCreate()} id="createBtn"> <FaUserPlus/> Create Account </button>
+    }
+    else{
+        createFormViewBtn = <button className="btn" onClick={e=>onClickCancel()}> <FaWindowClose /> Cancel </button>
+    }
+
+    let submitBtn;
+
+    if(btn == 'create'){
+        submitBtn = <button className="w-100 btn btn-secondary btn-lg" > Create Account </button>
+    }
+    else if(btn == 'update'){
+        submitBtn = <button className="w-100 btn btn-secondary btn-lg" > Update Account </button>
+    }
+
+    function onClickCreate(e){
+        if(btn == 'null'){
+            setBtn('create');
+        }else{
+            setBtn('null');
         }
-        else{
-            setCreate(true);
+        document.getElementById("accountsTableCard").classList.toggle("col-lg-6");
+    }
+
+    function onClickUpdate(e){
+        if(btn == 'null'){
+            setBtn('update');
+        }else{
+            setBtn('null');
         }
-        document.getElementById("accountsTable").classList.toggle("col-lg-6");
-      }
+        document.getElementById("accountsTableCard").classList.toggle("col-lg-6");
+    }
+
+    function onClickCancel(e){
+        setBtn('null');
+        document.getElementById("accountsTableCard").classList.toggle("col-lg-6");
+    }
+
+    useEffect(()=>{
+        const table = () => {
+            $(function() {
+                $('#accountsTable').DataTable({
+                    ordering:true,
+                    select: true,
+                    responsive: true,
+                    buttons: [
+                        'copy','excel','pdf'
+                    ]
+                });
+            });
+        }
+
+        axios.get("/user").then((res)=>{
+            setAccounts(res.data.users)
+            table();
+        }).catch((error) => {
+            console.log(error.response.data)
+        });
+
+    },[]);
 
     return(
         <>
         <div id="wrapper">
-        <Sidebar/>
+        <Sidebar linkId="account"/>
         <div id="content-wrapper" className='d-flex flex-column'>
             <div id="content">
                 <Header/>
                 <div className="container-fluid">
                     <div className="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 className="h3 mb-0 text-gray-800">Accounts</h1>
-                        <button className="btn" onClick={e=>onClickCreate()}>
-                            <FaUserPlus/> Create Account
-                        </button>
+                        {createFormViewBtn}
                     </div>
                     <div className='row'>
-                        <div className='card shadow mb-4'>
-                            <div className='card-body'>
-                                <ToolkitProvider
-                                keyField="name"
-                                data={ accounts }
-                                columns={ columns }
-                                pagination={ paginationFactory() }
-                                >
-                                    {
-                                        props =>{
-                                            <div>
-                                                <BootstrapTable keyField='id' data={accounts} columns={columns} />
-                                            </div>
-                                        }
-                                    }
-                                </ToolkitProvider>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div id="accountsTable" className='mb-4'>
+                    <div className='mb-4' id="accountsTableCard">
                             <div className='card shadow md-4'>
+                                <div className='card-header'>User Accounts</div>
                                 <div className='card-body'>
-                                    <BootstrapTable keyField='id' data={accounts} columns={columns} />
+                                    <div className='table-responsive'>
+                                        <table className='table' id="accountsTable">
+                                            <thead>
+                                                <tr>
+                                                    {columns.map((c)=> (
+                                                        <th>{c.text}</th>
+                                                    ))}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {accounts.map((a)=> (
+                                                    <tr id={a._userid} >
+                                                        <td>{a.firstname + " " + a.lastname}</td>
+                                                        <td>{a.username}</td>
+                                                        <td>{a.email}</td>
+                                                        <td>{a.status}</td>
+                                                        <td>
+                                                            <button className='btn' onClick={(e)=>{onClickUpdate()}}> 
+                                                                <FaEdit /> 
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div className='col-lg-6 mb-4'>
-                            <div>
-                                {create && (
+                        <div className='col-lg-6 mb-4' id="createCard">
+                            <div className='card shadow md-4'>
+                                {(btn != "null") && (
                                     <>
-                                    <h1>This is the Create Account Section</h1>
-                                    <form>
-                                        Name : <input type="text"/> <br/><br/>
-                                        Email : <input type="text"/> <br/><br/>
-                                    </form>
-                                    <button className='btn' onClick={e=>onClickCreate()} >
-                                        Create
-                                    </button>
+                                        {(btn == "create") && (<div className='card-header'> Create Account</div>)}
+                                        {(btn == "update") && (<div className='card-header'> Update Account</div>)}
+                                        <div className='card-body'>
+                                            <form className='form'>
+                                                <div className='form-group'>
+                                                    <label htmlFor='fname' hidden>First Name : </label>
+                                                    <input className='form-control mb-4' type="text" 
+                                                    name='fname' placeholder='First Name'/>
+                                                    <label htmlFor='fname' hidden>Last Name : </label>
+                                                    <input className='form-control mb-4' type="text"
+                                                    name='lname' placeholder='Last Name'/>
+                                                    <label htmlFor='fname' hidden>User Role : </label>
+                                                    <select className='form-control mb-4'>
+                                                        <option value={null} selected>User Role</option>
+                                                        <option value="Staff">Staff</option>
+                                                        <option value="Customer">Individual Customer</option>
+                                                        <option value="CorpCustomer">Corporate Customer</option>
+                                                        <option value="Provider">Provider</option>
+                                                    </select>
+                                                    <label htmlFor='fname' hidden>Email : </label> 
+                                                    <input className='form-control mb-4' type="email"
+                                                    name='email' placeholder='Email'/>
+                                                    <label htmlFor='fname' hidden>Username : </label> 
+                                                    <input className='form-control mb-4' type="text"
+                                                    name='username' placeholder='Username'/>
+                                                    <label htmlFor='fname' hidden>Password : </label>
+                                                    <input className='form-control mb-4' type="password"
+                                                    name='password' placeholder='Password'/>
+                                                    <label htmlFor='fname' hidden>Re-enter Password : </label> 
+                                                    <input className='form-control mb-4' type="password"
+                                                    placeholder='Re-enter Password'/>
+                                                    {submitBtn}
+                                                </div>
+                                            </form>
+                                        </div>
                                     </>
                                 )}
                             </div>
