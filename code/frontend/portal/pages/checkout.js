@@ -26,19 +26,21 @@ export default function Checkout() {
     useEffect(() => {
       axios.get(`/user/${id}`).then((res)=>{
       setUser(res.data.user)
+      console.log(user)
       setValue("firstname", res.data.user.firstname);
       setValue("lastname", res.data.user.lastname);
       setValue("email", res.data.user.email);
       }).catch((error) => {
-          console.log(error.response.data)
+          console.log(error)
       })
-      axios.get(`/registereduser/${id}`).then((res)=>{
+      axios.get(`/ruser/${id}`).then((res)=>{
         setRuser(res.data.ruser)
+        console.log(ruser)
         setValue("address", res.data.ruser.address);
         setValue("contact", res.data.ruser.contact);
         
         }).catch((error) => {
-            console.log(error.response.data)
+            console.log(error)
         })}
   , [])
 
