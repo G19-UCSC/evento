@@ -21,7 +21,7 @@ export default function sidebar(props) {
        <ul className={newLocal} id="accordionSidebar">
 
         {/* Sidebar - Brand */}
-        <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a className="sidebar-brand d-flex align-items-center justify-content-center" href="#">
             <div className="sidebar-brand-icon rotate-n-15">
                 <FaHatCowboy fontSize="2rem" />
             </div>
@@ -46,7 +46,7 @@ export default function sidebar(props) {
 
 
         <li className="nav-item ml-2" id='account' >
-            <Link href="/account">
+            <Link href="/admin/account">
             <a className="nav-link">
                 <FaUserAlt />
                 <span className='m-1'> Accounts</span>
@@ -58,7 +58,7 @@ export default function sidebar(props) {
         <hr className="sidebar-divider" />
 
         <li className="nav-item ml-2" id='bookings' >
-            <Link href="/bookings">
+            <Link href="/admin/bookings">
             <a className="nav-link">
                 <FaCalendar />
                 <span className='m-1'> Bookings </span>
@@ -70,7 +70,7 @@ export default function sidebar(props) {
         <hr className="sidebar-divider" />
 
         <li className="nav-item ml-2" id='cashflow' >
-            <Link href="/cashflow">
+            <Link href="/admin/cashflow">
             <a className="nav-link">
                 <FaDollarSign />
                 <span className='m-1'> Cashflow </span>
@@ -82,7 +82,7 @@ export default function sidebar(props) {
         <hr className="sidebar-divider" />
 
         <li className="nav-item ml-2" id='settings' >
-            <Link href="/settings">
+            <Link href="/admin/settings">
             <a className="nav-link">
                 <FaCogs />
                 <span className='m-1'> Settings </span>

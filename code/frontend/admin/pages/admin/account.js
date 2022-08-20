@@ -3,14 +3,14 @@ import { useRouter } from 'next/router'
 import Link from 'next/link';
 import "bootstrap/dist/css/bootstrap.css";
 import { FaEdit, FaUserPlus, FaWindowClose } from 'react-icons/fa';
-import Header from  "../components/dashboard/header";
-import Sidebar from "../components/dashboard/sidebar";
-import Footer from "../components/dashboard/footer";
+import Header from  "../../components/admin/header";
+import Sidebar from "../../components/admin/sidebar";
+import Footer from "../../components/admin/footer";
 
 var $ = require('jquery');
 import 'datatables.net';
 import 'datatables.net-bs4';
-import axios from '../utils/axios';
+import axios from '../../utils/axios';
 import { useForm } from 'react-hook-form';
 
 export default function account () {
