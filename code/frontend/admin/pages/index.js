@@ -1,29 +1,111 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import "bootstrap/dist/css/bootstrap.css";
 import Header from  "../components/dashboard/header";
 import Sidebar from "../components/dashboard/sidebar";
 import Footer from "../components/dashboard/footer";
-import { FaCalendar, FaDownload, FaEllipsisH } from 'react-icons/fa';
+import { FaAngleUp, FaCalendar, FaDownload, FaEllipsisH } from 'react-icons/fa';
 
 import Cards from '../components/dashboard/cards';
 import Linechart from '../components/dashboard/linechart';
 import Piechart from '../components/dashboard/piechart';
 import Dropdown from '../components/dropdown';
+import axios from '../utils/axios';
+var $ = require('jquery');
 
 const dashboard = () => {
 
-    const options = [
-        { label: 'Event', value: '<a href="/event"></a>'},
-        { label: 'Option2', value: 'option2'},
-        { label: 'Option3', value: 'option3'}
+    const[events,setEvents] = useState([]);
+    const[cancels,setCancels] = useState([]);
+    const[totalevents,setTotalevents] = useState(0);
+    const[cancelledevents,setCancelledevents] = useState(0);
+    const[approvedevents,setApprovedevents] = useState(0);
+    const[pendingevents,setPendingevents] = useState(0);
+
+    const events2 = [
+        {
+            _id: '',
+            start_date: '',
+            end_date: '',
+            location: '',
+            userid: '',
+            packageid: '',
+            created_date: '',
+            status: '',
+            serviceCharge: '',
+            price: '',
+            advance: '',
+            advanceStatus: '',
+            advanceDate: '',
+            finalPay: '',
+            finalPayStatus: '',
+            finalPayDate: ''
+        }
     ]
 
-    const[drop, setDrop] = useState('option1');
+    const event_cancel = [
+        {
+            _id: '',
+            eventid: '',
+            userid: '',
+            cancelledOn: '',
+            paymentRetrun: '',
+            returnStatus: '',
+            penalty: '',
+            penaltyStatus: ''
+        }
+    ]
 
-    const handleDrop = (e) => {
-        setDrop(e.target.value);
-    }
+    const months = Array.from({length: 12}, (item, i) => {
+        return new Date(0, i).toLocaleString('en-US',{month: 'long'})
+    });
+
+    const findElementByMonth = (arr, month) => arr.filter(element => element.createdAt.getMonth == month);
+    const findElementByStatus = (arr, status) => arr.filter(element => element.status == status);
+
+    const cardtitles= [
+        { one: "TOTAL BOOKINGS"},
+        { two: "PENDING BOOKINGS"},
+        { three: "TOTAL INCOME"},
+        { four: "TOTAL PAYABLE"}
+    ]
+
+    useEffect(() => {
+        axios.get("/event").then((res)=>{
+            let events = res.data.events
+            let bookingCount = [0,0,0,0,0,0,0,0,0,0,0,0];
+            let cancellationCount = [0,0,0,0,0,0,0,0,0,0,0,0];
+            events.forEach(e=>{
+                let month = (e.createdAt.split('T')[0].split('-')[1]);
+                switch(month){
+                    case '01': bookingCount[0] += 1; break;
+                    case '02': bookingCount[1] += 1; break;
+                    case '03': bookingCount[2] += 1; break;
+                    case '04': bookingCount[3] += 1; break;
+                    case '05': bookingCount[4] += 1; break;
+                    case '06': bookingCount[5] += 1; break;
+                    case '07': bookingCount[6] += 1; break;
+                    case '08': bookingCount[7] += 1; break;
+                    case '09': bookingCount[8] += 1; break;
+                    case '10': bookingCount[9] += 1; break;
+                    case '11': bookingCount[10] += 1; break;
+                    default: bookingCount[11] += 1; break;
+                }
+            })
+            let pending = findElementByStatus(events,"Pending")
+            let approved = findElementByStatus(events,"Approved")
+            setEvents(bookingCount);
+            setCancels(cancellationCount);
+            console.log(events.length);
+            setTotalevents(events.length);
+            setPendingevents(pending.length);
+            setApprovedevents(approved.length);
+
+        }).catch((error) => {
+            console.log(error)
+        })
+
+    }, [])
 
    return(
    <>
@@ -56,69 +138,52 @@ const dashboard = () => {
 
                     {/* Content Row */}
                     <div className="row">
-
-                        {/* Earnings (Monthly) Card Example */}
-                        <Cards card_title="Earnings (Annual)" card_icon="FaCalendar" />
-
-                        {/* Earnings (Monthly) Card Example */}
-                        
-
-                        {/* Earnings (Monthly) Card Example */}
-                        
-                        {/* Pending Requests Card Example */}
-                        
+                        <Cards cardTitles={cardtitles} cardData={[totalevents,pendingevents]} />
                     </div>
 
                     {/* Content Row */}
-
                     <div className="row">
-
-                        {/* Area Chart */}
-                        <div className="col-xl-8 col-lg-7">
-                            <div className="card shadow mb-4">
-                                {/* Card Header - Dropdown */}
-                                <Dropdown label="Dropdown Button" options={options} value={'option1'} />
-                                {/* Card Body */}
-                                <div className="card-body">
-                                    <div className="chart-area">
-                                        <Linechart />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                               <div className="col-xl-8 col-lg-7">
+                                   <Linechart
+                                       cardTitle="Bookings vs Time" xData={months} name1="Booked Events" name2="Cancelled Events"
+                                       series1={events} series2={cancels}
+                                   />
+                               </div>
 
                         {/* Pie Chart */}
-                        <div className="col-xl-4 col-lg-5">
-                            <div className="card shadow mb-4">
-                                {/* Card Header - Dropdown */}
-                                <div
-                                    className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 className="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                                    <div className="dropdown no-arrow">
-                                        <a className="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <FaEllipsisH />
-                                        </a>
-                                        
-                                    </div>
-                                </div>
-                                {/* Card Body */}
-                                <div className="card-body">
-                                    <div className="chart-pie pt-4 pb-2">
-                                        <Piechart />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                               <div className="col-xl-4 col-lg-5">
+                                   <Piechart 
+                                       cardTitle="Event Bookings" names={["Booked Events", "Pending Events", "Approved Events", "Cancelled Events"]}
+                                       series={[totalevents, pendingevents, approvedevents, cancelledevents]}
+                                   />
+                               </div>
                     </div>
 
                     {/* Content Row */}
                     <div className="row">
+                               <div className="col-xl-8 col-lg-7">
+                                   <Linechart
+                                       cardTitle="Cashflow vs Time" xData={months} name1="Income" name2="Payments"
+                                       series1={events} series2={cancels}
+                                   />
+                               </div>
 
-                        {/* Content Column */}
+                        {/* Pie Chart */}
+                               <div className="col-xl-4 col-lg-5">
+                                   <Piechart 
+                                       cardTitle="All Income" names={["Income", "Payments"]}
+                                       series={[totalevents, pendingevents]}
+                                   />
+                               </div>
+                    </div>
+
+                    {/* Content Row */}
+                    {/* <div className="row">
+
+                        // Content Column
                         <div className="col-lg-6 mb-4">
 
-                            {/* Project Card Example */}
+                            // Project Card Example
                             <div className="card shadow mb-4">
                                 <div className="card-header py-3">
                                     <h6 className="m-0 font-weight-bold text-primary">Projects</h6>
@@ -158,7 +223,7 @@ const dashboard = () => {
                             </div>
 
                         </div>
-                    </div>
+                    </div> */}
 
                 </div>
                 {/* /.container-fluid */}
@@ -178,7 +243,7 @@ const dashboard = () => {
 
     {/* Scroll to Top Button*/}
     <a className="scroll-to-top rounded" href="#page-top">
-        <i className="fas fa-angle-up"></i>
+        <FaAngleUp />
     </a>
 
     {/* Logout Modal*/}
