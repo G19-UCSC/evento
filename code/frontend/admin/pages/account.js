@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link';
 import "bootstrap/dist/css/bootstrap.css";
-import { FaCross, FaEdit, FaTachometerAlt, FaUserPlus, FaWindowClose } from 'react-icons/fa';
+import { FaEdit, FaUserPlus, FaWindowClose } from 'react-icons/fa';
 import Header from  "../components/dashboard/header";
 import Sidebar from "../components/dashboard/sidebar";
 import Footer from "../components/dashboard/footer";
@@ -15,32 +15,11 @@ import { useForm } from 'react-hook-form';
 
 export default function account () {
 
-    // const [create,setCreate] = useState(false)
-    // const [update,setUpdate] = useState(false)
     const [btn,setBtn] = useState('null')
+    const [update,setUpdate] = useState('')
     const [accounts,setAccounts] = useState([])
     const [registered_accounts,setRegistered_accounts] = useState([])
-    const { register, handleSubmit, watch, control,reset, setValue, formState: { errors } } = useForm();
-
-    // const registered_accounts = [{
-    //     id: "1",
-    //     username: "nimal@1",
-    //     status: "blocked"
-    // },{
-    //     id: "2",
-    //     username: "nimal@2",
-    //     status: "pending"
-    // },];
-
-    accounts.forEach(a => {
-        registered_accounts.forEach(r => {
-            if(a.id === r.id){
-                a.username = r.username;
-                a.status = r.status;
-                
-            }
-        })
-    });
+    const { register, handleSubmit, watch, control,reset, setValue, formState: { errors } } = useForm(); 
 
     const columns = [{
         text: 'Name'
@@ -66,33 +45,83 @@ export default function account () {
     let submitBtn;
 
     if(btn == 'create'){
-        submitBtn = <button className="w-100 btn btn-secondary btn-lg" > Create Account </button>
+        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Create Account </button>
     }
     else if(btn == 'update'){
-        submitBtn = <button className="w-100 btn btn-secondary btn-lg" > Update Account </button>
+        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Update Account </button>
+    }
+
+    const findElementById = (arr, id) => arr.filter(element => element.userid == id);
+    const removeElementById = (arr, id) => arr.filter(element => element.id !== id);
+
+    const setForm = (id) => {
+        const account = findElementById(accounts, id)[0];
+        console.log(account);
+        setValue('firstname', account.firstname);
+        setValue('lastname', account.lastname);
+        setValue('status', account.status);
+        setValue('role', account.role);
+        setUpdate(id)
     }
 
     function onClickCreate(e){
         if(btn == 'null'){
             setBtn('create');
-        }else{
-            setBtn('null');
+            document.getElementById("accountsTableCard").classList.toggle("col-lg-6");
         }
-        document.getElementById("accountsTableCard").classList.toggle("col-lg-6");
     }
 
-    function onClickUpdate(e){
-        if(btn == 'null'){
+    function onClickUpdate(id){
+        console.log(id)
+        if(btn == 'null' && id != ''){
             setBtn('update');
-        }else{
-            setBtn('null');
+            setForm(id);
+            document.getElementById("accountsTableCard").classList.toggle("col-lg-6");
         }
-        document.getElementById("accountsTableCard").classList.toggle("col-lg-6");
+
     }
 
     function onClickCancel(e){
         setBtn('null');
         document.getElementById("accountsTableCard").classList.toggle("col-lg-6");
+        reset({
+            fisrtname: '',
+            lastname: '',
+            role: '',
+            email: '',
+            status: '',
+            username: ''
+        })
+    }
+
+    const onSubmit = (formData) => {
+        
+        if(btn == 'update' && update != ''){
+            let u = findElementById(accounts,update)[0];
+            formData.userid = update
+            formData.email = u.email
+            formData.username = u.username
+            formData.password = u.password
+            formData.contact = u.contact
+            formData.address = u.address
+            if(formData.status == 'Approved'){
+                formData.approvedAt = Date();
+            }else{
+                formData.approvedAt = u.approvedAt
+            }
+
+            console.log(formData)
+            axios.put(`/ruser/${update}`, formData).then((res)=>{
+                const newAccount = res.data.user.res[1]
+                setAccounts([formData].concat(removeElementById(accounts,newAccount._userid)))
+            }).catch((error) => {
+                console.log(error)
+            })
+
+            onClickCancel();
+        }else{
+            //Create Form
+        }
     }
 
     useEffect(()=>{
@@ -109,12 +138,32 @@ export default function account () {
             });
         }
 
-        axios.get("/user").then((res)=>{
-            setAccounts(res.data.users)
+        const getUsers = () => {
+            return axios.get("/user");
+        }
+
+        const getRUsers = () => {
+            return axios.get("/ruser");
+        }
+
+        Promise.all([getUsers(),getRUsers()]).then((res)=>{
+            let users = res[0].data.users;
+            let rusers = res[1].data.users;
+            rusers.forEach(r => {
+                users.forEach(u => {
+                    if(u._userid == r.userid){
+                        r.firstname = u.firstname;
+                        r.lastname = u.lastname;
+                        r.email = u.email;
+                        
+                    }
+                })
+            });
+            setAccounts(rusers);
             table();
-        }).catch((error) => {
-            console.log(error.response.data)
-        });
+        }).catch((error)=> {
+            console.log(error)
+        })
 
     },[]);
 
@@ -140,19 +189,19 @@ export default function account () {
                                             <thead>
                                                 <tr>
                                                     {columns.map((c)=> (
-                                                        <th>{c.text}</th>
+                                                        <th key={c.text} >{c.text}</th>
                                                     ))}
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {accounts.map((a)=> (
-                                                    <tr id={a._userid} >
+                                                    <tr id={a.userid} key={a.userid}>
                                                         <td>{a.firstname + " " + a.lastname}</td>
                                                         <td>{a.username}</td>
                                                         <td>{a.email}</td>
                                                         <td>{a.status}</td>
                                                         <td>
-                                                            <button className='btn' onClick={(e)=>{onClickUpdate()}}> 
+                                                            <button className='btn' onClick={(e)=>{onClickUpdate(a.userid)}}> 
                                                                 <FaEdit /> 
                                                             </button>
                                                         </td>
@@ -171,34 +220,50 @@ export default function account () {
                                         {(btn == "create") && (<div className='card-header'> Create Account</div>)}
                                         {(btn == "update") && (<div className='card-header'> Update Account</div>)}
                                         <div className='card-body'>
-                                            <form className='form'>
+                                            <form onSubmit={handleSubmit(onSubmit)} className='form' id='userform' >
                                                 <div className='form-group'>
                                                     <label htmlFor='fname' hidden>First Name : </label>
                                                     <input className='form-control mb-4' type="text" 
-                                                    name='fname' placeholder='First Name'/>
-                                                    <label htmlFor='fname' hidden>Last Name : </label>
+                                                        name='firstname' id='fname' placeholder='First Name'
+                                                        disabled={(btn == 'update') && (true)} 
+                                                        {...register("firstname", { required: true })}/>
                                                     <input className='form-control mb-4' type="text"
-                                                    name='lname' placeholder='Last Name'/>
-                                                    <label htmlFor='fname' hidden>User Role : </label>
-                                                    <select className='form-control mb-4'>
+                                                        name='lastname' id='lname' placeholder='Last Name'
+                                                        disabled={(btn == 'update') && (true)} 
+                                                        {...register("lastname", { required: true })}/>
+                                                    <select className='form-control mb-4' name="role" id='role'
+                                                        disabled={(btn == 'update') && (true)} 
+                                                        {...register("role", { required: true })}>
                                                         <option value={null} selected>User Role</option>
                                                         <option value="Staff">Staff</option>
                                                         <option value="Customer">Individual Customer</option>
-                                                        <option value="CorpCustomer">Corporate Customer</option>
-                                                        <option value="Provider">Provider</option>
                                                     </select>
-                                                    <label htmlFor='fname' hidden>Email : </label> 
-                                                    <input className='form-control mb-4' type="email"
-                                                    name='email' placeholder='Email'/>
-                                                    <label htmlFor='fname' hidden>Username : </label> 
-                                                    <input className='form-control mb-4' type="text"
-                                                    name='username' placeholder='Username'/>
-                                                    <label htmlFor='fname' hidden>Password : </label>
-                                                    <input className='form-control mb-4' type="password"
-                                                    name='password' placeholder='Password'/>
-                                                    <label htmlFor='fname' hidden>Re-enter Password : </label> 
-                                                    <input className='form-control mb-4' type="password"
-                                                    placeholder='Re-enter Password'/>
+                                                    {(btn == 'update') && (
+                                                        <>
+                                                        <select className='form-control mb-4' name="status" id='status'
+                                                            {...register("status", { required: true })}>
+                                                            <option value={null} >Account Status</option>
+                                                            <option value="Pending">Pending</option>
+                                                            <option value="Approved">Approved</option>
+                                                            <option value="Blocked">Blocked</option>
+                                                        </select>
+                                                        </>
+                                                    )}
+                                                    {(btn == 'create') && (
+                                                        <>
+                                                        <input className='form-control mb-4' type="email"
+                                                            name='email' id='email' placeholder='Email'
+                                                            {...register("email", { required: true })}/> 
+                                                        <input className='form-control mb-4' type="text"
+                                                            name='username' id='username' placeholder='Username'
+                                                            {...register("username", { required: true })}/>
+                                                        <input className='form-control mb-4' type="password"
+                                                            name='password' id='password' placeholder='Password'/>
+                                                        <input className='form-control mb-4' type="password"
+                                                            name='re-enterpass' id='re-enterpass' 
+                                                            placeholder='Re-enter Password'/>
+                                                        </>
+                                                    )}
                                                     {submitBtn}
                                                 </div>
                                             </form>

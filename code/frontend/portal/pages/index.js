@@ -6,6 +6,9 @@ import axios from '../utils/axios'
 import Footer from "../components/home/footer"
 import Header from "../components/home/header"
 
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+
 
 export default function Home() {
   const [products, setProducts] = useState([])
@@ -15,6 +18,26 @@ export default function Home() {
 }).catch((error) => {
     console.log(error.response.data)
 })}, [])
+
+const responsive = {
+  superLargeDesktop: {
+    // the naming can be any, depends on you.
+    breakpoint: { max: 4000, min: 3000 },
+    items: 5
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1
+  }
+};
   return (
 
     
@@ -123,7 +146,7 @@ export default function Home() {
          <div class="row">
            <div class="col-md-12">
              <div class="nonloop-block-3 owl-carousel">
-             {products.map((item, i) => (
+             {/* {products.map((item, i) => (
                <div class="item">
                  <div class="block-4 text-center">
                    <figure class="block-4-image">
@@ -137,7 +160,8 @@ export default function Home() {
                  </div>
                </div>
                  ))
-                }
+                } */}
+              <Carousel responsive={responsive}>
                <div class="item">
                  <div class="block-4 text-center">
                    <figure class="block-4-image">
@@ -186,6 +210,7 @@ export default function Home() {
                    </div>
                  </div>
                </div>
+               </Carousel>
              </div>
            </div>
          </div>

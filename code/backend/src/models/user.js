@@ -28,5 +28,16 @@ const User = db.define(
 );
 
 User.sync()
+// User.sync().then((res) => {
+//   User.create({ 
+//     email: "vinothini123@gmail.com", 
+//     firstname: "Vinothini",
+//     lastname : "Vijay"
+
+
+//   }).then((res) => {
+//     console.log(`Insert successful: ${res._id}`);
+//   });
+// });
 
 module.exports= User;

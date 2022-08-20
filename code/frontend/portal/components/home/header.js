@@ -1,9 +1,16 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import { BsFillCartFill, BsHeart, BsPersonFill } from "react-icons/bs";
-
+import { useRouter } from 'next/router'
+import { signOut } from 'next-auth/react'
 
 export default function header() {
+  const { push} = useRouter()
+
+  const handleSignOut = async () => {
+    const data = await signOut({ redirect: false, callback: '/' })
+      push(data.url)
+  }
   return (
     <header class="site-navbar" role="banner">
       <div class="site-navbar-top">
@@ -25,8 +32,16 @@ export default function header() {
 
             <div class="col-6 col-md-4 order-3 order-md-3 text-right">
               <div class="site-top-icons" style={{float: 'right'}}>
-                <ul>
-                  <li><a href="/signin"><span class="icon icon-person"><BsPersonFill /></span></a></li>
+                <ul class="site-menu js-clone-nav d-none d-md-block">
+                  <li class="has-children"><span class="icon icon-person"><BsPersonFill /></span>
+                    <ul class="dropdown">
+                      <li><a href="/signin">Sign In</a></li>
+                      <li><a href="/signup">Sign Up</a></li>
+                      <li><a href="/signin" onClick={handleSignOut}>Sign Out</a></li>
+                    </ul>
+
+                  
+                  </li>
                   <li><a href="#"><span class="icon icon-heart-o"><BsHeart /></span></a></li>
                   <li>
                     <a href="cart.html" class="site-cart">
