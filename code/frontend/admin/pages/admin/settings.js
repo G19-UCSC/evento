@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.css";
-import Header from  "../components/dashboard/header";
-import Sidebar from "../components/dashboard/sidebar";
-import Footer from "../components/dashboard/footer";
+import Header from  "../../components/admin/header";
+import Sidebar from "../../components/admin/sidebar";
+import Footer from "../../components/admin/footer";
 
 export default function settings() {
 
@@ -22,13 +22,7 @@ export default function settings() {
                                             <div class="form-group row">
                                                 <label for="companyName" class="col-sm-4 col-form-label">Company Name</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" readonly class="form-control-plaintext" id="companyName" value="Evento" />
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="companyEmail" class="col-sm-4 col-form-label">Company Email</label>
-                                                <div class="col-sm-8">
-                                                    <input type="text" readonly class="form-control-plaintext" id="companyEmail" value="email@example.com" />
+                                                    <input type="text" class="form-control-plaintext" id="companyName" defaultValue="Evento" />
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -55,7 +49,7 @@ export default function settings() {
                                             <div class="form-group row">
                                                 <label for="staticEmail" class="col-sm-4 col-form-label">Email</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com" />
+                                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" defaultValue="email@example.com" />
                                                 </div>
                                             </div>
                                             <div class="form-group row">

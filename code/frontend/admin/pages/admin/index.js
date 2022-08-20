@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import "bootstrap/dist/css/bootstrap.css";
-import Header from  "../components/dashboard/header";
-import Sidebar from "../components/dashboard/sidebar";
-import Footer from "../components/dashboard/footer";
+import Header from  "../../components/admin/header";
+import Sidebar from "../../components/admin/sidebar";
+import Footer from "../../components/admin/footer";
 import { FaAngleUp, FaCalendar, FaDownload, FaEllipsisH } from 'react-icons/fa';
 
-import Cards from '../components/dashboard/cards';
-import Linechart from '../components/dashboard/linechart';
-import Piechart from '../components/dashboard/piechart';
-import Dropdown from '../components/dropdown';
-import axios from '../utils/axios';
+import Cards from '../../components/admin/cards';
+import Linechart from '../../components/admin/linechart';
+import Piechart from '../../components/admin/piechart';
+import Dropdown from '../../components/dropdown';
+import axios from '../../utils/axios';
 var $ = require('jquery');
 
 const dashboard = () => {
