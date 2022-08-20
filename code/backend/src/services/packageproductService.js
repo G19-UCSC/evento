@@ -21,11 +21,8 @@ const getPackageproduct = async (attributes) => {
 const setPackageproduct = async (attributes) => {
 
   const packageproduct = await Packageproduct.create({
-    createdBy: attributes.createdBy,
-    description: attributes.description,
-    name: attributes.name,
-    price: attributes.price,
-    category: attributes.category,
+    packageid: attributes.packageid,
+    productid: attributes.productid,
   }).then((res) => {
     console.log(`Insert successful: ${res._id}`);
     return {
@@ -43,11 +40,8 @@ const setPackageproduct = async (attributes) => {
 const updatePackageproduct = async (attributes) => {
 
   const packageproduct = await Packageproduct.update({
-    createdBy: attributes.createdBy,
-    description: attributes.description,
-    name: attributes.name,
-    price: attributes.price,
-    category: attributes.category,
+    packageid: attributes.packageid,
+    productid: attributes.productid,
   }, {
     where: { _id: attributes.id },
     returning: true,

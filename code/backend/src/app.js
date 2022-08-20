@@ -27,6 +27,7 @@ app.use('/api/product', require('./routes/productRoutes'))
 app.use('/api/service', require('./routes/serviceRoutes'))
 app.use('/api/package', require('./routes/packageRoutes'))
 app.use('/api/packageproduct', require('./routes/packageproductRoutes'))
+app.use('/api/system', require('./routes/systemRoutes'))
 
 // Custom error handler
 app.use(errorHandler)

@@ -3,11 +3,40 @@ import { Bar, line, Scatter, Bubble, Line, PolarArea, Pie } from 'react-chartjs-
 import "bootstrap/dist/css/bootstrap.css";
 // import ApexCharts from 'apexcharts';
 import dynamic from 'next/dynamic';
-import { loadGetInitialProps } from 'next/dist/shared/lib/utils';
 import { FaEllipsisH } from 'react-icons/fa';
+import { useState } from 'react';
+import { Dropdown, Button, Menu, Space, message } from 'antd';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 export default function Piechart (props) {
+
+    const handleButtonClick = (e) => {
+        message.info('Click on left button.');
+        console.log('click left button', e);
+      };
+
+    const handleMenuClick = (e) => {
+        message.info('Click on menu item.');
+        console.log('click', e);
+      };
+
+    const menu = (
+        <Menu onClick={handleMenuClick} items={[
+            {
+                label: 'Option 1',
+                key: '1'
+            },
+            {
+                label: 'Option 2',
+                key: '2'
+            }
+        ]}
+        />
+    );
+
+    // function changeVisible(e){
+    //     document.getElementsByTagName('Dropdown.Button').vi
+    // }
 
     const chartOptions = {
         labels: props.names
@@ -23,11 +52,14 @@ export default function Piechart (props) {
                     className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 className="m-0 font-weight-bold text-primary">{props.cardTitle}</h6>
                     <div className="dropdown no-arrow">
-                        <a href="#" id="dropdownMenuLink" title='Popover Header' onClick={e => { setToggleBtn(true); }}
+                        {/* <a href="#" id="dropdownMenuLink" role="button" title='Popover Header' onClick={e => { setToggleBtn(); }}
                             data-toggle="popover" data-content='Some content'>
                             <FaEllipsisH />
                         </a>
-
+                        <Dropdown.Button onClick={handleButtonClick} overlay={menu} trigger="hover" autoFocus={true} 
+                        destroyPopupOnHide={true} placement="bottomRight" >
+                            <FaEllipsisH />
+                        </Dropdown.Button> */}
                     </div>
                 </div>
                 {/* Card Body */}
