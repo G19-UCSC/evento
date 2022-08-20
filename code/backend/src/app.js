@@ -24,6 +24,7 @@ app.use('/api/event', require('./routes/eventRoutes'))
 app.use('/api/user', require('./routes/userRoutes'))
 app.use('/api/ruser', require('./routes/registereduserRoutes'))
 app.use('/api/product', require('./routes/productRoutes'))
+app.use('/api/service', require('./routes/serviceRoutes'))
 // Custom error handler
 app.use(errorHandler)
 

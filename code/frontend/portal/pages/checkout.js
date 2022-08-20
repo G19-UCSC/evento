@@ -5,7 +5,7 @@ import Header from "../components/home/header"
 
 import { CartContext } from '../context/productContext';
 import React, { useContext, useState,useEffect} from "react";
-import { useForm,setValue } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import axios from '../utils/axios'
 export default function Checkout() {
   const [cart,price]= useContext(CartContext);
@@ -13,10 +13,12 @@ export default function Checkout() {
   const [ruser, setRuser] = useState([])
   const [id, setId] = useState('87adfe52-d2b8-42cd-91ff-6c764e97e717')
   
+  
  
   const{
     register,
-    handleSubmit
+    handleSubmit,
+    setValue
     } = useForm();
 
     const onSubmit = (data) => {
@@ -26,7 +28,7 @@ export default function Checkout() {
     useEffect(() => {
       axios.get(`/user/${id}`).then((res)=>{
       setUser(res.data.user)
-      console.log(user)
+      // console.log(res.data.user.firstname)
       setValue("firstname", res.data.user.firstname);
       setValue("lastname", res.data.user.lastname);
       setValue("email", res.data.user.email);
@@ -34,14 +36,15 @@ export default function Checkout() {
           console.log(error)
       })
       axios.get(`/ruser/${id}`).then((res)=>{
-        setRuser(res.data.ruser)
-        console.log(ruser)
-        setValue("address", res.data.ruser.address);
-        setValue("contact", res.data.ruser.contact);
+        setRuser(res.data.user)
+        console.log(res.data.user.address)
+        setValue("address", res.data.user.address);
+        setValue("contact", res.data.user.contact);
         
         }).catch((error) => {
             console.log(error)
-        })}
+        })
+    }
   , [])
 
    
@@ -78,11 +81,11 @@ export default function Checkout() {
               
                 <div class="col-md-6">
                   <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_fname" name="c_fname" />
+                  <input type="text" class="form-control" id="firstname" name="firstname"{...register('firstname', { required: true })}/>
                 </div>
                 <div class="col-md-6">
                   <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_lname" name="c_lname" />
+                  <input type="text" class="form-control"  id="lastname" name="lastname" {...register('lastname', { required: true })}/>
                 </div>
               
               </div>
@@ -97,22 +100,19 @@ export default function Checkout() {
               <div class="form-group row">
                 <div class="col-md-12">
                   <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_address" name="c_address"  placeholder="Street address" {...register('address')}/>
+                  <input type="text" class="form-control"   placeholder="Street address" id="address" name="address"{...register('address', { required: true })}/>
                 </div>
               </div>
 
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)" />
-              </div>
               {/* {ruser.map((items,i) => ( */}
               <div class="form-group row mb-5" >
                 <div class="col-md-6">
                   <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_email_address"  name="c_email_address" {...register('email')}/>
+                  <input type="text" class="form-control"  id="email" name="email"{...register('email')}/>
                 </div>
                 <div class="col-md-6">
                   <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_phone" name="c_phone"  placeholder="Phone Number" {...register('contactno')}/>
+                  <input type="text" class="form-control"   placeholder="Phone Number" id="contact" name="contact"{...register('contact', { required: true })}/>
                 </div>
               </div>
               {/* ))} */}
