@@ -20,20 +20,26 @@ export default function settings() {
                                     <div className='card-body'>
                                         <form className='form' id='userform' >
                                             <div class="form-group row">
-                                                <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com" />
+                                                <label for="companyName" class="col-sm-4 col-form-label">Company Name</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" readonly class="form-control-plaintext" id="companyName" value="Evento" />
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com" />
+                                                <label for="companyEmail" class="col-sm-4 col-form-label">Company Email</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" readonly class="form-control-plaintext" id="companyEmail" value="email@example.com" />
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-                                                <div class="col-sm-10">
+                                                <label for="inputPassword" class="col-sm-4 col-form-label">Password</label>
+                                                <div class="col-sm-8">
+                                                    <input type="password" class="form-control" id="inputPassword" placeholder="Password" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="inputPassword" class="col-sm-4 col-form-label">Password</label>
+                                                <div class="col-sm-8">
                                                     <input type="password" class="form-control" id="inputPassword" placeholder="Password" />
                                                 </div>
                                             </div>
@@ -43,24 +49,24 @@ export default function settings() {
                             </div>
                             <div className='col-lg-6 mb-4' id="createCard">
                                 <div className='card shadow md-4'>
-                                    <div className='card-header'> Evento Details </div>
+                                    <div className='card-header'> Add Packages </div>
                                     <div className='card-body'>
                                         <form className='form' id='userform' >
                                             <div class="form-group row">
-                                                <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-                                                <div class="col-sm-10">
+                                                <label for="staticEmail" class="col-sm-4 col-form-label">Email</label>
+                                                <div class="col-sm-8">
                                                     <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com" />
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com" />
+                                                <label for="inputPassword" class="col-sm-4 col-form-label">Password</label>
+                                                <div class="col-sm-8">
+                                                    <input type="password" class="form-control" id="inputPassword" placeholder="Password" />
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-                                                <div class="col-sm-10">
+                                                <label for="inputPassword" class="col-sm-4 col-form-label">Password</label>
+                                                <div class="col-sm-8">
                                                     <input type="password" class="form-control" id="inputPassword" placeholder="Password" />
                                                 </div>
                                             </div>
