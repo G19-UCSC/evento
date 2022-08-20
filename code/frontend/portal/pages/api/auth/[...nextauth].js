@@ -7,14 +7,6 @@ import CredentialsProvider from "next-auth/providers/credentials"
 
 export default NextAuth({
     providers: [
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET
-        }),
-        LinkedInProvider({
-            clientId: process.env.LINKEDIN_CLIENT_ID,
-            clientSecret: process.env.LINKEDIN_CLIENT_SECRET
-          }),
         CredentialsProvider({
             name: 'Credentials',
             // The credentials is used to generate a suitable form on the sign in page.
@@ -23,11 +15,12 @@ export default NextAuth({
             // You can pass any HTML attribute to the <input> tag through the object.
             type:'credentials',
             credentials: {
-            username: { label: "Username", type: "text", placeholder: "Enter username" },
+            username: { label: "Username", type: "text" },
             password: {  label: "Password", type: "password" }
             },
             async authorize(credentials, req) {
-            const res = await fetch("https://ptsv2.com/t/w5kat-1660927984/post", {
+            console.log(credentials)
+            const res = await fetch("http://localhost:5000/api/ruser/login", {
                 method: 'POST',
                 body: JSON.stringify(credentials),
                 headers: { "Content-Type": "application/json" }
@@ -42,8 +35,16 @@ export default NextAuth({
             return null
             }
         })
+        ,        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET
+        }),
+        LinkedInProvider({
+            clientId: process.env.LINKEDIN_CLIENT_ID,
+            clientSecret: process.env.LINKEDIN_CLIENT_SECRET
+          }),
     ],
-    pages:{
-        signIn: '/signin',
-    }
+    // pages:{
+    //     signIn: '/signin',
+    //}
 })

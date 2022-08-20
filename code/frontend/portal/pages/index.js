@@ -45,21 +45,22 @@ const responsive = {
      <div class="site-wrap">
      <Header />
  
-     <div class="site-blocks-cover" style={{ backgroundImage: `url(${"images/dogs.jpg"})`}} data-aos="fade">
-       <div class="container">
-         <div class="row align-items-start align-items-md-center justify-content-end">
-           <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
-             <h1 class="mb-2">Finding Your Perfect Shoes</h1>
-             <div class="intro-text text-center text-md-left">
-               <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla. </p>
-               <p>
-                 <a href="#" class="btn btn-sm btn-primary">Shop Now</a>
-               </p>
-             </div>
-           </div>
-         </div>
-       </div>
-     </div>
+     <div class="site-blocks-cover" style={{ backgroundImage: `url(${"images/home_banner.jpg"})` }} data-aos="fade">
+        <div class="container">
+          <div class="row align-items-start align-items-md-center justify-content-end">
+            <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
+              <h1 class="mb-2">Evento</h1>
+              <div class="intro-text text-center text-md-left">
+                <p class="mb-4">Whether you are an individual or a corporation, our goal is to help you plan the ultimate party with spectacular entertainment, delicious food, and beautiful decor. </p>
+                <p>
+                  <a href="#" class="btn btn-sm btn-primary">Book Now</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
  
      <div class="site-section site-section-sm site-blocks-1">
        <div class="container">
