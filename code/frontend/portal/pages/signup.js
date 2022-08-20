@@ -1,9 +1,9 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { useSession, signIn} from 'next-auth/react'
 import { BsGithub, BsTwitter, BsGoogle } from 'react-icons/bs'
-const dotenv = require('dotenv').config()
+// const dotenv = reNquire('dotenv').config()
 // Form
 import { Controller,useForm } from "react-hook-form";
 
@@ -92,7 +92,16 @@ const onSubmit = (formData) => {
             placeholder="Enter last name"
             {...register("lname", { required: true })}
           />
-        </div>
+        </div> 
+        <div className="form-group mt-3">
+          <label>Email</label>
+          <input
+            type="email"
+            className="form-control mt-1"
+            placeholder="Enter email"
+            {...register("email", { required: true })}
+          />
+        </div> 
         <div className="form-group mt-3">
           <label>Password</label>
           <input

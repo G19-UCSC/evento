@@ -21,6 +21,11 @@ const providers = [
     Icon: BsGoogle,
     color:'danger'
   },
+  {
+    name: 'Credentials',
+    Icon: BsGoogle,
+    color:'info'
+  },
 ]
 
 const Signin = () => {
@@ -28,7 +33,6 @@ const Signin = () => {
   const { push } = useRouter()
   const [email, setEmail] = useState('')
 
-  console.log(session)
   if (status === 'loading') return <h1>Checking Authentication...</h1>
 
   if (session) {
