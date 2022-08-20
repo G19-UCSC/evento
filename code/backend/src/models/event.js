@@ -9,24 +9,68 @@ const Event = db.define(
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
     },
-    title: {
-      type: DataTypes.STRING(100),
+    start_date: {
+      type: DataTypes.DATE(),
+      allowNull: false,
+    },
+    end_date: {
+      type: DataTypes.DATE(),
       allowNull: false,
     },
     location: {
       type: DataTypes.STRING(100),
       allowNull: false,
     },
-    category: {
-      type: DataTypes.ENUM('Workshop', 'Meetup', 'YGC Senior' ,'YGC Junior'),
+    userid: {
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
-    date: {
+    packageid: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+    created_date: {
       type: DataTypes.DATE(),
       allowNull: false,
+    },
+    status: {
+      type: DataTypes.ENUM('Pending', 'Approved', 'Paied', 'Completed'),
+      allowNull: false,
+    },
+    serviceCharge: {
+      type: DataTypes.FLOAT(3),
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.FLOAT(3),
+      allowNull: false,
+    },
+    advance: {
+      type: DataTypes.FLOAT(3),
+      allowNull: true,
+    },
+    advanceStatus: {
+      type: DataTypes.ENUM('Pending', 'Received'),
+      allowNull: false,
+    },
+    advanceDate: {
+      type: DataTypes.DATE(),
+      allowNull: true,
+    },
+    finalPay: {
+      type: DataTypes.FLOAT(3),
+      allowNull: true,
+    },
+    finalPayStatus: {
+      type: DataTypes.ENUM('Pending', 'Received'),
+      allowNull: false,
+    },
+    finalPayDate: {
+      type: DataTypes.DATE(),
+      allowNull: true,
     }
   }
-  ,{
+  , {
     logging: false,
   }
 );
@@ -45,4 +89,4 @@ Event.sync()
 // });
 
 
-module.exports= Event;
+module.exports = Event;
