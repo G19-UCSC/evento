@@ -13,7 +13,62 @@ export default function settings() {
                     <div id="content">
                         <Header />
                         <div className="container-fluid">
-                            This is settings page
+                            <div className="row">
+                            <div className='col-lg-6 mb-4' id="createCard">
+                                <div className='card shadow md-4'>
+                                    <div className='card-header'> Evento Details </div>
+                                    <div className='card-body'>
+                                        <form className='form' id='userform' >
+                                            <div class="form-group row">
+                                                <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+                                                <div class="col-sm-10">
+                                                    <input type="password" class="form-control" id="inputPassword" placeholder="Password" />
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='col-lg-6 mb-4' id="createCard">
+                                <div className='card shadow md-4'>
+                                    <div className='card-header'> Evento Details </div>
+                                    <div className='card-body'>
+                                        <form className='form' id='userform' >
+                                            <div class="form-group row">
+                                                <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+                                                <div class="col-sm-10">
+                                                    <input type="password" class="form-control" id="inputPassword" placeholder="Password" />
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
                         </div>
                     </div>
                     <Footer />
