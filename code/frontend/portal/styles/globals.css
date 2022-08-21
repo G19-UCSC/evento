@@ -1,4 +1,11 @@
 /* Base */
+
+/* img {
+  float: left;
+  width:  900px;
+  height: 1000px;
+  object-fit: cover;
+} */
 body {
   line-height: 1.7;
   color: #8c92a0;
