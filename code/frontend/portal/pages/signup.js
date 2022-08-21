@@ -6,6 +6,7 @@ import { BsGithub, BsTwitter, BsGoogle } from 'react-icons/bs'
 // const dotenv = reNquire('dotenv').config()
 // Form
 import { Controller,useForm } from "react-hook-form";
+import axios from '../utils/axios'
 
 
 
@@ -30,33 +31,25 @@ const providers = [
 const Signup = () => {
   const { data: session, status } = useSession()
   const { push } = useRouter()
+  const [userData, setUserData] = useState({})
+  const [regData, setRegData] = useState({})
+
 
   
   const { register, handleSubmit, watch, control,reset, setValue, formState: { errors } } = useForm();
-  
-  const cancel = () => {
-    if(update){
-        setUpdate(false)
 
-    }
-    reset({
-        title:'',
-        location:'',
-        category:'',
-        date:''
+
+const onSubmit = (formData) => {
+  setUserData(formData)
+   axios.post("/user",formData).then((res)=>{
+    const userid = res.data.user.res._userid
+    setRegData({...userData,status:'Pending',approvedAt:'2022-01-01',role:'Customer'})
+    console.log(userData)
+    }).catch((error) => {
+        console.log(error)
       })
 }
 
-const onSubmit = (formData) => {
-
-   axios.post("/ruser",formData).then((res)=>{
-        console.log(res)
-        }).catch((error) => {
-            console.log(error)
-          })
-}
-
-  
   if (status === 'loading') return <h1>Checking Authentication...</h1>
 
   if (session) {
@@ -78,19 +71,37 @@ const onSubmit = (formData) => {
         <div className="form-group mt-3">
           <label>First Name</label>
           <input
-            type="fname"
+            type="text"
             className="form-control mt-1"
             placeholder="Enter first name"
-            {...register("fname", { required: true })}
+            {...register("firstname", { required: true })}
           />
         </div>
         <div className="form-group mt-3">
           <label>Last Name</label>
           <input
-            type="fname"
+            type="text"
             className="form-control mt-1"
             placeholder="Enter last name"
-            {...register("lname", { required: true })}
+            {...register("lastname", { required: true })}
+          />
+        </div> 
+        <div className="form-group mt-3">
+          <label>Contact Number</label>
+          <input
+            type="text"
+            className="form-control mt-1"
+            placeholder="Enter contact number"
+            {...register("contact", { required: true })}
+          />
+        </div>
+        <div className="form-group mt-3">
+          <label>Address</label>
+          <input
+            type="text"
+            className="form-control mt-1"
+            placeholder="Enter address"
+            {...register("address", { required: true })}
           />
         </div> 
         <div className="form-group mt-3">
@@ -102,6 +113,15 @@ const onSubmit = (formData) => {
             {...register("email", { required: true })}
           />
         </div> 
+        <div className="form-group mt-3">
+          <label>Username</label>
+          <input
+            type="text"
+            className="form-control mt-1"
+            placeholder="Enter username"
+            {...register("username", { required: true })}
+          />
+        </div>
         <div className="form-group mt-3">
           <label>Password</label>
           <input
@@ -120,12 +140,12 @@ const onSubmit = (formData) => {
           Forgot <a href="#">password?</a>
         </p>
         <hr />
-        <div className='d-grid gap-2 mt-3'>
+        {/* <div className='d-grid gap-2 mt-3'>
           {providers.map(({ name, Icon, color }) => (
            <button type="button" className={`btn btn-${color}`} key={name} leftIcon={<Icon />} onClick={handleOAuthSignIn(name)}>Sign in with {name}</button>
           ))}
           
-        </div>
+        </div> */}
       </div>
     </form>
   </div>

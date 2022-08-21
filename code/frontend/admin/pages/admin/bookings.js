@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.css";
-import Header from  "../components/dashboard/header";
-import Sidebar from "../components/dashboard/sidebar";
-import Footer from "../components/dashboard/footer";
+import Header from  "../../components/admin/header";
+import Sidebar from "../../components/admin/sidebar";
+import Footer from "../../components/admin/footer";
 
 export default function bookings() {
     return(

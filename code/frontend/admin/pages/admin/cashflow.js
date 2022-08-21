@@ -1,19 +1,18 @@
 import "bootstrap/dist/css/bootstrap.css";
-import Header from  "../components/dashboard/header";
-import Sidebar from "../components/dashboard/sidebar";
-import Footer from "../components/dashboard/footer";
+import Header from  "../../components/admin/header";
+import Sidebar from "../../components/admin/sidebar";
+import Footer from "../../components/admin/footer";
 
-export default function settings() {
-
+export default function cashflow() {
     return(
         <>
             <div id="wrapper">
-                <Sidebar linkId="settings" />
+                <Sidebar linkId="cashflow" />
                 <div id="content-wrapper" className="d-flex flex-column">
                     <div id="content">
                         <Header />
                         <div className="container-fluid">
-                            This is settings page
+                            This is cashflow page
                         </div>
                     </div>
                     <Footer />

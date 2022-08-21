@@ -38,7 +38,7 @@ const Signin = () => {
   if (session) {
     setTimeout(() => {
       push('/')
-    }, 5000)
+    }, 1000)
 
     return <h1>you are already signed in</h1>
   }
@@ -79,10 +79,10 @@ const Signin = () => {
             Submit
           </button>
         </div>
-        <p className="forgot-password text-right mt-2">
+        {/* <p className="forgot-password text-right mt-2">
           Forgot <a href="#">password?</a>
         </p>
-        <hr />
+        <hr /> */}
         <div className='d-grid gap-2 mt-3'>
           {providers.map(({ name, Icon, color }) => (
            <button type="button" className={`btn btn-${color}`} key={name} leftIcon={<Icon />} onClick={handleOAuthSignIn(name)}>Sign in with {name}</button>
