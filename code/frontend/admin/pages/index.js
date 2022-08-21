@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 // const dotenv = require('dotenv').config()
 // Form
@@ -10,10 +10,26 @@ import Swal from 'sweetalert2'
 
 const Basic = () => {
   
+  const [user, setUser] = useState(null);
   const { push } = useRouter()
 
   const { register, handleSubmit, watch, control,reset, setValue, formState: { errors } } = useForm();
   // setOtpVal(generateOtp())
+
+  useEffect(() => {
+    const user_ = JSON.parse(localStorage.getItem('user'))
+    if (user_) {
+      if (user_.role === 'admin') {
+        push('/admin')
+      }else if(user_.role === 'Customer'){
+        push('/customer')
+        }else if(user_.role === 'Provider'){
+          push('/provider')
+          }
+    } else{
+        push('/')
+    }
+}, [])
 
 const onSubmit = (formData) => {
     console.log(formData)
