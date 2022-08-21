@@ -33,7 +33,7 @@ export default function sidebar(props) {
 
         {/* Nav Item - Dashboard */}
         <li className="nav-item ml-2" id='dashboard' >
-            <Link href="/admin/">
+            <Link href="/">
             <a className="nav-link">
                 <FaTachometerAlt />
                 <span className='m-1'> Dashboard</span>
