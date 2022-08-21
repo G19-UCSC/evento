@@ -7,9 +7,11 @@ const getEventSchema = () => Joi.object().keys({
 });
 
 const setEventSchema = () => Joi.object().keys({
+  title: Joi.string().required(),
   start_date: Joi.date().required(),
   end_date: Joi.date().required(),
   location: Joi.string().required(),
+  maxPeople: Joi.number().required(),
   userid: Joi.string().required(),
   packageid: Joi.string().required(),
   created_date: Joi.date().required(),
@@ -26,9 +28,11 @@ const setEventSchema = () => Joi.object().keys({
 
 const updateEventSchema = () => Joi.object().keys({
   id: Joi.alternatives(Joi.string(), Joi.number()).required(),
+  title: Joi.string().required(),
   start_date: Joi.date().required(),
   end_date: Joi.date().required(),
   location: Joi.string().required(),
+  maxPeople: Joi.number().required(),
   userid: Joi.string().required(),
   packageid: Joi.string().required(),
   created_date: Joi.date().required(),

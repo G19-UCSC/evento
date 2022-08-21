@@ -13,7 +13,7 @@ const RegisteredUser = db.define(
       allowNull: false,
     },
     password: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(),
       allowNull: false,
     },
     contact: {

@@ -9,6 +9,10 @@ const Event = db.define(
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
     },
+    title: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
     start_date: {
       type: DataTypes.DATE(),
       allowNull: false,
@@ -19,6 +23,10 @@ const Event = db.define(
     },
     location: {
       type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+    maxPeople: {
+      type: DataTypes.INTEGER(3),
       allowNull: false,
     },
     userid: {

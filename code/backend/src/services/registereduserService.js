@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const User = require("../models/registereduser");
 
 const getAllUsers = async()=>{
@@ -15,10 +16,12 @@ const getUser = async(attributes)=>{
 };
 
 const setUser = async(attributes)=>{
+    const salt = await bcrypt.genSalt(10)
+    const hpassword = await bcrypt.hash(attributes.password,salt)
     const user = await User.create({
         userid: attributes.userid,
         username: attributes.username,
-        password: attributes.password,
+        password: hpassword,
         contact: attributes.contact,
         address: attributes.address,
         role: attributes.role,

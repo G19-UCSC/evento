@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 
 import Link from 'next/link';
-import { FaMeetup, FaUserAlt, FaTachometerAlt, FaCogs, FaCashRegister, FaDollarSign, FaCalendar, FaHatCowboy } from 'react-icons/fa';
+import { FaMeetup, FaUserAlt, FaTachometerAlt, FaCogs, FaCashRegister, FaDollarSign, FaCalendar, FaHatCowboy, FaBoxes } from 'react-icons/fa';
 
 export default function sidebar(props) {
     const newLocal = "navbar-nav bg-gradient-primary sidebar sidebar-dark accordion h-100";
@@ -74,6 +74,18 @@ export default function sidebar(props) {
             <a className="nav-link">
                 <FaDollarSign />
                 <span className='m-1'> Cashflow </span>
+            </a>
+            </Link>
+        </li>
+
+        {/* Divider */}
+        <hr className="sidebar-divider" />
+
+        <li className="nav-item ml-2" id='packages' >
+            <Link href="/admin/packages">
+            <a className="nav-link">
+                <FaBoxes />
+                <span className='m-1'> Packages </span>
             </a>
             </Link>
         </li>
