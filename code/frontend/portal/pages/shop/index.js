@@ -1,14 +1,14 @@
 
-import Footer from "../components/home/footer"
-import Header from "../components/home/header"
+import Footer from "../../components/home/footer"
+import Header from "../../components/home/header"
 
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { filterByCategory, filterByPrice } from '../utils/product';
-import { CartContext, CartDispatchContext } from '../context/productContext';
-import axios from '../utils/axios'
+import { filterByCategory, filterByPrice } from '../../utils/product';
+import { CartContext, CartDispatchContext } from '../../context/productContext';
+import axios from '../../utils/axios'
 import React, { useContext, useState,useEffect } from 'react'
 
 export default function Shop() {
@@ -99,7 +99,7 @@ const handleClick = (item) => {
                   </div>
                   <div class="d-flex justify-content-between mb-2" style={{ marginTop: "20px"}}>
                     <button type="button" class="w-100 btn btn-outline-dark" onClick={() => handleClick(item)}>Add to cart</button>
-                    <Link href=" "><button type="button" class="w-100 btn btn-dark">View Product</button></Link>
+                    <Link href=" "><button type="button" class="w-100 btn btn-dark" onClick={() => router.push(`/shop/${item._id}`)}>View Product</button></Link>
                   </div>
                 </div>
               </div>
