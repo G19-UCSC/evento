@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 
 import Link from 'next/link';
-import { FaMeetup, FaUserAlt, FaTachometerAlt, FaCogs, FaCashRegister, FaDollarSign, FaCalendar, FaHatCowboy, FaBoxes } from 'react-icons/fa';
+import { FaMeetup, FaUserAlt, FaTachometerAlt, FaCogs, FaCashRegister, FaDollarSign, FaCalendar, FaHatCowboy, FaBoxes, FaShopware, FaShoppingBag } from 'react-icons/fa';
 
 export default function sidebar(props) {
     const newLocal = "navbar-nav bg-gradient-primary sidebar sidebar-dark accordion h-100";
@@ -69,11 +69,11 @@ export default function sidebar(props) {
         {/* Divider */}
         <hr className="sidebar-divider" />
 
-        <li className="nav-item ml-2" id='cashflow' >
-            <Link href="/admin/cashflow">
+        <li className="nav-item ml-2" id='products' >
+            <Link href="/admin/products">
             <a className="nav-link">
-                <FaDollarSign />
-                <span className='m-1'> Cashflow </span>
+                <FaShoppingBag />
+                <span className='m-1'> Products and Services </span>
             </a>
             </Link>
         </li>
@@ -111,20 +111,13 @@ export default function sidebar(props) {
         </div> */}
 
         {/* Nav Item - Pages Collapse Menu */}
-        <li className="nav-item" id='event'>
+        {/* <li className="nav-item" id='event'>
             <Link href="/event">
             <a className="nav-link" href="#">
                 <span>Events</span>
             </a>
             </Link>
-            {/* <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div className="bg-white py-2 collapse-inner rounded">
-                    <h6 className="collapse-header">Custom Components:</h6>
-                    <a className="collapse-item" href="buttons.html">Buttons</a>
-                    <a className="collapse-item" href="cards.html">Cards</a>
-                </div>
-            </div> */}
-        </li>
+        </li> */}
 
         </ul>
         {/* End of Sidebar */} 

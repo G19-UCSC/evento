@@ -35,16 +35,7 @@ export default function settings() {
 
     const onClickCreate = () => {
         setBtn('create');
-        document.getElementById("detailsCard").classList.toggle("col-lg-6");
-
-        function table () {
-            $(function() {
-                $('#productTable').DataTable({
-                    ordering:true,
-                    responsive: true,
-                });
-            });
-        }    
+        document.getElementById("detailsCard").classList.toggle("col-lg-6");   
 
         const getService = () => {
             return axios.get("/service");
@@ -148,6 +139,9 @@ export default function settings() {
                                         <div className="packageView mt-4">
                                             <div className="table">
                                                 <table className="table table-hover p-2 mt-2" id='packageTable'>
+                                                    <thead>
+                                                        <th>Name</th>
+                                                    </thead>
                                                     <tbody>
                                                         {console.log(packages)}
                                                         {packages.map((p,i)=>{
