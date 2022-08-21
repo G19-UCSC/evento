@@ -9,10 +9,22 @@ const Payment = db.define(
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
     },
-    amount: {
+    userid: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    total: {
       type: DataTypes.FLOAT(3),
       allowNull: false,
     },
+    providerPayStatus: {
+      type: DataTypes.ENUM('Pending', 'Paid'),
+      allowNull: false,
+    },
+    providerPayDate: {
+      type: DataTypes.DATE(),
+      allowNull: true,
+    }
     
     
   }
@@ -21,7 +33,7 @@ const Payment = db.define(
   }
 );
 
-Payment.sync()
+Payment.sync({force:true})
 
 // Product.sync().then((res) => {
 //   Product.create({ 

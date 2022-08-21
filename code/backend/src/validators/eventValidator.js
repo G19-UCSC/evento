@@ -24,9 +24,11 @@ const getEvent = async (req) => {
 const setEvent = async (req) => {
 
     const attributes = {
+        title: req.body.title,
         start_date: req.body.start_date,
         end_date: req.body.end_date,
         location: req.body.location,
+        maxPeople: req.body.maxPeople,
         userid: req.body.userid,
         packageid: req.body.packageid,
         created_date: req.body.created_date,
@@ -47,9 +49,12 @@ const setEvent = async (req) => {
 const updateEvent = async (req) => {
 
     const attributes = {
+        id: req.params.id,
+        title: req.body.title,
         start_date: req.body.start_date,
         end_date: req.body.end_date,
         location: req.body.location,
+        maxPeople: req.body.maxPeople,
         userid: req.body.userid,
         packageid: req.body.packageid,
         created_date: req.body.created_date,

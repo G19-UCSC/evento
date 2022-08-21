@@ -24,9 +24,11 @@ const setEvent = async (attributes) => {
 
   // create one event
   const event = await Event.create({
+    title: attributes.title,
     start_date: attributes.start_date,
     end_date: attributes.end_date,
     location: attributes.location,
+    maxPeople: attributes.maxPeople,
     userid: attributes.userid,
     packageid: attributes.packageid,
     created_date: attributes.created_date,
@@ -57,9 +59,11 @@ const updateEvent = async (attributes) => {
 
   // update one event
   const event = await Event.update({
+    title: attributes.title,
     start_date: attributes.start_date,
     end_date: attributes.end_date,
     location: attributes.location,
+    maxPeople: attributes.maxPeople,
     userid: attributes.userid,
     packageid: attributes.packageid,
     created_date: attributes.created_date,
