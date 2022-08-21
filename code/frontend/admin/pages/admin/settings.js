@@ -54,6 +54,9 @@ export default function settings() {
                     <div id="content">
                         <Header />
                         <div className="container-fluid">
+                            <div className="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 className="h3 mb-0 text-gray-800">Settings</h1>
+                            </div>
                             <div className="row">
                             <div className='mb-4' id="detailsCard">
                                 <div className='card shadow md-4'>
