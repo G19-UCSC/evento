@@ -36,7 +36,8 @@
     "react-datepicker": "^4.8.0",
     "react-dom": "17.0.0",
     "react-hook-form": "^7.33.1",
-    "react-icons": "^4.4.0"
+    "react-icons": "^4.4.0",
+    "sweetalert2": "^11.4.29"
   },
   "devDependencies": {
     "eslint": "8.19.0",
