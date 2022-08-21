@@ -110,14 +110,17 @@ export default function settings() {
 
     useEffect(()=>{
 
-        axios.get(`/package`).then((res)=>{
-            console.log(res.data.packages);
-            setPackages(res.data.packages);
+        const getPackages = () => {
+            return axios.get("/package");
+        }
 
+        Promise.all([getPackages()]).then((res) => {
+            let p = res[0].data.packages;
+            console.log(p);
+            setPackages(p);
         }).catch((error) => {
             console.log(error)
         })
-
         
     },[])
 
@@ -129,6 +132,9 @@ export default function settings() {
                     <div id="content">
                         <Header />
                         <div className="container-fluid">
+                            <div className="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 className="h3 mb-0 text-gray-800">Packages</h1>
+                            </div>
                             <div className="row">
                             <div className='mb-4' id="detailsCard">
                                 <div className='card shadow md-4'>
@@ -142,20 +148,22 @@ export default function settings() {
                                         <div className="packageView mt-4">
                                             <div className="table">
                                                 <table className="table table-hover p-2 mt-2" id='packageTable'>
-                                                    {/* <tbody> */}
-                                                        {(packages.map((p)=>{
-                                                            <tr id={p._id} key={p._id}>
+                                                    <tbody>
+                                                        {console.log(packages)}
+                                                        {packages.map((p,i)=>{
+                                                            <tr key={i}>
                                                                 <td>{p.name}</td>
                                                                 <td>{p.category}</td>
                                                                 <td>{p.price}</td>
-                                                                <td>
-                                                                    <button className='btn' onClick={(e) => { onClickUpdate(p._id) }}>
+                                                                {/* <td>
+                                                                    <button className='btn' onClick={(e) => {onClickUpdate(p._id) }}>
                                                                         <FaEdit />
                                                                     </button>
-                                                                </td>
+                                                                </td> */}
                                                             </tr>
-                                                        }))}
-                                                    {/* </tbody> */}
+                                                        })}
+                                                        {(packages.length == 0) && (<>No packages available</>)}
+                                                    </tbody>
                                                 </table>                                                
                                             </div>
                                         </div>
@@ -191,7 +199,7 @@ export default function settings() {
                                                                         <td>{a.price}</td>
                                                                         <td>{a.category}</td>
                                                                         {/* <td>
-                                                                            <button className='btn' onClick={(e) => { onClickUpdate(a.userid) }}>
+                                                                            <button className='btn' onClick={(e) => { onClickUpdate(a._id) }}>
                                                                                 <FaEdit />
                                                                             </button>
                                                                         </td> */}
