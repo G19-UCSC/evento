@@ -16,17 +16,35 @@ export default function settings() {
     const [packages,setPackages] = useState([]);
     const [btn, setBtn] = useState('');
     const [packupdate, setPackupdate] = useState('');
-    const [userid, setUserid] = useState('admin1');
+    const [userid, setUserid] = useState('"88e1b9a3-520f-433a-b0f4-224a9090b062');
     const [products,setProducts] = useState([]);
     const [services,setServices] = useState([]);
     const { register, handleSubmit, watch, control,reset, setValue, formState: { errors } } = useForm();
 
-    const columns = [
+    const columns1 = [
         {
-            text: "Product Name"
+            text: "Package Name"
         },
         {
-            text: "Provider"
+            text: "Description"
+        },
+        {
+            text: "Category"
+        },
+        {
+            text: "Price"
+        }
+    ]
+
+    const columns2 = [
+        {
+            text: "Name"
+        },
+        {
+            text: "Type"
+        },
+        {
+            text: "Category"
         },
         {
             text: "Price"
@@ -69,11 +87,6 @@ export default function settings() {
     const onClickCancel = () => {
         setBtn('');
         document.getElementById("detailsCard").classList.toggle("col-lg-6");
-    }
-
-    const closeCreatePackage = () => {
-        setBtn('');
-        document.getElementById("detailsCard").classList.toggle("col-lg-6");
         reset({
             name: '',
             description: '',
@@ -87,14 +100,14 @@ export default function settings() {
 
             axios.post(`/package`, formData).then((res)=>{
                 const newPackage = res.data.system.res[1];
-                // setPackages([newPackage],...packages);
+                setPackages([newPackage],...packages);
                 alert('Package created successfully');
                 console.log(packages);
             }).catch((error) => {
                 console.log(error)
             })
 
-            closeCreatePackage();
+            onClickCancel();
     
         }
     }
@@ -106,9 +119,9 @@ export default function settings() {
         }
 
         Promise.all([getPackages()]).then((res) => {
-            let p = res[0].data.packages;
-            console.log(p);
-            setPackages(p);
+            let packages = res[0].data.packages;
+            console.log(packages);
+            setPackages(packages);
         }).catch((error) => {
             console.log(error)
         })
@@ -131,31 +144,36 @@ export default function settings() {
                                 <div className='card shadow md-4'>
                                     <div className='card-header py-3 d-flex flex-row align-items-center justify-content-between'>
                                          Package Details 
-                                         <button className="btn" onClick={e => onClickCreate()} id="createBtn">
+                                         <button className="btn" onClick={(e) => onClickCreate()} id="createBtn">
                                                     <FaPlusCircle /> Create Package
                                         </button>
                                     </div>
                                     <div className='card-body'>
-                                        <div className="packageView mt-4">
+                                        <div className="packageView">
                                             <div className="table">
                                                 <table className="table table-hover p-2 mt-2" id='packageTable'>
                                                     <thead>
-                                                        <th>Name</th>
+                                                        <tr>
+                                                            {columns1.map((c) => (
+                                                                <th key={c.text} >{c.text}</th>
+                                                            ))}
+                                                        </tr>
                                                     </thead>
                                                     <tbody>
                                                         {console.log(packages)}
-                                                        {packages.map((p,i)=>{
-                                                            <tr key={i}>
-                                                                <td>{p.name}</td>
-                                                                <td>{p.category}</td>
-                                                                <td>{p.price}</td>
+                                                        {packages.map((p)=>(
+                                                            <tr key={p._id}>
+                                                                <td> {p.name} </td>
+                                                                <td> {p.description} </td>
+                                                                <td> {p.category} </td>
+                                                                <td> {p.price} </td>
                                                                 {/* <td>
                                                                     <button className='btn' onClick={(e) => {onClickUpdate(p._id) }}>
                                                                         <FaEdit />
                                                                     </button>
                                                                 </td> */}
                                                             </tr>
-                                                        })}
+                                                        ))}
                                                         {(packages.length == 0) && (<>No packages available</>)}
                                                     </tbody>
                                                 </table>                                                
@@ -181,7 +199,7 @@ export default function settings() {
                                                         <table className='table' id='productTable'>
                                                             <thead>
                                                                 <tr>
-                                                                    {columns.map((c) => (
+                                                                    {columns2.map((c) => (
                                                                         <th key={c.text} >{c.text}</th>
                                                                     ))}
                                                                 </tr>
@@ -190,8 +208,9 @@ export default function settings() {
                                                                 {products.map((a,i) => (
                                                                     <tr id={a._id} key={i}>
                                                                         <td>{a.name}</td>
-                                                                        <td>{a.price}</td>
+                                                                        <td>Product</td>
                                                                         <td>{a.category}</td>
+                                                                        <td>Rs. {a.price}</td>
                                                                         {/* <td>
                                                                             <button className='btn' onClick={(e) => { onClickUpdate(a._id) }}>
                                                                                 <FaEdit />
@@ -202,13 +221,9 @@ export default function settings() {
                                                                 {services.map((a,i) => (
                                                                     <tr id={a._id} key={i}>
                                                                         <td>{a.name}</td>
-                                                                        <td>{a.price}</td>
+                                                                        <td>Service</td>
                                                                         <td>{a.category}</td>
-                                                                        <td>
-                                                                            <button className='btn' onClick={(e) => { onClickUpdate(a.userid) }}>
-                                                                                <FaEdit />
-                                                                            </button>
-                                                                        </td>
+                                                                        <td>Rs. {a.price}</td>
                                                                     </tr>
                                                                 ))}
                                                             </tbody>

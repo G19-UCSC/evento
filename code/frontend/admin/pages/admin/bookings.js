@@ -3,6 +3,9 @@ import Header from  "../../components/admin/header";
 import Sidebar from "../../components/admin/sidebar";
 import Footer from "../../components/admin/footer";
 import { useEffect, useState } from "react";
+import axios from "../../utils/axios";
+
+import { FaEdit, FaUserPlus, FaWindowClose } from 'react-icons/fa';
 
 export default function bookings() {
 
@@ -22,11 +25,40 @@ export default function bookings() {
             text: 'Booked Date'
         },
         {
+            text: 'Status'
+        },
+        {
             text: 'Progress'
         }
     ]
 
-    useEffect
+    useEffect(()=>{
+
+        const getEvents = () => {
+            return axios.get("/event");
+        }
+
+        const getUsers = () => {
+            return axios.get("/user");
+        }
+
+        Promise.all([getEvents(), getUsers()]).then((res) => {
+            let events = res[0].data.events;
+            let users = res[1].data.users;
+            events.forEach(e => {
+                users.forEach(u => {
+                    if(e.userid == u._userid){
+                        e.userName = u.firstname + " " + u.lastname;
+                    }
+                })
+            });
+            console.log(events);
+            setEvents(events);
+        }).catch((error) => {
+            console.log(error)
+        })
+        
+    },[])
 
     return(
         <>
@@ -42,7 +74,7 @@ export default function bookings() {
                             <div className='row'>
                                 <div className='mb-4' id="bookingsTableCard">
                                     <div className='card shadow md-4'>
-                                        <div className='card-header'>User Accounts</div>
+                                        <div className='card-header'>Event Bookings</div>
                                         <div className='card-body'>
                                             <div className='table-responsive'>
                                                 <table className='table' id="bookingsTable">
@@ -54,7 +86,7 @@ export default function bookings() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {events.map((a) => (
+                                                    {events.map((a) => (
                                                             <tr id={a._id} key={a._id}>
                                                                 <td>{a.title}</td>
                                                                 <td>{a.userName}</td>
@@ -105,14 +137,14 @@ export default function bookings() {
                                                                         </div>
                                                                         </>
                                                                     )}
-
                                                                 </td>
                                                                 <td>
-                                                                    <button className='btn' onClick={(e) => { onClickUpdate(a.userid) }}>
+                                                                    <button className='btn' onClick={(e) => { onClickUpdate(a._id) }}>
                                                                         <FaEdit />
                                                                     </button>
                                                                 </td>
                                                             </tr>
+                                                        ))}
                                                     </tbody>
                                                 </table>
                                             </div>

@@ -1,69 +1,67 @@
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { useSession, signIn, signOut } from 'next-auth/react'
-import { BsGithub, BsTwitter, BsGoogle } from 'react-icons/bs'
+// const dotenv = require('dotenv').config()
+// Form
+import { Controller,useForm } from "react-hook-form";
+import axios from '../utils/axios'
 
+import Swal from 'sweetalert2'
 
-const providers = [
-  {
-    name: 'github',
-    Icon: BsGithub, 
-    color:'dark'
-  },
-  {
-    name: 'linkedIn',
-    Icon: BsTwitter,
-    color:'primary'
-  },
-  {
-    name: 'google',
-    Icon: BsGoogle,
-    color:'danger'
-  },
-  {
-    name: 'Credentials',
-    Icon: BsGoogle,
-    color:'info'
-  },
-]
-
-const Signin = () => {
-  const { data: session, status } = useSession()
+const Basic = () => {
+  
+  const [user, setUser] = useState(null);
   const { push } = useRouter()
-  const [email, setEmail] = useState('')
 
-  if (status === 'loading') return <h1>Checking Authentication...</h1>
+  const { register, handleSubmit, watch, control,reset, setValue, formState: { errors } } = useForm();
+  // setOtpVal(generateOtp())
 
-  if (session) {
-    setTimeout(() => {
+  useEffect(() => {
+    const user_ = JSON.parse(localStorage.getItem('user'))
+    if (user_) {
+      setUser(user_)
       push('/')
-    }, 1000)
+    }
+}, [])
 
-    return <h1>you are already signed in</h1>
-  }
+const onSubmit = (formData) => {
+    console.log(formData)
+  axios.post("/ruser/login",formData).then((res)=>{
+    Swal.fire({
+        icon:'success',
+        title: `Welcome ${res.data[0].username}`,
+        iconColor: "green",
+        confirmButtonColor: "green",
+      });
+      localStorage.setItem('user',JSON.stringify(res.data[0]))
+      push('/checkout')
+    // push({pathname:'/signup/otp', query:{otp:'hello',firstname:formData.firstname, lastname:formData.lastname,email:formData.email}},'/signup/otp')
+    // push({pathname:'/signup/creds', query:{userid:res.data.user._userid}},'/signup/creds')
+    console.log(res.data[0].userid)
+  }).catch((error) => {
+      console.log(error)
+      Swal.fire({
+        icon:'error',
+        title: `Username or Password is incorrect`,
+        iconColor: "red",
+        confirmButtonColor: "red",
+      });
+  })
+}
 
-  const handleOAuthSignIn = (provider) => () => signIn(provider)
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    if (!email) return false
-
-    signIn('email', { email, redirect: false })
-  }
   return (
-    <div style={{ backgroundImage: `url(${"images/login.jpg"})`,backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}>
-    <div className="Auth-form-container">
-    <form className="Auth-form">
+    <div>
+<div className="Auth-form-container">
+    <form className="Auth-form" onSubmit={handleSubmit(onSubmit)}>
       <div className="Auth-form-content">
         <h3 className="Auth-form-title">Sign In</h3>
         <div className="form-group mt-3">
-          <label>Email address</label>
+          <label>Username</label>
           <input
-            type="email"
+            type="text"
             className="form-control mt-1"
-            placeholder="Enter email"
+            placeholder="Enter username"
+            {...register("username", { required: true })}
           />
         </div>
         <div className="form-group mt-3">
@@ -72,22 +70,13 @@ const Signin = () => {
             type="password"
             className="form-control mt-1"
             placeholder="Enter password"
+            {...register("password", { required: true })}
           />
         </div>
-        <div className="d-grid gap-2 mt-3">
-          <button type="submit" className="btn btn-success">
+        <div className="d-grid gap-2 mt-4">
+          <button type="submit" className="btn btn-dark">
             Submit
           </button>
-        </div>
-        {/* <p className="forgot-password text-right mt-2">
-          Forgot <a href="#">password?</a>
-        </p>
-        <hr /> */}
-        <div className='d-grid gap-2 mt-3'>
-          {providers.map(({ name, Icon, color }) => (
-           <button type="button" className={`btn btn-${color}`} key={name} leftIcon={<Icon />} onClick={handleOAuthSignIn(name)}>Sign in with {name}</button>
-          ))}
-          
         </div>
       </div>
     </form>
@@ -95,4 +84,4 @@ const Signin = () => {
   </div>
   )
 }
-export default Signin
+export default Basic
