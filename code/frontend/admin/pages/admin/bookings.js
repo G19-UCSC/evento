@@ -3,6 +3,8 @@ import Header from  "../../components/admin/header";
 import Sidebar from "../../components/admin/sidebar";
 import Footer from "../../components/admin/footer";
 import { useEffect, useState } from "react";
+import axios from "../../utils/axios";
+import { FaEdit } from "react-icons/fa";
 
 export default function bookings() {
 
@@ -22,11 +24,44 @@ export default function bookings() {
             text: 'Location'
         },
         {
+            text: 'Status'
+        },
+        {
             text: 'Progress'
+        },
+        {
+            text: 'Action'
         }
     ]
 
-    useEffect
+    useEffect(()=>{
+
+        const getEvents = () => {
+            return axios.get("/event");
+        }
+
+        const getUsers = () => {
+            return axios.get("/user");
+        }
+
+        Promise.all([getEvents(),getUsers()]).then((res) => {
+            let events = res[0].data.events;
+            let users = res[1].data.users;
+            events.forEach(e=>{
+                users.forEach(u =>{
+                    if(e.userid == u._userid){
+                        e.userName = u.firstname + " " + u.lastname;
+                    }
+                })
+            });
+            console.log(events);
+            console.log(users);
+            setEvents(events);
+        }).catch((error) => {
+            console.log(error)
+        })
+        
+    },[])
 
     return(
         <>
@@ -42,7 +77,7 @@ export default function bookings() {
                             <div className='row'>
                                 <div className='mb-4' id="accountsTableCard">
                                     <div className='card shadow md-4'>
-                                        <div className='card-header'>User Accounts</div>
+                                        <div className='card-header'>Event Bookings</div>
                                         <div className='card-body'>
                                             <div className='table-responsive'>
                                                 <table className='table' id="accountsTable">
@@ -54,19 +89,21 @@ export default function bookings() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {/* {accounts.map((a) => (
-                                                            <tr id={a.userid} key={a.userid}>
-                                                                <td>{a.firstname + " " + a.lastname}</td>
-                                                                <td>{a.username}</td>
-                                                                <td>{a.email}</td>
+                                                        {events.map((a) => (
+                                                            <tr id={a._id} key={a._id}>
+                                                                <td>{a.title}</td>
+                                                                <td>{a.userName}</td>
+                                                                <td>{(a.start_date).split('T')[0] + " to " + (a.end_date).split('T')[0]}</td>
+                                                                <td>{a.location}</td>
                                                                 <td>{a.status}</td>
+                                                                <td></td>
                                                                 <td>
                                                                     <button className='btn' onClick={(e) => { onClickUpdate(a.userid) }}>
                                                                         <FaEdit />
                                                                     </button>
                                                                 </td>
                                                             </tr>
-                                                        ))} */}
+                                                        ))}
                                                     </tbody>
                                                 </table>
                                             </div>
