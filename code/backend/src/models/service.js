@@ -51,24 +51,24 @@ const Service = db.define(
   }
 );
 
-// Service.sync()
+Service.sync()
 
-Service.sync().then((res) => {
-  Service.create({ 
-    name: "Wedding hall", 
-    description: "Wedding hall",
-    price : 40000,
-    category: "decor",
-    comission : 5000,
-    discount: 0,
-    image_path:"https://i.ytimg.com/vi/PDxvTCFutc8/maxresdefault.jpg",
-    timeSlots:['2022-10-10', '2022-11-10'],
-    userid:"87adfe52-d2b8-42cd-91ff-6c764e97e717"
+// Service.sync().then((res) => {
+//   Service.create({ 
+//     name: "Wedding hall", 
+//     description: "Wedding hall",
+//     price : 40000,
+//     category: "decor",
+//     comission : 5000,
+//     discount: 0,
+//     image_path:"https://i.ytimg.com/vi/PDxvTCFutc8/maxresdefault.jpg",
+//     timeSlots:['2022-10-10', '2022-11-10'],
+//     userid:"87adfe52-d2b8-42cd-91ff-6c764e97e717"
 
-  }).then((res) => {
-    console.log(`Insert successful: ${res._id}`);
-  });
-});
+//   }).then((res) => {
+//     console.log(`Insert successful: ${res._id}`);
+//   });
+// });
 
 
 module.exports= Service;
