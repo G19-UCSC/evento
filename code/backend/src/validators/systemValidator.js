@@ -37,11 +37,12 @@ const setSystem = async (req) => {
 const updateSystem = async (req) => {
 
     const attributes = {
+        id: req.body.id,
         location: req.body.location,
         contact_no: req.body.contact_no,
         penalty_rate: req.body.penalty_rate,
         service_rate: req.body.service_rate,
-        advance_rate: req.body.category,
+        advance_rate: req.body.advance_rate,
     }
 
     return validate(updateSystemSchema(), attributes);
