@@ -47,7 +47,7 @@ const updateSystem = async (attributes) => {
     contact_no: attributes.contact_no,
     penalty_rate: attributes.penalty_rate,
     service_rate: attributes.service_rate,
-    advance_rate: attributes.category,
+    advance_rate: attributes.advance_rate,
   }, {
     where: { _id: attributes.id },
     returning: true,

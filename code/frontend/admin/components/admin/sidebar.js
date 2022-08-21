@@ -81,6 +81,18 @@ export default function sidebar(props) {
         {/* Divider */}
         <hr className="sidebar-divider" />
 
+        <li className="nav-item ml-2" id='packages' >
+            <Link href="/admin/packages">
+            <a className="nav-link">
+                <FaCogs />
+                <span className='m-1'> Packages </span>
+            </a>
+            </Link>
+        </li>
+
+        {/* Divider */}
+        <hr className="sidebar-divider" />
+
         <li className="nav-item ml-2" id='settings' >
             <Link href="/admin/settings">
             <a className="nav-link">
