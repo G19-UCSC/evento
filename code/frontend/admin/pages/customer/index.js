@@ -6,10 +6,10 @@ import Sidebar from "../../components/customer/sidebar";
 import Footer from "../../components/customer/footer";
 import { FaAngleUp, FaCalendar, FaDownload, FaEllipsisH } from 'react-icons/fa';
 
-import Cards from '../../components/admin/cards';
-import Linechart from '../../components/admin/linechart';
-import Piechart from '../../components/admin/piechart';
-import Dropdown from '../../components/dropdown';
+import Cards from '../../components/customer/cards';
+import Linechart from '../../components/customer/linechart';
+// import Piechart from '../../components/customer/piechart';
+// import Dropdown from '../../components/dropdown';
 import axios from '../../utils/axios';
 var $ = require('jquery');
 
@@ -64,10 +64,10 @@ const dashboard = () => {
     const findElementByStatus = (arr, status) => arr.filter(element => element.status == status);
 
     const cardtitles = [
-        { one: "TOTAL BOOKINGS" },
+        { one: "TOTAL BOOKINGS FOR THE MONTH" },
         { two: "PENDING BOOKINGS" },
-        { three: "TOTAL INCOME" },
-        { four: "TOTAL PAYABLE" }
+        { three: "UPCOMMING EVENTS" },
+        { four: "PENDING PRODUCTS AND SERVICES" }
     ]
 
     useEffect(() => {
@@ -152,30 +152,78 @@ const dashboard = () => {
 
                                 {/* Pie Chart */}
                                 <div className="col-xl-4 col-lg-5">
-                                    <Piechart
-                                        cardTitle="Event Bookings" names={["Booked Events", "Pending Events", "Approved Events", "Cancelled Events"]}
-                                        series={[totalevents, pendingevents, approvedevents, cancelledevents]}
-                                    />
+                                    <div className="card shadow mb-4">
+                                        {/* Card Header - Dropdown */}
+                                        <div
+                                            className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                            <h6 className="m-0 font-weight-bold text-primary">Upcomming Events</h6>
+                                            <div className="dropdown no-arrow">
+                                                {/* <a href="#" id="dropdownMenuLink" role="button" title='Popover Header' onClick={e => { setToggleBtn(); }}
+                            data-toggle="popover" data-content='Some content'>
+                            <FaEllipsisH />
+                        </a>
+                        <Dropdown.Button onClick={handleButtonClick} overlay={menu} trigger="hover" autoFocus={true} 
+                        destroyPopupOnHide={true} placement="bottomRight" >
+                            <FaEllipsisH />
+                        </Dropdown.Button> */}
+                                            </div>
+                                        </div>
+                                        {/* Card Body */}
+                                        <div className="card-body">
+                                            <div className="chart-pie pt-2 pb-2 ">
+                                                <div className="col-xl-12 col-md-12 mb-2">
+                                                    <div className="card border-left-info shadow h-100 py-2">
+                                                        <div className="card-body">
+                                                            <div className="row no-gutters align-items-center">
+                                                                <div className="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                                    Family Gathering</div>
+                                                                <div className="h6 mb-0 ml-4 font-weight-light text-gray-800">On 25/08/2022</div>
+                                                                <div className="h6 mb-0 ml-4 font-weight-light text-gray-800">Pending Payments</div>
+                                                                {/* <div className="col-auto mr-4">
+                                                                    <FaArrowRight color="grey" fontSize={"30px"} />
+                                                                </div> */}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-xl-12 col-md-12 ">
+                                                    <div className="card border-left-info shadow h-100 py-2">
+                                                        <div className="card-body">
+                                                            <div className="row no-gutters align-items-center">
+                                                                <div className="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                                    Birthday Party</div>
+                                                                <div className="h6 mb-0 ml-4 font-weight-light text-gray-800">On 31/08/2022</div>
+                                                                <div className="h6 mb-0 ml-4 font-weight-light text-gray-800">Pending Payments</div>
+                                                                {/* <div className="col-auto mr-4">
+                                                                    <FaArrowRight color="grey" fontSize={"30px"} />
+                                                                </div> */}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Content Row */}
-                            <div className="row">
+                            {/* <div className="row">
                                 <div className="col-xl-8 col-lg-7">
                                     <Linechart
                                         cardTitle="Cashflow vs Time" xData={months} name1="Income" name2="Payments"
                                         series1={events} series2={cancels}
                                     />
-                                </div>
+                                </div> */}
 
-                                {/* Pie Chart */}
-                                <div className="col-xl-4 col-lg-5">
+                            {/* Pie Chart */}
+                            {/* <div className="col-xl-4 col-lg-5">
                                     <Piechart
                                         cardTitle="All Income" names={["Income", "Payments"]}
                                         series={[totalevents, pendingevents]}
                                     />
                                 </div>
-                            </div>
+                            </div> */}
 
                             {/* Content Row */}
                             {/* <div className="row">

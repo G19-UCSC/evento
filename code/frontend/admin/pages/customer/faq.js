@@ -47,11 +47,11 @@ export default function account() {
         submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Update Account </button>
     }
 
-    const findElementById = (arr, id) => arr.filter(element => element.id == id);
-    const removeElementById = (arr, id) => arr.filter(element => element.id !== id);
+    const findElementById = (id) => filter(element => element.id == id);
+    const removeElementById = (id) => filter(element => element.id !== id);
 
     const setForm = (id) => {
-        const faqs = findElementById(faqs, id)[0];
+        const faqs = findElementById(faqs, id);
         console.log(faqs);
         setValue('question', faqs.question);
         // setValue('answer', faqs.answer);
@@ -86,7 +86,7 @@ export default function account() {
     const onSubmit = (formData) => {
 
         if (btn == 'update' && update != '') {
-            let u = findElementById(faqs, update)[0];
+            let u = findElementById(faqs, update);
             formData.id = update
             formData.question = u.question
             // formData.answer = u.answer
@@ -94,8 +94,8 @@ export default function account() {
 
             console.log(formData)
             axios.put(`/ruser/${update}`, formData).then((res) => {
-                const newAccount = res.data.user.res[1]
-                setfaqs([formData].concat(removeElementById(faqs, newAccount._userid)))
+                const newAccount = res.data.faq
+                setfaqs([formData].concat(removeElementById(faqs, newAccount._id)))
             }).catch((error) => {
                 console.log(error)
             })
