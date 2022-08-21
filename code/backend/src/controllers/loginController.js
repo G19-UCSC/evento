@@ -1,17 +1,21 @@
+const bcrypt = require('bcryptjs');
 const asyncHandler = require("express-async-handler");
 const RegisteredUser = require("../models/registereduser");
 
 const loginController = asyncHandler(async (req, res, params) => {
   try {
+
     
-    const data = await RegisteredUser.findAll({where:{username: req.body.username, password: req.body.password}});
+    const user = await RegisteredUser.findAll({where:{username: req.body.username}});
 
-    if (!data){
-        res.status(404);
-        throw new Error("User not found");
+    if(user && (await bcrypt.compare(req.body.password,user[0].dataValues.password))){
+
+      res.status(200).json(user)
+
+    }else{
+      res.status(404);
+      throw new Error("User not found");
     }
-
-    res.status(200).json(data)
     
   } catch (err) {
 
