@@ -2,10 +2,11 @@ import React from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import { BsFillCartFill, BsHeart, BsPersonFill } from "react-icons/bs";
 import { useRouter } from 'next/router'
-import { signOut } from 'next-auth/react'
+import { useSession, signIn,signOut } from 'next-auth/react'
 
 export default function header() {
   const { push} = useRouter()
+  const { data: session, status } = useSession()
 
   const handleSignOut = async () => {
     const data = await signOut({ redirect: false, callback: '/' })
@@ -35,10 +36,14 @@ export default function header() {
                 <ul class="site-menu js-clone-nav d-none d-md-block">
                   <li class="has-children"><span class="icon icon-person"><BsPersonFill /></span>
                     <ul class="dropdown">
+                    {session ? ( <li><a href="/signin" onClick={handleSignOut}>Sign Out</a></li> ):(
+                    <>
                       <li><a href="/signin">Sign In</a></li>
-                      <li><a href="/signup">Sign Up</a></li>
-                      <li><a href="/signin" onClick={handleSignOut}>Sign Out</a></li>
+                      <li><a href="/api/verify/signin">Sign Up</a></li>
+                    </>
+                    )}
                     </ul>
+              
 
                   
                   </li>
