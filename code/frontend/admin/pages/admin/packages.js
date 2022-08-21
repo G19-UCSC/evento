@@ -35,16 +35,7 @@ export default function settings() {
 
     const onClickCreate = () => {
         setBtn('create');
-        document.getElementById("detailsCard").classList.toggle("col-lg-6");
-
-        function table () {
-            $(function() {
-                $('#productTable').DataTable({
-                    ordering:true,
-                    responsive: true,
-                });
-            });
-        }    
+        document.getElementById("detailsCard").classList.toggle("col-lg-6");   
 
         const getService = () => {
             return axios.get("/service");
@@ -148,21 +139,11 @@ export default function settings() {
                                         <div className="mt-4" id='packageView '>
                                             <div className="table">
                                                 <table className="table table-hover p-2 mt-2" id='packageTable'>
+                                                    <thead>
+                                                        <th>Name</th>
+                                                    </thead>
                                                     <tbody>
-                                                        {console.log(packs)}
-                                                        {packs.map((p)=>{
-                                                            <tr key={p._id}>
-                                                                <td>{p.name}</td>
-                                                                <td>{p.category}</td>
-                                                                <td>{p.price}</td>
-                                                                {/* <td>
-                                                                    <button className='btn' onClick={(e) => {onClickUpdate(p._id) }}>
-                                                                        <FaEdit />
-                                                                    </button>
-                                                                </td> */}
-                                                            </tr>
-                                                        })}
-                                                        {(packs.length == 0) && (<>No packages available</>)}
+                                                        <tr>Package Name</tr>
                                                     </tbody>
                                                 </table>                                                
                                             </div>

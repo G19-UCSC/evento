@@ -18,13 +18,13 @@ export default function bookings() {
             text: 'Customer',
         },
         {
-            text: 'Date'
+            text: 'Event Date'
+        },
+        {
+            text: 'Booked Date'
         },
         {
             text: 'Location'
-        },
-        {
-            text: 'Status'
         },
         {
             text: 'Progress'
@@ -75,12 +75,12 @@ export default function bookings() {
                                 <h1 className="h3 mb-0 text-gray-800">Bookings</h1>
                             </div>
                             <div className='row'>
-                                <div className='mb-4' id="accountsTableCard">
+                                <div className='mb-4' id="bookingsTableCard">
                                     <div className='card shadow md-4'>
                                         <div className='card-header'>Event Bookings</div>
                                         <div className='card-body'>
                                             <div className='table-responsive'>
-                                                <table className='table' id="accountsTable">
+                                                <table className='table' id="bookingsTable">
                                                     <thead>
                                                         <tr>
                                                             {columns.map((c) => (
@@ -94,9 +94,54 @@ export default function bookings() {
                                                                 <td>{a.title}</td>
                                                                 <td>{a.userName}</td>
                                                                 <td>{(a.start_date).split('T')[0] + " to " + (a.end_date).split('T')[0]}</td>
+                                                                <td>{a.createdAt}</td>
                                                                 <td>{a.location}</td>
-                                                                <td>{a.status}</td>
-                                                                <td></td>
+                                                                <td>
+                                                                    {(a.status == "Pending") && (
+                                                                        <>
+                                                                        <h4 className="small font-weight-bold">{a.status}
+                                                                        <span className="float-right">25%</span></h4>
+                                                                        <div className="progress mb-4">
+                                                                            <div className="progress-bar bg-warning" role="progressbar" 
+                                                                            style={{ width: '20%' }}></div>
+                                                                        </div>
+                                                                        </>
+                                                                    )}
+                                                                    
+                                                                    {(a.status == "Approved") && (
+                                                                        <>
+                                                                        <h4 className="small font-weight-bold">{a.status}
+                                                                        <span className="float-right">50%</span></h4>
+                                                                        <div className="progress mb-4">
+                                                                            <div className="progress-bar bg-primary" role="progressbar" 
+                                                                            style={{ width: '50%' }}></div>
+                                                                        </div>
+                                                                        </>
+                                                                    )}
+
+                                                                    {(a.status == "Paid") && (
+                                                                        <>
+                                                                        <h4 className="small font-weight-bold">{a.status}
+                                                                        <span className="float-right">75%</span></h4>
+                                                                        <div className="progress mb-4">
+                                                                            <div className="progress-bar bg-info" role="progressbar" 
+                                                                            style={{ width: '75%' }}></div>
+                                                                        </div>
+                                                                        </>
+                                                                    )}
+                                                                    
+                                                                    {(a.status == "Completed") && (
+                                                                        <>
+                                                                        <h4 className="small font-weight-bold">{a.status}
+                                                                        <span className="float-right">100%</span></h4>
+                                                                        <div className="progress mb-4">
+                                                                            <div className="progress-bar bg-info" role="progressbar" 
+                                                                            style={{ width: '100%' }}></div>
+                                                                        </div>
+                                                                        </>
+                                                                    )}
+
+                                                                </td>
                                                                 <td>
                                                                     <button className='btn' onClick={(e) => { onClickUpdate(a.userid) }}>
                                                                         <FaEdit />
