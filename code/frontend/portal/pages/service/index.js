@@ -1,17 +1,17 @@
 
-import Footer from "../components/home/footer"
-import Header from "../components/home/header"
+import Footer from "../../components/home/footer"
+import Header from "../../components/home/header"
 
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { filterByCategory, filterByPrice } from '../utils/product';
-import { CartContext, CartDispatchContext } from '../context/productContext';
-import axios from '../utils/axios'
+import { filterByCategory, filterByPrice } from '../../utils/product';
+import { CartContext, CartDispatchContext } from '../../context/productContext';
+import axios from '../../utils/axios'
 import React, { useContext, useState,useEffect } from 'react'
 
-export default function Shop() {
+export default function service() {
   const [setPackages, setCost] = useContext(CartDispatchContext);
   const [packages,cost]= useContext(CartContext);
 
@@ -29,7 +29,7 @@ export default function Shop() {
     console.log(res.data.service)
     setServicesAll(res.data.service)
 }).catch((error) => {
-    console.log(error.response.data)
+    console.log(error)
 })}, [])
 
 const handleClick = (item) => {
@@ -99,8 +99,8 @@ const handleClick = (item) => {
                     <p class="text-primary font-weight-bold">${item.price}</p>
                   </div>
                   <div class="d-flex justify-content-between mb-2" style={{ marginTop: "20px"}}>
-                    <button type="button" class="w-100 btn btn-outline-dark" onClick={() => handleClick(item)}>Add to cart</button>
-                    <Link href=" "><button type="button" class="w-100 btn btn-dark">View Product</button></Link>
+                    {/* <button type="button" class="w-100 btn btn-outline-dark" onClick={() => handleClick(item)}>Booking Service</button> */}
+                    <Link href=" "><button type="button" class="w-100 btn btn-dark" onClick={() => router.push(`/service/${item._id}`)}>View More</button></Link>
                   </div>
                 </div>
               </div>
