@@ -13,7 +13,7 @@ import 'datatables.net-bs4';
 
 export default function settings() {
 
-    const [packs,setPacks] = useState([]);
+    const [packages,setPackages] = useState([]);
     const [btn, setBtn] = useState('');
     const [packupdate, setPackupdate] = useState('');
     const [userid, setUserid] = useState('admin1');
@@ -57,7 +57,7 @@ export default function settings() {
         })
 
         console.log(products);
-        console.log(packs);
+        console.log(packages);
         
     }
 
@@ -87,9 +87,9 @@ export default function settings() {
 
             axios.post(`/package`, formData).then((res)=>{
                 const newPackage = res.data.system.res[1];
-                // setPackages([newPackage],...packs);
+                // setPackages([newPackage],...packages);
                 alert('Package created successfully');
-                console.log(packs);
+                console.log(packages);
             }).catch((error) => {
                 console.log(error)
             })
@@ -101,14 +101,14 @@ export default function settings() {
 
     useEffect(()=>{
 
-        const getPacks = () => {
+        const getPackages = () => {
             return axios.get("/package");
         }
 
-        Promise.all([getPacks()]).then((res) => {
+        Promise.all([getPackages()]).then((res) => {
             let p = res[0].data.packages;
             console.log(p);
-            setPacks(p);
+            setPackages(p);
         }).catch((error) => {
             console.log(error)
         })
@@ -136,14 +136,27 @@ export default function settings() {
                                         </button>
                                     </div>
                                     <div className='card-body'>
-                                        <div className="mt-4" id='packageView '>
+                                        <div className="packageView mt-4">
                                             <div className="table">
                                                 <table className="table table-hover p-2 mt-2" id='packageTable'>
                                                     <thead>
                                                         <th>Name</th>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>Package Name</tr>
+                                                        {console.log(packages)}
+                                                        {packages.map((p,i)=>{
+                                                            <tr key={i}>
+                                                                <td>{p.name}</td>
+                                                                <td>{p.category}</td>
+                                                                <td>{p.price}</td>
+                                                                {/* <td>
+                                                                    <button className='btn' onClick={(e) => {onClickUpdate(p._id) }}>
+                                                                        <FaEdit />
+                                                                    </button>
+                                                                </td> */}
+                                                            </tr>
+                                                        })}
+                                                        {(packages.length == 0) && (<>No packages available</>)}
                                                     </tbody>
                                                 </table>                                                
                                             </div>

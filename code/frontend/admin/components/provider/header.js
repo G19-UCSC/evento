@@ -1,9 +1,55 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import { FaBars, FaBell, FaCogs, FaEnvelope, FaFileAlt, FaListAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
 
+import 'antd/dist/antd.css';
+import { DownOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Menu, message, Space, Tooltip } from 'antd';
+
+import { useRouter } from 'next/router'
 
 export default function sidebar() {
+
+    const [user, setUser] = useState(null);
+    const { push } = useRouter();
+
+    useEffect(() => {
+        const user_ = JSON.parse(localStorage.getItem('user'))
+        if (user_) {
+            setUser(user_)
+        } else{
+            push('/')
+        }
+    }, [])
+    
+
+    const handleButtonClick = (e) => {
+        message.info('Click on left button.');
+        console.log('click left button', e);
+      };
+      
+      const signout = (e) => {
+        e.preventDefault();
+        localStorage.removeItem('user');
+        push('/')
+      };
+
+      const menu = (
+        <Menu
+          items={[
+            {
+              label: <a href='/profile'>Profile</a>,
+              key: '1',
+            },
+            {
+              label:  <a href='/' onClick={signout}>Signout</a>,
+              key: '2',
+            }
+          ]}
+        />
+      );
+      
   return (
     <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -134,35 +180,10 @@ export default function sidebar() {
 
         <div className="topbar-divider d-none d-sm-block"></div>
 
-        {/* Nav Item - User Information */}
-        <li className="nav-item dropdown no-arrow mr-4">
-            <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span className="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                <img className="img-profile rounded-circle"
-                    src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" />
-            </a>
-            {/* Dropdown - User Information */}
-            <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="userDropdown">
-                <a className="dropdown-item" href="#">
-                    <FaUser />
-                    Profile
-                </a>
-                <a className="dropdown-item" href="#">
-                    <FaCogs />
-                    Settings
-                </a>
-                <a className="dropdown-item" href="#">
-                    <FaListAlt />
-                    Activity Log
-                </a>
-                <div className="dropdown-divider"></div>
-                <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                    <FaSignOutAlt />
-                    Logout
-                </a>
-            </div>
+        <li>
+        <Dropdown.Button style={{marginTop:'20px', marginRight:'50px'}} overlay={menu} placement="bottomLeft" icon={<UserOutlined />}>
+       {user?(user.username):('user')}
+    </Dropdown.Button>
         </li>
 
     </ul>

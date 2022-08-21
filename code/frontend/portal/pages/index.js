@@ -53,7 +53,7 @@ const responsive = {
               <div class="intro-text text-center text-md-left">
                 <p class="mb-4">Whether you are an individual or a corporation, our goal is to help you plan the ultimate party with spectacular entertainment, delicious food, and beautiful decor. </p>
                 <p>
-                  <a href="#" class="btn btn-sm btn-primary">Book Now</a>
+                  <a href="/shop" class="btn btn-sm btn-primary">Book Now</a>
                 </p>
               </div>
             </div>
@@ -102,7 +102,7 @@ const responsive = {
            <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
              <a class="block-2-item" href="#">
                <figure class="image">
-                 <img src="/images/women.jpg" layout='fill' alt="" class="img-fluid"/>
+                 <img src="/images/weddinglocation_1.jpg" style={{"object-fit": "fill"}}  layout='fill' alt="" class="img-fluid"/>
                </figure>
                <div class="text">
                  <span class="text-uppercase">Collections</span>
@@ -113,7 +113,7 @@ const responsive = {
            <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="100">
              <a class="block-2-item" href="#">
                <figure class="image">
-                 <img src="/images/children.jpg" layout='fill' alt="" class="img-fluid"/>
+                 <img src="/images/customized_party.jpg" style={{"object-fit": "fill"}} layout='fill' alt="" class="img-fluid"/>
                </figure>
                <div class="text">
                  <span class="text-uppercase">Collections</span>
@@ -124,7 +124,7 @@ const responsive = {
            <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="200">
              <a class="block-2-item" href="#">
                <figure class="image">
-                 <img src="/images/men.jpg" layout='fill' alt="" class="img-fluid" />
+                 <img src="/images/social_gatherings.jpg" style={{"object-fit":"cover"}} layout='fill' alt="" class="img-fluid" />
                </figure>
                <div class="text">
                  <span class="text-uppercase">Collections</span>
@@ -166,7 +166,7 @@ const responsive = {
                <div class="item">
                  <div class="block-4 text-center">
                    <figure class="block-4-image">
-                     <img src="/images/shoe_1.jpg" layout='fill' alt="Image placeholder" class="img-fluid" />
+                     <img src="/images/shoe_1.jpg" style={{"object-fit":"cover"}} layout='fill' alt="Image placeholder" class="img-fluid" />
                    </figure>
                    <div class="block-4-text p-4">
                      <h3><a href="#">Corater</a></h3>
@@ -178,7 +178,7 @@ const responsive = {
                <div class="item">
                  <div class="block-4 text-center">
                    <figure class="block-4-image">
-                     <img src="/images/cloth_2.jpg" layout='fill' alt="Image placeholder" class="img-fluid" />
+                     <img src="/images/cloth_2.jpg" style={{"object-fit":"cover"}} layout='fill' alt="Image placeholder" class="img-fluid" />
                    </figure>
                    <div class="block-4-text p-4">
                      <h3><a href="#">Polo Shirt</a></h3>
@@ -221,12 +221,12 @@ const responsive = {
  
      <div class="site-section block-8">
        <div class="container">
-         <div class="row justify-content-center  mb-5">
+         {/* <div class="row justify-content-center  mb-5">
            <div class="col-md-7 site-section-heading text-center pt-4">
              <h2>Big Sale!</h2>
            </div>
-         </div>
-         <div class="row align-items-center">
+         </div> */}
+         {/* <div class="row align-items-center">
            <div class="col-md-12 col-lg-7 mb-5">
              <a href="#"><img src="/images/blog_1.jpg" layout='fill' alt="Image placeholder" class="img-fluid rounded" /></a>
            </div>
@@ -236,7 +236,7 @@ const responsive = {
              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam iste dolor accusantium facere corporis ipsum animi deleniti fugiat. Ex, veniam?</p>
              <p><a href="#" class="btn btn-primary btn-sm">Shop Now</a></p>
            </div>
-         </div>
+         </div> */}
        </div>
      </div>
      <Footer />
