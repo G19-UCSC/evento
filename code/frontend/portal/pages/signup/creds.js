@@ -38,7 +38,8 @@ const OTP = (otp) => {
         }).catch((error) => {
             console.log(error)
         })
-
+      
+        window.location.href = "http://localhost:4000/";
     
     }
 

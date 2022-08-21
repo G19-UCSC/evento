@@ -40,7 +40,7 @@ const onSubmit = (formData) => {
     iconColor: "black",
     confirmButtonColor: "black",
   });
-    push({pathname:'/signup/otp', query:{otp:'hello',firstname:formData.firstname, lastname:formData.lastname,email:formData.email}},'/signup/otp')
+    push({pathname:'/signup/otp', query:{otp:otp,firstname:formData.firstname, lastname:formData.lastname,email:formData.email}},'/signup/otp')
   }
 
   return (
