@@ -9,9 +9,12 @@ import { useForm } from 'react-hook-form';
 import axios from '../utils/axios'
 export default function Checkout() {
   const router = useRouter()
+  const query = router.query.name;
+  console.log(router.query.name)
   const [cart,price]= useContext(CartContext);
   const [user, setUser] = useState([])
   const [ruser, setRuser] = useState([])
+  
   // const [count, setCount] = useState([])
   // const [products, setProducts] = useState([])
   const [id, setId] = useState('87adfe52-d2b8-42cd-91ff-6c764e97e717')
@@ -170,20 +173,22 @@ console.log(paymentData)
                   <input type="text" class="form-control"   placeholder="Phone Number" id="contact" name="contact"{...register('contact', { required: true })}/>
                 </div>
               </div>
-              {/* ))} */}
-              {/* <div class="form-group">
+              {/* Condition */}
+            
+              {query == 1 ? (
+               <div class="form-group">
                 <label for="c_create_account" class="text-black" data-toggle="collapse" href="#create_an_account" role="button" aria-expanded="false" aria-controls="create_an_account"><input type="checkbox" value="1" id="c_create_account" /> Create an account?</label>
                 <div class="collapse" id="create_an_account">
                   <div class="py-2">
-                    <p class="mb-3">Create an account by entering the information below. If you are a returning customer please login at the top of the page.</p>
+                    {/* <p class="mb-3">Create an account by entering the information below. If you are a returning customer please login at the top of the page.</p> */}
                     <div class="form-group">
-                      <label for="c_account_password" class="text-black">Account Password</label>
+                      <label for="c_account_password" class="text-black">Date</label>
                       <input type="email" class="form-control" id="c_account_password" name="c_account_password" placeholder="" />
                     </div>
                   </div>
                 </div>
-              </div> */}
-
+              </div> 
+              ): null }
 
               {/* <div class="form-group">
                 <label for="c_ship_different_address" class="text-black" data-toggle="collapse" href="#ship_different_address" role="button" aria-expanded="false" aria-controls="ship_different_address"><input type="checkbox" value="1" id="c_ship_different_address" /> Ship To A Different Address?</label>
