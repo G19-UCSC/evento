@@ -17,18 +17,14 @@ export default function account() {
 
     const [btn, setBtn] = useState('null')
     const [update, setUpdate] = useState('')
-    const [accounts, setAccounts] = useState([])
+    const [faqs, setfaqs] = useState([])
     const [registered_accounts, setRegistered_accounts] = useState([])
     const { register, handleSubmit, watch, control, reset, setValue, formState: { errors } } = useForm();
 
     const columns = [{
-        text: 'Name'
+        text: 'Question'
     }, {
-        text: 'Username'
-    }, {
-        text: 'Email'
-    }, {
-        text: 'Status'
+        text: 'Answer'
     }, {
         text: 'Action'
     },];
@@ -36,7 +32,7 @@ export default function account() {
     let createFormViewBtn;
 
     if (btn == 'null') {
-        createFormViewBtn = <button className="btn" onClick={e => onClickCreate()} id="createBtn"> <FaUserPlus /> Ask a Question </button>
+        createFormViewBtn = <button className="btn" onClick={e => onClickCreate()} id="createBtn"> <FaUserPlus /> Add Question </button>
     }
     else {
         createFormViewBtn = <button className="btn" onClick={e => onClickCancel()}> <FaWindowClose /> Cancel </button>
@@ -45,22 +41,20 @@ export default function account() {
     let submitBtn;
 
     if (btn == 'create') {
-        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Create Account </button>
+        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Add Question </button>
     }
     else if (btn == 'update') {
         submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Update Account </button>
     }
 
-    const findElementById = (arr, id) => arr.filter(element => element.userid == id);
+    const findElementById = (arr, id) => arr.filter(element => element.id == id);
     const removeElementById = (arr, id) => arr.filter(element => element.id !== id);
 
     const setForm = (id) => {
-        const account = findElementById(accounts, id)[0];
-        console.log(account);
-        setValue('firstname', account.firstname);
-        setValue('lastname', account.lastname);
-        setValue('status', account.status);
-        setValue('role', account.role);
+        const faqs = findElementById(faqs, id)[0];
+        console.log(faqs);
+        setValue('question', faqs.question);
+        // setValue('answer', faqs.answer);
         setUpdate(id)
     }
 
@@ -85,42 +79,43 @@ export default function account() {
         setBtn('null');
         document.getElementById("accountsTableCard").classList.toggle("col-lg-6");
         reset({
-            fisrtname: '',
-            lastname: '',
-            role: '',
-            email: '',
-            status: '',
-            username: ''
+            question: ''
         })
     }
 
     const onSubmit = (formData) => {
 
         if (btn == 'update' && update != '') {
-            let u = findElementById(accounts, update)[0];
-            formData.userid = update
-            formData.email = u.email
-            formData.username = u.username
-            formData.password = u.password
-            formData.contact = u.contact
-            formData.address = u.address
-            if (formData.status == 'Approved') {
-                formData.approvedAt = Date();
-            } else {
-                formData.approvedAt = u.approvedAt
-            }
+            let u = findElementById(faqs, update)[0];
+            formData.id = update
+            formData.question = u.question
+            // formData.answer = u.answer
+
 
             console.log(formData)
             axios.put(`/ruser/${update}`, formData).then((res) => {
                 const newAccount = res.data.user.res[1]
-                setAccounts([formData].concat(removeElementById(accounts, newAccount._userid)))
+                setfaqs([formData].concat(removeElementById(faqs, newAccount._userid)))
             }).catch((error) => {
                 console.log(error)
             })
 
             onClickCancel();
         } else {
-            //Create Form
+            // let u = findElementById(faqs)[0];
+            // formData.question = u.question
+            // formData.answer = u.answer
+
+
+            console.log(formData)
+            axios.post(`/faq`, formData).then((res) => {
+                const newAccount = res.data.faq
+                setfaqs([formData].concat(removeElementById(faqs, newAccount)))
+            }).catch((error) => {
+                console.log(error)
+            })
+
+            onClickCancel();
         }
     }
 
@@ -138,32 +133,39 @@ export default function account() {
             });
         }
 
-        const getUsers = () => {
-            return axios.get("/user");
-        }
-
-        const getRUsers = () => {
-            return axios.get("/ruser");
-        }
-
-        Promise.all([getUsers(), getRUsers()]).then((res) => {
-            let users = res[0].data.users;
-            let rusers = res[1].data.users;
-            rusers.forEach(r => {
-                users.forEach(u => {
-                    if (u._userid == r.userid) {
-                        r.firstname = u.firstname;
-                        r.lastname = u.lastname;
-                        r.email = u.email;
-
-                    }
-                })
-            });
-            setAccounts(rusers);
-            table();
+        axios.get("/faq").then((res) => {
+            console.log(res)
+            setfaqs(res.data.faqs);
+            // table();
         }).catch((error) => {
             console.log(error)
         })
+        // const getUsers = () => {
+        //     return axios.get("/user");
+        // }
+
+        // const getRUsers = () => {
+        //     return axios.get("/ruser");
+        // }
+
+        // Promise.all([getUsers(), getRUsers()]).then((res) => {
+        //     let users = res[0].data.users;
+        //     let rusers = res[1].data.users;
+        //     rusers.forEach(r => {
+        //         users.forEach(u => {
+        //             if (u._userid == r.userid) {
+        //                 r.firstname = u.firstname;
+        //                 r.lastname = u.lastname;
+        //                 r.email = u.email;
+
+        //             }
+        //         })
+        //     });
+        //     setAccounts(rusers);
+        //     table();
+        // }).catch((error) => {
+        //     console.log(error)
+        // })
 
     }, []);
 
@@ -194,14 +196,12 @@ export default function account() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {accounts.map((a) => (
-                                                            <tr id={a.userid} key={a.userid}>
-                                                                <td>{a.firstname + " " + a.lastname}</td>
-                                                                <td>{a.username}</td>
-                                                                <td>{a.email}</td>
-                                                                <td>{a.status}</td>
+                                                        {faqs.map((a) => (
+                                                            <tr id={a.id} key={a.id}>
+                                                                <td>{a.question}</td>
+                                                                <td>{a.answer == null ? 'We will get to you soon...' : a.answer}</td>
                                                                 <td>
-                                                                    <button className='btn' onClick={(e) => { onClickUpdate(a.userid) }}>
+                                                                    <button className='btn' onClick={(e) => { onClickUpdate(a.id) }}>
                                                                         <FaEdit />
                                                                     </button>
                                                                 </td>
@@ -217,17 +217,17 @@ export default function account() {
                                     <div className='card shadow md-4'>
                                         {(btn != "null") && (
                                             <>
-                                                {(btn == "create") && (<div className='card-header'> Ask a Question</div>)}
+                                                {(btn == "create") && (<div className='card-header'> Add Question</div>)}
                                                 {(btn == "update") && (<div className='card-header'> Update Account</div>)}
                                                 <div className='card-body'>
                                                     <form onSubmit={handleSubmit(onSubmit)} className='form' id='userform' >
                                                         <div className='form-group'>
-                                                            <label htmlFor='fname' hidden>First Name : </label>
-                                                            <input className='form-control mb-4' type="text"
-                                                                name='firstname' id='fname' placeholder='First Name'
+                                                            <label htmlFor='fname' hidden>Question: </label>
+                                                            {/* <input className='form-control mb-4' type="text"
+                                                                name='question' id='queston' placeholder='Enter Your Question'
                                                                 disabled={(btn == 'update') && (true)}
-                                                                {...register("firstname", { required: true })} />
-                                                            <input className='form-control mb-4' type="text"
+                                                                {...register("question", { required: true })} /> */}
+                                                            {/* <input className='form-control mb-4' type="text"
                                                                 name='lastname' id='lname' placeholder='Last Name'
                                                                 disabled={(btn == 'update') && (true)}
                                                                 {...register("lastname", { required: true })} />
@@ -237,31 +237,21 @@ export default function account() {
                                                                 <option value={null} selected>User Role</option>
                                                                 <option value="Staff">Staff</option>
                                                                 <option value="Customer">Individual Customer</option>
-                                                            </select>
+                                                            </select> */}
                                                             {(btn == 'update') && (
                                                                 <>
-                                                                    <select className='form-control mb-4' name="status" id='status'
-                                                                        {...register("status", { required: true })}>
-                                                                        <option value={null} >Account Status</option>
-                                                                        <option value="Pending">Pending</option>
-                                                                        <option value="Approved">Approved</option>
-                                                                        <option value="Blocked">Blocked</option>
-                                                                    </select>
+                                                                    <input className='form-control mb-4' type="text"
+                                                                        name='question' id='queston' placeholder='Enter Your Question'
+                                                                        disabled={(btn == 'update') && (true)}
+                                                                        {...register("question", { required: true })} />
                                                                 </>
                                                             )}
                                                             {(btn == 'create') && (
                                                                 <>
-                                                                    <input className='form-control mb-4' type="email"
-                                                                        name='email' id='email' placeholder='Email'
-                                                                        {...register("email", { required: true })} />
                                                                     <input className='form-control mb-4' type="text"
-                                                                        name='username' id='username' placeholder='Username'
-                                                                        {...register("username", { required: true })} />
-                                                                    <input className='form-control mb-4' type="password"
-                                                                        name='password' id='password' placeholder='Password' />
-                                                                    <input className='form-control mb-4' type="password"
-                                                                        name='re-enterpass' id='re-enterpass'
-                                                                        placeholder='Re-enter Password' />
+                                                                        name='question' id='queston' placeholder='Enter Your Question'
+                                                                        disabled={(btn == 'update') && (true)}
+                                                                        {...register("question", { required: true })} />
                                                                 </>
                                                             )}
                                                             {submitBtn}
