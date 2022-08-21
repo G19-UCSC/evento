@@ -20,6 +20,16 @@ const getProduct = async (attributes) => {
     };
 };
 
+const getProductCategory = async (attributes) => {
+
+  // fetch one event
+  const product = await Product.findAll({where:{category:attributes.category}});
+
+  return {
+      product
+  };
+};
+
 const setProduct = async (attributes) => {
 
     // create one product
@@ -92,5 +102,6 @@ module.exports = {
     getProduct,
     setProduct,
     updateProduct,
-    deleteEvent
+    deleteEvent,
+    getProductCategory
 }

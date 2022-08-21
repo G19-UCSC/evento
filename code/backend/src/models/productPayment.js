@@ -1,39 +1,30 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../utilities/dbHelper');
 
-const Payment = db.define(
-  'payment',
+const ProductPayment = db.define(
+  'productPayment',
   {
-    _id: {
-      type: Sequelize.UUID,
-      defaultValue: Sequelize.UUIDV4,
-      primaryKey: true,
-    },
-    userid: {
-      type: DataTypes.STRING(50),
-      allowNull: false,
-    },
-    total: {
-      type: DataTypes.FLOAT(3),
-      allowNull: false,
-    },
-    providerPayStatus: {
-      type: DataTypes.ENUM('Pending', 'Paid'),
-      allowNull: false,
-    },
-    providerPayDate: {
-      type: DataTypes.DATE(),
-      allowNull: true,
-    }
     
+    productid: {
+      type: DataTypes.STRING(30),
+      allowNull: false,
+    },
     
+    paymentid: {
+      type: DataTypes.STRING(30),
+      allowNull: false,
+    },
+    count: {
+      type: DataTypes.INTEGER(30),
+      allowNull: false,
+    }, 
   }
   ,{
     logging: false,
   }
 );
 
-Payment.sync({force:true})
+ProductPayment.sync({force:true})
 
 // Product.sync().then((res) => {
 //   Product.create({ 
@@ -51,4 +42,4 @@ Payment.sync({force:true})
 // });
 
 
-module.exports= Payment;
+module.exports= ProductPayment;

@@ -1,18 +1,73 @@
 
 import Footer from "../components/home/footer"
 import Header from "../components/home/header"
-
+import { useRouter } from 'next/router'
 
 import { CartContext } from '../context/productContext';
 import React, { useContext, useState,useEffect} from "react";
 import { useForm } from 'react-hook-form';
 import axios from '../utils/axios'
 export default function Checkout() {
+  const router = useRouter()
   const [cart,price]= useContext(CartContext);
   const [user, setUser] = useState([])
   const [ruser, setRuser] = useState([])
+  // const [count, setCount] = useState([])
+  // const [products, setProducts] = useState([])
   const [id, setId] = useState('87adfe52-d2b8-42cd-91ff-6c764e97e717')
-  
+  const [paymentData, setPaymentData] = useState({
+    userid:id,
+    total:price,
+    providerPayStatus:'Pending',
+    providerPayDate:'2021-12-21'
+  })
+  const [data, setData] = useState({
+    userid:id  })
+  const count = []
+  const products = []
+
+  cart.map((item, i) => {
+    // setCount([...count,item.amount]),
+    // setProducts([...products,item._id])
+    count[i] = item.amount
+    products[i] = item._id
+                      
+  })
+  console.log(count)
+  const [productData, setProductData] = useState({
+    userid:id,
+    count:0,
+    productid:''
+  })
+// console.log(productData)
+console.log(paymentData)
+
+  const handleClick = () => {
+    axios.post(`/payment`,paymentData).then((res)=>{
+      
+      console.log("Added payment successfully")
+      
+      }).catch((error) => {
+          console.log(error)
+      })
+      router.push("/bill", data)
+      // for (let i = 0; i < products.length; i++) {
+      //   setProductData({
+      //     count:count[i],
+      //     productid:products[i]
+      //   })
+      //   console.log(productData)
+      //   axios.post(`/productPayment`,productData).then((res)=>{
+      //     console.log("Added product payment successfully")
+      //     // console.log(res.data.user.firstname)
+          
+      //     }).catch((error) => {
+      //         console.log(error)
+      //     }) 
+      // }
+      
+  };
+
   
  
   const{
@@ -213,7 +268,7 @@ export default function Checkout() {
               </div> */}
               
             <div class="form-group">
-                <button class="btn btn-primary btn-lg py-3 btn-block" >Place Order</button>
+                <button class="btn btn-primary btn-lg py-3 btn-block" onClick={() => handleClick()}>Place Order</button>
             </div>
             </div>
           
@@ -248,8 +303,10 @@ export default function Checkout() {
                       <th>Total</th>
                     </thead>
                     <tbody>
-                    {cart.map((item, i) => (
-                      <tr key={i}>
+                    {cart.map((item, i) => ( 
+                      
+                      <tr key={i} >
+                        
                         <td>{item.name}<strong class="mx-2">x</strong>{item.amount}</td>
                         <td>{item.price*item.amount}</td>
                       </tr>
@@ -311,4 +368,5 @@ export default function Checkout() {
    </div>
 
   )
+  
 }

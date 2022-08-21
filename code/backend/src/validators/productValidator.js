@@ -4,7 +4,8 @@ const {
     getProductSchema,
     setProductSchema,
     updateProductSchema,
-    deleteProductSchema
+    deleteProductSchema,
+    getProductCategorySchema
 } = require('../schema/productSchema');
 
 const getAllProducts = async (req) => {
@@ -20,6 +21,13 @@ const getProduct = async (req) => {
 
     return validate(getProductSchema(), attributes);
 };
+const getProductCategory = async (req) => {
+
+    const attributes = {category:req.params.category}
+
+    return validate(getProductCategorySchema(), attributes);
+};
+
 
 const setProduct  = async (req) => {
 
@@ -65,5 +73,6 @@ module.exports = {
     getProduct ,
     setProduct ,
     updateProduct,
-    deleteProduct 
+    deleteProduct,
+    getProductCategory
 }

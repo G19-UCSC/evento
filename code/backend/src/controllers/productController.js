@@ -16,6 +16,13 @@ const getProduct = async (req,res) => {
     });
 };
 
+const getProductCategory = async (req,res) => {
+  await controller(req, res,{
+    validator: productValidator.getProductCategory,
+    service: productService.getProductCategory,
+  });
+};
+
 const setProduct = async (req,res) => {
     await controller(req, res,{
       validator: productValidator.setProduct,
@@ -41,6 +48,7 @@ module.exports = {
     updateProduct, 
     deleteProduct, 
     setProduct, 
-    getAllProducts
+    getAllProducts,
+    getProductCategory
 }
 

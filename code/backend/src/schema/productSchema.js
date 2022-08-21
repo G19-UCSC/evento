@@ -6,6 +6,11 @@ const getProductSchema = () => Joi.object().keys({
     id: Joi.alternatives(Joi.string(), Joi.number()).required(),
   });
 
+  const getProductCategorySchema = () => Joi.object().keys({
+    category: Joi.string().required()
+  });
+  
+
 const setProductSchema = () => Joi.object().keys({
   name: Joi.string().required(),
   descrition: Joi.string().required(),
@@ -37,5 +42,6 @@ module.exports = {
     getProductSchema,
     setProductSchema,
     updateProductSchema,
-    deleteProductSchema
+    deleteProductSchema,
+    getProductCategorySchema
 };
