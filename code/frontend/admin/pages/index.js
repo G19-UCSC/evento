@@ -19,8 +19,15 @@ const Basic = () => {
   useEffect(() => {
     const user_ = JSON.parse(localStorage.getItem('user'))
     if (user_) {
-      setUser(user_)
-      push('/')
+      if (user_.role === 'admin') {
+        push('/admin')
+      }else if(user_.role === 'Customer'){
+        push('/customer')
+        }else if(user_.role === 'Provider'){
+          push('/provider')
+          }
+    } else{
+        push('/')
     }
 }, [])
 
@@ -34,7 +41,11 @@ const onSubmit = (formData) => {
         confirmButtonColor: "green",
       });
       localStorage.setItem('user',JSON.stringify(res.data[0]))
-      push('/checkout')
+      if (res.data[0].role === 'admin') {
+        push('/admin')
+      }else if(res.data[0].role === 'Customer'){
+        push('/customer')
+        }
     // push({pathname:'/signup/otp', query:{otp:'hello',firstname:formData.firstname, lastname:formData.lastname,email:formData.email}},'/signup/otp')
     // push({pathname:'/signup/creds', query:{userid:res.data.user._userid}},'/signup/creds')
     console.log(res.data[0].userid)

@@ -38,7 +38,8 @@ const OTP = (otp) => {
         }).catch((error) => {
             console.log(error)
         })
-
+      
+        window.location.href = "http://localhost:4000/";
     
     }
 
@@ -91,18 +92,21 @@ const OTP = (otp) => {
           />
         </div>
         <div className="form-group mt-3">
+          <label>Confirm Password</label>
+          <input
+            type="cpassword"
+            className="form-control mt-1"
+            placeholder="Enter confirm password"
+            {...register("cpassword", { required: true })}
+          />
+        </div>
+        <div className="form-group mt-3">
           <label>Type</label>
           <select className="form-control" {...register("role", { required: true })}>
               <option value="Customer">Customer</option>
               <option value="Provider">Provider</option>
               <option value="CorpCustomer">Cooperate Customer</option>
           </select>
-          <input
-            type="password"
-            className="form-control mt-1"
-            placeholder="Enter password"
-            {...register("password", { required: true })}
-          />
         </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
         <div className="d-grid gap-2 mt-3">
           <button type="submit" className="btn btn-dark">

@@ -149,7 +149,6 @@ export default function account () {
         Promise.all([getUsers(),getRUsers()]).then((res)=>{
             let users = res[0].data.users;
             let rusers = res[1].data.users;
-            console.log(res)
             rusers.forEach(r => {
                 users.forEach(u => {
                     if(u._userid == r.userid){
@@ -236,7 +235,6 @@ export default function account () {
                                                         disabled={(btn == 'update') && (true)} 
                                                         {...register("role", { required: true })}>
                                                         <option value={null} selected>User Role</option>
-                                                        <option value="Admin">Admin</option>
                                                         <option value="Staff">Staff</option>
                                                         <option value="Customer">Individual Customer</option>
                                                     </select>

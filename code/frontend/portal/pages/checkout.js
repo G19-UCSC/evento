@@ -10,11 +10,14 @@ import axios from '../utils/axios'
 export default function Checkout() {
   const router = useRouter()
   const [cart,price]= useContext(CartContext);
-  const [user, setUser] = useState([])
   const [ruser, setRuser] = useState([])
   // const [count, setCount] = useState([])
   // const [products, setProducts] = useState([])
   const [id, setId] = useState('87adfe52-d2b8-42cd-91ff-6c764e97e717')
+
+  const [user, setUser] = useState(null);
+  const { push } = useRouter();
+
   const [paymentData, setPaymentData] = useState({
     userid:id,
     total:price,
@@ -81,24 +84,29 @@ console.log(paymentData)
       
     }
     useEffect(() => {
-      axios.get(`/user/${id}`).then((res)=>{
-      setUser(res.data.user)
-      // console.log(res.data.user.firstname)
-      setValue("firstname", res.data.user.firstname);
-      setValue("lastname", res.data.user.lastname);
-      setValue("email", res.data.user.email);
-      }).catch((error) => {
-          console.log(error)
-      })
-      axios.get(`/ruser/${id}`).then((res)=>{
-        setRuser(res.data.user)
-        console.log(res.data.user.address)
-        setValue("address", res.data.user.address);
-        setValue("contact", res.data.user.contact);
-        
-        }).catch((error) => {
-            console.log(error)
-        })
+      const user_ = JSON.parse(localStorage.getItem('user'))
+      if (user_) {
+          setUser(user_)
+          axios.get(`/user/${user_.userid}`).then((res)=>{
+            setUser(res.data.user)
+            // console.log(res.data.user.firstname)
+            setValue("firstname", res.data.user.firstname);
+            setValue("lastname", res.data.user.lastname);
+            setValue("email", res.data.user.email);
+            }).catch((error) => {
+                console.log(error)
+            })
+            axios.get(`/ruser/${user_.userid}`).then((res)=>{
+              setRuser(res.data.user)
+              console.log(res.data.user.address)
+              setValue("address", res.data.user.address);
+              setValue("contact", res.data.user.contact);
+              
+              }).catch((error) => {
+                  console.log(error)
+              })
+      }
+      
     }
   , [])
 
@@ -117,13 +125,15 @@ console.log(paymentData)
 
     <div class="site-section">
       <div class="container">
+        {user ? (<div></div>) :(
         <div class="row mb-5">
           <div class="col-md-12">
             <div class="border p-4 rounded" role="alert">
-              Returning customer? <a href="#">Click here</a> to login
+              Returning customer? <a href="/signin">Click here</a> to login
             </div>
           </div>
-        </div>
+        </div>)
+        }
         <div class="row">
           <div class="col-md-6 mb-5 mb-md-0">
 
