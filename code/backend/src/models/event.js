@@ -42,7 +42,7 @@ const Event = db.define(
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM('Pending', 'Approved', 'Paied', 'Completed'),
+      type: DataTypes.ENUM('Pending', 'Approved', 'Payed', 'Completed'),
       allowNull: false,
     },
     serviceCharge: {
