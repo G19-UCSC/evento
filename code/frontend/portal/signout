@@ -1,0 +1,9 @@
+import { useRouter } from 'next/router'
+
+const signout = ()=>{
+
+    const { push } = useRouter()
+    localStorage.removeItem('user');
+    push('/')
+}
+export default signout

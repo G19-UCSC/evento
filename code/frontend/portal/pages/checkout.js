@@ -9,12 +9,18 @@ import { useForm } from 'react-hook-form';
 import axios from '../utils/axios'
 export default function Checkout() {
   const router = useRouter()
+  const query = router.query.name;
+  console.log(router.query.name)
   const [cart,price]= useContext(CartContext);
-  const [user, setUser] = useState([])
   const [ruser, setRuser] = useState([])
+  
   // const [count, setCount] = useState([])
   // const [products, setProducts] = useState([])
   const [id, setId] = useState('87adfe52-d2b8-42cd-91ff-6c764e97e717')
+
+  const [user, setUser] = useState(null);
+  const { push } = useRouter();
+
   const [paymentData, setPaymentData] = useState({
     userid:id,
     total:price,
@@ -81,24 +87,29 @@ console.log(paymentData)
       
     }
     useEffect(() => {
-      axios.get(`/user/${id}`).then((res)=>{
-      setUser(res.data.user)
-      // console.log(res.data.user.firstname)
-      setValue("firstname", res.data.user.firstname);
-      setValue("lastname", res.data.user.lastname);
-      setValue("email", res.data.user.email);
-      }).catch((error) => {
-          console.log(error)
-      })
-      axios.get(`/ruser/${id}`).then((res)=>{
-        setRuser(res.data.user)
-        console.log(res.data.user.address)
-        setValue("address", res.data.user.address);
-        setValue("contact", res.data.user.contact);
-        
-        }).catch((error) => {
-            console.log(error)
-        })
+      const user_ = JSON.parse(localStorage.getItem('user'))
+      if (user_) {
+          setUser(user_)
+          axios.get(`/user/${user_.userid}`).then((res)=>{
+            setUser(res.data.user)
+            // console.log(res.data.user.firstname)
+            setValue("firstname", res.data.user.firstname);
+            setValue("lastname", res.data.user.lastname);
+            setValue("email", res.data.user.email);
+            }).catch((error) => {
+                console.log(error)
+            })
+            axios.get(`/ruser/${user_.userid}`).then((res)=>{
+              setRuser(res.data.user)
+              console.log(res.data.user.address)
+              setValue("address", res.data.user.address);
+              setValue("contact", res.data.user.contact);
+              
+              }).catch((error) => {
+                  console.log(error)
+              })
+      }
+      
     }
   , [])
 
@@ -117,13 +128,15 @@ console.log(paymentData)
 
     <div class="site-section">
       <div class="container">
+        {user ? (<div></div>) :(
         <div class="row mb-5">
           <div class="col-md-12">
             <div class="border p-4 rounded" role="alert">
-              Returning customer? <a href="#">Click here</a> to login
+              Returning customer? <a href="/signin">Click here</a> to login
             </div>
           </div>
-        </div>
+        </div>)
+        }
         <div class="row">
           <div class="col-md-6 mb-5 mb-md-0">
 
@@ -170,20 +183,22 @@ console.log(paymentData)
                   <input type="text" class="form-control"   placeholder="Phone Number" id="contact" name="contact"{...register('contact', { required: true })}/>
                 </div>
               </div>
-              {/* ))} */}
-              {/* <div class="form-group">
+              {/* Condition */}
+            
+              {query == 1 ? (
+               <div class="form-group">
                 <label for="c_create_account" class="text-black" data-toggle="collapse" href="#create_an_account" role="button" aria-expanded="false" aria-controls="create_an_account"><input type="checkbox" value="1" id="c_create_account" /> Create an account?</label>
                 <div class="collapse" id="create_an_account">
                   <div class="py-2">
-                    <p class="mb-3">Create an account by entering the information below. If you are a returning customer please login at the top of the page.</p>
+                    {/* <p class="mb-3">Create an account by entering the information below. If you are a returning customer please login at the top of the page.</p> */}
                     <div class="form-group">
-                      <label for="c_account_password" class="text-black">Account Password</label>
+                      <label for="c_account_password" class="text-black">Date</label>
                       <input type="email" class="form-control" id="c_account_password" name="c_account_password" placeholder="" />
                     </div>
                   </div>
                 </div>
-              </div> */}
-
+              </div> 
+              ): null }
 
               {/* <div class="form-group">
                 <label for="c_ship_different_address" class="text-black" data-toggle="collapse" href="#ship_different_address" role="button" aria-expanded="false" aria-controls="ship_different_address"><input type="checkbox" value="1" id="c_ship_different_address" /> Ship To A Different Address?</label>

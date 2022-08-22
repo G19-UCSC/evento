@@ -160,7 +160,7 @@ const dashboard = () => {
                     </div>
 
                     {/* Content Row */}
-                    <div className="row">
+                    {/* <div className="row">
                                <div className="col-xl-8 col-lg-7">
                                    <Linechart
                                        cardTitle="Cashflow vs Time" xData={months} name1="Income" name2="Payments"
@@ -168,14 +168,13 @@ const dashboard = () => {
                                    />
                                </div>
 
-                        {/* Pie Chart */}
                                <div className="col-xl-4 col-lg-5">
                                    <Piechart 
                                        cardTitle="All Income" names={["Income", "Payments"]}
                                        series={[totalevents, pendingevents]}
                                    />
                                </div>
-                    </div>
+                    </div> */}
 
                     {/* Content Row */}
                     {/* <div className="row">
