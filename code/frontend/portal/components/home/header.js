@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{ useState, useEffect, useContext } from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import { BsFillCartFill, BsHeart, BsPersonFill } from "react-icons/bs";
 import { useRouter } from 'next/router'
@@ -7,8 +7,11 @@ import 'antd/dist/antd.css';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Menu, message, Space, Tooltip } from 'antd';
 
+import { CartContext, CartDispatchContext } from '../../context/productContext';
+
 export default function header() {
   const [user, setUser] = useState(null);
+  const [cart,prices]= useContext(CartContext);
   const { push } = useRouter();
 
   useEffect(() => {
@@ -62,7 +65,7 @@ export default function header() {
               <div class="site-top-icons" style={{float: 'right'}}>
                 <ul class="site-menu js-clone-nav d-none d-md-block">
                 <li>
-                  <Dropdown.Button style={{marginTop:'20px', marginRight:'50px'}} overlay={menu} placement="bottomLeft" icon={<UserOutlined />}>
+                  <Dropdown.Button style={{marginTop:'20px', marginRight:'10px'}} overlay={menu} placement="top" icon={<UserOutlined />}>
                 {user?(user.username):('user')}
               </Dropdown.Button>
                   </li>
@@ -70,7 +73,7 @@ export default function header() {
                   <li>
                     <a href="cart.html" class="site-cart">
                       <span class="icon icon-shopping_cart"><BsFillCartFill /></span>
-                      <span class="count">2</span>
+                      <span class="count">{cart.length}</span>
                     </a>
                   </li> 
                   <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
@@ -94,7 +97,8 @@ export default function header() {
             <li><a href="/service">Service</a></li>
             <li><a href="/event">Event</a></li>
             <li><a href="/contact">Contact</a></li>
-            <li><a href="/contact">Signin</a></li>
+            {user ?(<li><a href="/" onclick={signout}>Signout</a></li>):(<li><a href="/signin">Signin</a></li>)}
+            
           </ul>
         </div>
       </nav>
