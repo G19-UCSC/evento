@@ -18,7 +18,7 @@ const Product = db.define(
       allowNull: false,
     },
     price: {
-        type: DataTypes.FLOAT(3),
+        type: DataTypes.STRING(100),
         allowNull: false,
       },
     category: {
