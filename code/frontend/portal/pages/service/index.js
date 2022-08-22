@@ -91,7 +91,7 @@ const handleClick = (item) => {
               <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up" key={i}>
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
-                    <a href="shop-single.html"><img src={item.image_path} layout='fill' alt="Image placeholder" class="img-fluid" /></a>
+                    <a href="shop-single.html"><img src={item.image_path} style={{objectFit: "cover",height: "250px"}} layout='fill' alt="Image placeholder" class="img-fluid" /></a>
                   </figure>
                   <div class="block-4-text p-4">
                     <h3><a href="shop-single.html">{item.name}</a></h3>
@@ -167,36 +167,36 @@ const handleClick = (item) => {
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
+                <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
                     <a class="block-2-item" href="#">
                       <figure class="image">
-                        <img src="images/women.jpg" layout='fill' alt="" class="img-fluid" />
+                        <img src="images/weddings.jpg" style={{objectFit: "cover", height: "700px"}} layout='fill' alt="" class="img-fluid" />
                       </figure>
                       <div class="text">
                         <span class="text-uppercase">Collections</span>
-                        <h3>Women</h3>
+                        <h3>Venue</h3>
                       </div>
                     </a>
                   </div>
                   <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="100">
                     <a class="block-2-item" href="#">
                       <figure class="image">
-                        <img src="images/children.jpg" layout='fill' alt="" class="img-fluid" />
+                        <img src="images/bridal_shower.jpg" style={{objectFit: "cover", height: "700px"}} layout='fill' alt="" class="img-fluid" />
                       </figure>
                       <div class="text">
                         <span class="text-uppercase">Collections</span>
-                        <h3>Children</h3>
+                        <h3>Decor</h3>
                       </div>
                     </a>
                   </div>
                   <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="200">
                     <a class="block-2-item" href="#">
                       <figure class="image">
-                        <img src="images/men.jpg" layout='fill' alt="" class="img-fluid" />
+                        <img src="images/lunch_food.jfif" style={{objectFit: "fill", height: "700px"}} layout='fill' alt="" class="img-fluid" />
                       </figure>
                       <div class="text">
                         <span class="text-uppercase">Collections</span>
-                        <h3>Men</h3>
+                        <h3>Caterings</h3>
                       </div>
                     </a>
                   </div>

@@ -8,7 +8,7 @@ const getServiceSchema = () => Joi.object().keys({
 
 const setServiceSchema = () => Joi.object().keys({
   name: Joi.string().required(),
-  descrition: Joi.string().required(),
+  description: Joi.string().required(),
   price: Joi.string().required(),
   category: Joi.string().required(),
   comission: Joi.number().precision(2).required(),
@@ -21,7 +21,7 @@ const setServiceSchema = () => Joi.object().keys({
 const updateServiceSchema = () => Joi.object().keys({
     id: Joi.alternatives(Joi.string(), Joi.number()).required(),
     name: Joi.string().required(),
-    descrition: Joi.string().required(),
+    description: Joi.string().required(),
     price: Joi.string().required(),
     category: Joi.string().required(),
     comission: Joi.number().precision(2).required(),
