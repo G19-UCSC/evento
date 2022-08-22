@@ -2,16 +2,43 @@ import React from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import { BsFillCartFill, BsHeart, BsPersonFill } from "react-icons/bs";
 import { useRouter } from 'next/router'
-import { useSession, signIn,signOut } from 'next-auth/react'
+
+import 'antd/dist/antd.css';
+import { DownOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Menu, message, Space, Tooltip } from 'antd';
 
 export default function header() {
-  const { push} = useRouter()
-  const { data: session, status } = useSession()
+  const [user, setUser] = useState(null);
+  const { push } = useRouter();
 
-  const handleSignOut = async () => {
-    const data = await signOut({ redirect: false, callback: '/' })
-      push(data.url)
-  }
+  useEffect(() => {
+      const user_ = JSON.parse(localStorage.getItem('user'))
+      if (user_) {
+          setUser(user_)
+      }
+  }, [])
+
+  const signout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem('user');
+    push('/')
+  };
+
+  const menu = (
+    <Menu
+      items={[
+        {
+          label: <a href='/signin'>Dashboard</a>,
+          key: '1',
+        },
+        {
+          label:  <a href='/' onClick={signout}>Signout</a>,
+          key: '2',
+        }
+      ]}
+    />
+  );
+
   return (
     <header class="site-navbar" role="banner">
       <div class="site-navbar-top">
@@ -34,15 +61,10 @@ export default function header() {
             <div class="col-6 col-md-4 order-3 order-md-3 text-right">
               <div class="site-top-icons" style={{float: 'right'}}>
                 <ul class="site-menu js-clone-nav d-none d-md-block">
-                  <li class="has-children"><span class="icon icon-person"><BsPersonFill /></span>
-                    <ul class="dropdown">
-                      {/* <li><a href="/signin">Sign In</a></li> */}
-                      {/* <li><a href="/signup">Sign Up</a></li> */}
-                      {/* <li><a href="/signin" onClick={handleSignOut}>Sign Out</a></li> */}
-                    </ul>
-              
-
-                  
+                <li>
+                  <Dropdown.Button style={{marginTop:'20px', marginRight:'50px'}} overlay={menu} placement="bottomLeft" icon={<UserOutlined />}>
+                {user?(user.username):('user')}
+              </Dropdown.Button>
                   </li>
                   <li><a href="#"><span class="icon icon-heart-o"><BsHeart /></span></a></li>
                   <li>
@@ -64,27 +86,9 @@ export default function header() {
           <ul class="site-menu js-clone-nav d-none d-md-block">
             <li>
               <a href="/">Home</a>
-              {/* <ul class="dropdown">
-                <li><a href="#">Menu One</a></li>
-                <li><a href="#">Menu Two</a></li>
-                <li><a href="#">Menu Three</a></li>
-                <li class="has-children">
-                  <a href="#">Sub Menu</a>
-                  <ul class="dropdown">
-                    <li><a href="#">Menu One</a></li>
-                    <li><a href="#">Menu Two</a></li>
-                    <li><a href="#">Menu Three</a></li>
-                  </ul>
-                </li>
-              </ul> */}
             </li>
             <li>
               <a href="/about">About</a>
-              {/* <ul class="dropdown">
-                <li><a href="#">Menu One</a></li>
-                <li><a href="#">Menu Two</a></li>
-                <li><a href="#">Menu Three</a></li>
-              </ul> */}
             </li>
             <li><a href="/shop">Shop</a></li>
             <li><a href="/service">Service</a></li>
