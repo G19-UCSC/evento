@@ -95,7 +95,7 @@ const handleClick = (item) => {
                   <div class="block-4-text p-4">
                     <h3><a href="shop-single.html">{item.name}</a></h3>
                     <p class="mb-0">{item.description}</p>
-                    <p class="text-primary font-weight-bold">${item.price}</p>
+                    <p class="text-primary font-weight-bold">Rs.{item.price}</p>
                   </div>
                   <div class="d-flex justify-content-between mb-2" style={{ marginTop: "20px"}}>
                     <button type="button" class="w-100 btn btn-outline-dark" onClick={() => handleClick(item)}>Add to cart</button>

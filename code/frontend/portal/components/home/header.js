@@ -98,7 +98,7 @@ export default function header() {
             {/* <li><a href="/event">Event</a></li> */}
             <li><a href="/faq">FAQ</a></li>
             <li><a href="/contact">Contact</a></li>
-            {user ?(<li><a href="/" onclick={signout}>Signout</a></li>):(<li><a href="/signin">Signin</a></li>)}
+            {user ?(<li><a href="/" onclick={signout}>Signout</a></li>):(<><li><a href="/signin">Signin</a></li><li><a href="/signup">Signup</a></li></>)}
             
           </ul>
         </div>
