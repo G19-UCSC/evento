@@ -1,6 +1,7 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import Image from 'next/image'
+import { BsEnvelopeFill, BsFillGeoAltFill, BsTelephone, BsTelephoneFill } from 'react-icons/bs';
 
 export default function footer() {
   return (
@@ -13,62 +14,47 @@ export default function footer() {
               <h3 class="footer-heading mb-4">Navigations</h3>
             </div>
             <div class="col-md-6 col-lg-4">
-              <ul class="list-unstyled">
-                <li><a href="#">Sell online</a></li>
-                <li><a href="#">Features</a></li>
-                <li><a href="#">Shopping cart</a></li>
-                <li><a href="#">Store builder</a></li>
-              </ul>
+                <ul class="list-unstyled">
+                  <li>
+                    <a href="/">Home</a>
+                  </li>
+                  <li>
+                    <a href="/about">About</a>
+                  </li>
+                  <li><a href="/shop">Shop</a></li>
+                  <li><a href="/service">Service</a></li>
+                </ul>
             </div>
             <div class="col-md-6 col-lg-4">
               <ul class="list-unstyled">
-                <li><a href="#">Mobile commerce</a></li>
-                <li><a href="#">Dropshipping</a></li>
-                <li><a href="#">Website development</a></li>
+                <li><a href="/faq">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
               </ul>
             </div>
-            <div class="col-md-6 col-lg-4">
+            {/* <div class="col-md-6 col-lg-4">
               <ul class="list-unstyled">
                 <li><a href="#">Point of sale</a></li>
                 <li><a href="#">Hardware</a></li>
                 <li><a href="#">Software</a></li>
               </ul>
-            </div>
+            </div> */}
           </div>
-        </div>
-        <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-          <h3 class="footer-heading mb-4">Promo</h3>
-          <a href="#" class="block-6">
-            {/* <Image src="./images/hero_1.jpg" layout='fill' alt="Image placeholder" class="img-fluid rounded mb-4" /> */}
-            <h3 class="font-weight-light  mb-0">Finding Your Perfect Shoes</h3>
-            <p>Promo from  nuary 15 &mdash; 25, 2019</p>
-          </a>
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="block-5 mb-5">
             <h3 class="footer-heading mb-4">Contact Info</h3>
             <ul class="list-unstyled">
-              <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
-              <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
-              <li class="email">emailaddress@domain.com</li>
+              <li > <BsFillGeoAltFill/> Reid Avenue, Colombo, 07</li>
+              <li > <BsTelephoneFill/> <a href="tel://+94 77 9251771">+94 77 9251771</a></li>
+              <li > <BsEnvelopeFill/> evento@gmail.com</li>
             </ul>
-          </div>
-
-          <div class="block-7">
-            <form action="#" method="post">
-              <label for="email_subscribe" class="footer-heading">Subscribe</label>
-              <div class="form-group">
-                <input type="text" class="form-control py-4" id="email_subscribe" placeholder="Email" />
-                <input type="submit" class="btn btn-sm btn-primary" value="Send" />
-              </div>
-            </form>
           </div>
         </div>
       </div>
       <div class="row pt-5 mt-5 text-center">
         <div class="col-md-12">
           <p>
-          Copyright &copy;<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" class="text-primary">Colorlib</a>
+          Copyright &copy; eveto PVT LTD.
           </p>
         </div>
         

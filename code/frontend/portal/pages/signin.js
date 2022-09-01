@@ -34,7 +34,7 @@ const onSubmit = (formData) => {
         confirmButtonColor: "green",
       });
       localStorage.setItem('user',JSON.stringify(res.data[0]))
-      push('/checkout')
+      push('/')
     // push({pathname:'/signup/otp', query:{otp:'hello',firstname:formData.firstname, lastname:formData.lastname,email:formData.email}},'/signup/otp')
     // push({pathname:'/signup/creds', query:{userid:res.data.user._userid}},'/signup/creds')
     console.log(res.data[0].userid)
