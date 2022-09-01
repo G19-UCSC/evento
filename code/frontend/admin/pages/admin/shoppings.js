@@ -6,12 +6,30 @@ import { useEffect, useState } from "react";
 import axios from "../../utils/axios";
 import { FaEdit, FaStar } from "react-icons/fa";
 
+var $ = require('jquery');
+import 'datatables.net';
+import 'datatables.net-bs4';
+
 export default function products() {
 
     const [products,setProducts] = useState([]);
     const [services,setServices] = useState([]);
 
     useEffect(()=>{
+
+        const table = () => {
+            $(function() {
+                $('#productsTable').DataTable({
+                    ordering:true,
+                    select: true,
+                    responsive: true,
+                    buttons: [
+                        'copy','excel','pdf'
+                    ]
+                });
+            });
+        }
+
         const getService = () => {
             return axios.get("/service");
         }
@@ -26,6 +44,8 @@ export default function products() {
             let p = res[1].data.products;
             setProducts(p);
             console.log(res);
+
+            table();
             
         }).catch((error) => {
             console.log(error)
@@ -50,7 +70,7 @@ export default function products() {
     return(
         <>
             <div id="wrapper">
-                <Sidebar linkId="products" />
+                <Sidebar linkId="shoppings" />
                 <div id="content-wrapper" className="d-flex flex-column">
                     <div id="content">
                         <Header />

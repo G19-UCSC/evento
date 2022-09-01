@@ -5,6 +5,10 @@ import Footer from "../../components/admin/footer";
 import { useEffect, useState } from "react";
 import axios from "../../utils/axios";
 
+var $ = require('jquery');
+import 'datatables.net';
+import 'datatables.net-bs4';
+
 import { FaEdit, FaUserPlus, FaWindowClose } from 'react-icons/fa';
 
 export default function bookings() {
@@ -25,14 +29,30 @@ export default function bookings() {
             text: 'Booked Date'
         },
         {
+            text: 'Location'
+        },
+        {
             text: 'Status'
         },
         {
-            text: 'Progress'
+            text: 'Action'
         }
     ]
 
     useEffect(()=>{
+
+        const table = () => {
+            $(function() {
+                $('#bookingsTable').DataTable({
+                    ordering:true,
+                    select: true,
+                    responsive: true,
+                    buttons: [
+                        'copy','excel','pdf'
+                    ]
+                });
+            });
+        }
 
         const getEvents = () => {
             return axios.get("/event");
@@ -54,6 +74,8 @@ export default function bookings() {
             });
             console.log(events);
             setEvents(events);
+            table();
+
         }).catch((error) => {
             console.log(error)
         })
@@ -63,7 +85,7 @@ export default function bookings() {
     return(
         <>
             <div id="wrapper">
-                <Sidebar linkId="bookings" />
+                <Sidebar linkId="events" />
                 <div id="content-wrapper" className="d-flex flex-column">
                     <div id="content">
                         <Header />

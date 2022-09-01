@@ -2,7 +2,10 @@ import "bootstrap/dist/css/bootstrap.css";
 import Header from  "../../components/admin/header";
 import Sidebar from "../../components/admin/sidebar";
 import Footer from "../../components/admin/footer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "../../utils/axios";
+
+import { FaEdit, FaUserPlus, FaWindowClose } from 'react-icons/fa';
 
 export default function cashflow() {
 
@@ -28,6 +31,22 @@ export default function cashflow() {
             text: 'Action'
         }
     ]
+
+    useEffect(()=>{
+        const getEvents = () => {
+            return axios.get("/event");
+        }
+
+        const getEvent_Staff = () => {
+            return axios.get("/event");
+        }
+
+        Promise.all([getEvents()]).then((res) => {
+            let payments = res[0].data.events;
+            setPayments(payments)
+            console.log(payments);
+        })
+    },[])
 
     return(
         <>
@@ -55,7 +74,7 @@ export default function cashflow() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {events.map((a) => (
+                                                        {payments.map((a) => (
                                                             <tr id={a._id} key={a._id}>
                                                                 <td>{a.title}</td>
                                                                 <td>{a.userName}</td>
