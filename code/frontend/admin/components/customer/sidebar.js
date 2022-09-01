@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 
 import Link from 'next/link';
 import { FaMeetup, FaBoxes, FaUserAlt, FaTachometerAlt, FaCogs, FaCashRegister, FaDollarSign, FaCalendar, FaHatCowboy } from 'react-icons/fa';
+import { BsFillBasketFill } from 'react-icons/bs';
 
 export default function sidebar(props) {
     const newLocal = "navbar-nav bg-gradient-primary sidebar sidebar-dark accordion h-100";
@@ -53,9 +54,20 @@ export default function sidebar(props) {
                         </a>
                     </Link>
                 </li>
-
                 {/* Divider */}
                 <hr className="sidebar-divider" />
+
+
+                <li className="nav-item ml-2" id='bookings' >
+                    <Link href="/customer/purchases">
+                        <a className="nav-link">
+                            <BsFillBasketFill />
+                            <span className='m-1'> Products and Services </span>
+                        </a>
+                    </Link>
+                </li>
+                {/* Divider */}
+                {/* <hr className="sidebar-divider" />
 
                 <li className="nav-item ml-2" id='cashflow' >
                     <Link href="/customer/transactions">
@@ -64,7 +76,7 @@ export default function sidebar(props) {
                             <span className='m-1'> Transactions</span>
                         </a>
                     </Link>
-                </li>
+                </li> */}
                 {/* Divider */}
                 <hr className="sidebar-divider" />
 
@@ -78,7 +90,7 @@ export default function sidebar(props) {
                 </li>
 
                 {/* Divider */}
-                <hr className="sidebar-divider" />
+                {/* <hr className="sidebar-divider" />
 
                 <li className="nav-item ml-2" id='settings' >
                     <Link href="/customer/settings">
@@ -87,7 +99,7 @@ export default function sidebar(props) {
                             <span className='m-1'> Settings </span>
                         </a>
                     </Link>
-                </li>
+                </li> */}
 
                 {/* Divider */}
                 <hr className="sidebar-divider" />

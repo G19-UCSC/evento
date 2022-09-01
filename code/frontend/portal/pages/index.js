@@ -70,8 +70,8 @@ const responsive = {
                <span class="icon-truck"></span>
              </div>
              <div class="text">
-               <h2 class="text-uppercase">Free Shipping</h2>
-               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
+               <h2 class="text-uppercase">Free Delivery</h2>
+               <p>Orders delivery to an eligible destination with at least the stated minimum threshold of eligible items, qualify for Free Delivery by Evento.</p>
              </div>
            </div>
            <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="100">
@@ -80,7 +80,7 @@ const responsive = {
              </div>
              <div class="text">
                <h2 class="text-uppercase">Free Returns</h2>
-               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
+               <p>Items delivered from Evento, can be returned within 30 days of delivery, with some exceptions.</p>
              </div>
            </div>
            <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="200">
@@ -89,7 +89,7 @@ const responsive = {
              </div>
              <div class="text">
                <h2 class="text-uppercase">Customer Support</h2>
-               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla.</p>
+               <p>Contact our customer support to gain further details and support in event bookings.</p>
              </div>
            </div>
          </div>
@@ -100,37 +100,37 @@ const responsive = {
        <div class="container">
          <div class="row">
            <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
-             <a class="block-2-item" href="#">
-               <figure class="image">
-                 <img src="/images/weddinglocation_1.jpg" style={{"object-fit": "fill"}}  layout='fill' alt="" class="img-fluid"/>
-               </figure>
-               <div class="text">
-                 <span class="text-uppercase">Collections</span>
-                 <h3>Women</h3>
-               </div>
-             </a>
+              <a class="block-2-item" href="#">
+                <figure class="image">
+                  <img src="images/weddings.jpg" style={{ objectFit: "cover", height: "600px" }} layout='fill' alt="" class="img-fluid" />
+                </figure>
+                <div class="text">
+                  <span class="text-uppercase">Collections</span>
+                  <h3>Venue</h3>
+                </div>
+              </a>
            </div>
            <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="100">
-             <a class="block-2-item" href="#">
-               <figure class="image">
-                 <img src="/images/customized_party.jpg" style={{"object-fit": "fill"}} layout='fill' alt="" class="img-fluid"/>
-               </figure>
-               <div class="text">
-                 <span class="text-uppercase">Collections</span>
-                 <h3>Children</h3>
-               </div>
-             </a>
+              <a class="block-2-item" href="#">
+                <figure class="image">
+                  <img src="images/bridal_shower.jpg" style={{ objectFit: "cover", height: "600px" }} layout='fill' alt="" class="img-fluid" />
+                </figure>
+                <div class="text">
+                  <span class="text-uppercase">Collections</span>
+                  <h3>Decor</h3>
+                </div>
+              </a>
            </div>
            <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="200">
-             <a class="block-2-item" href="#">
-               <figure class="image">
-                 <img src="/images/social_gatherings.jpg" style={{"object-fit":"cover"}} layout='fill' alt="" class="img-fluid" />
-               </figure>
-               <div class="text">
-                 <span class="text-uppercase">Collections</span>
-                 <h3>Men</h3>
-               </div>
-             </a>
+              <a class="block-2-item" href="#">
+                <figure class="image">
+                  <img src="images/lunch_food.jfif" style={{ objectFit: "fill", height: "600px" }} layout='fill' alt="" class="img-fluid" />
+                </figure>
+                <div class="text">
+                  <span class="text-uppercase">Collections</span>
+                  <h3>Caterings</h3>
+                </div>
+              </a>
            </div>
          </div>
        </div>
@@ -166,48 +166,48 @@ const responsive = {
                <div class="item">
                  <div class="block-4 text-center">
                    <figure class="block-4-image">
-                     <img src="/images/shoe_1.jpg" style={{"object-fit":"cover"}} layout='fill' alt="Image placeholder" class="img-fluid" />
+                     <img src="/images/wedding_clothing.jfif" style={{objectFit: "fill", height: "400px"}} layout='fill' alt="Image placeholder" class="img-fluid" />
                    </figure>
                    <div class="block-4-text p-4">
-                     <h3><a href="#">Corater</a></h3>
-                     <p class="mb-0">Finding perfect products</p>
-                     <p class="text-primary font-weight-bold">$50</p>
+                     <h3><a href="#">Wedding Lace Dress</a></h3>
+                     <p class="mb-0">The perfect dream dress for your wedding</p>
+                     <p class="text-primary font-weight-bold">Rs. 20,000</p>
                    </div>
                  </div>
                </div>
                <div class="item">
                  <div class="block-4 text-center">
                    <figure class="block-4-image">
-                     <img src="/images/cloth_2.jpg" style={{"object-fit":"cover"}} layout='fill' alt="Image placeholder" class="img-fluid" />
+                     <img src="/images/family_events.jpg" style={{objectFit: "fill", height: "400px"}} layout='fill' alt="Image placeholder" class="img-fluid" />
                    </figure>
                    <div class="block-4-text p-4">
-                     <h3><a href="#">Polo Shirt</a></h3>
-                     <p class="mb-0">Finding perfect products</p>
-                     <p class="text-primary font-weight-bold">$50</p>
+                     <h3><a href="#">Party Decorations</a></h3>
+                     <p class="mb-0">Decorate your parties</p>
+                     <p class="text-primary font-weight-bold">Rs. 10000</p>
                    </div>
                  </div>
                </div>
                <div class="item">
                  <div class="block-4 text-center">
                    <figure class="block-4-image">
-                     <img src="/images/cloth_3.jpg" layout='fill' alt="Image placeholder" class="img-fluid" />
+                     <img src="/images/vanilla_wedding_cake013.jfif" style={{objectFit: "fill", height: "400px"}} layout='fill' alt="Image placeholder" class="img-fluid" />
                    </figure>
                    <div class="block-4-text p-4">
-                     <h3><a href="#">T-Shirt Mockup</a></h3>
-                     <p class="mb-0">Finding perfect products</p>
-                     <p class="text-primary font-weight-bold">$50</p>
+                     <h3><a href="#">Multi Tier Cakes</a></h3>
+                     <p class="mb-0">Vanilla cake with multiple layers</p>
+                     <p class="text-primary font-weight-bold">Rs. 8000</p>
                    </div>
                  </div>
                </div>
                <div class="item">
                  <div class="block-4 text-center">
                    <figure class="block-4-image">
-                     <img src="/images/shoe_1.jpg" layout='fill' alt="Image placeholder" class="img-fluid" />
+                     <img src="/images/rose_bouquet015.jfif" style={{objectFit: "fill", height: "400px"}} layout='fill' alt="Image placeholder" class="img-fluid" />
                    </figure>
                    <div class="block-4-text p-4">
-                     <h3><a href="#">Corater</a></h3>
-                     <p class="mb-0">Finding perfect products</p>
-                     <p class="text-primary font-weight-bold">$50</p>
+                     <h3><a href="#">Rose Bouquet</a></h3>
+                     <p class="mb-0">Bouquet bundled with roses and white flowers</p>
+                     <p class="text-primary font-weight-bold">Rs. 6000</p>
                    </div>
                  </div>
                </div>
