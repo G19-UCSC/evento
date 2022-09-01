@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 
 import Link from 'next/link';
-import { FaMeetup, FaBoxes, FaUserAlt, FaTachometerAlt, FaCogs, FaCashRegister, FaDollarSign, FaCalendar, FaHatCowboy } from 'react-icons/fa';
+import { FaMeetup, FaBoxes, FaUserAlt, FaShoppingBag, FaTachometerAlt, FaCogs, FaCashRegister, FaDollarSign, FaCalendar, FaHatCowboy } from 'react-icons/fa';
 import { BsFillBasketFill } from 'react-icons/bs';
 
 export default function sidebar(props) {
@@ -45,7 +45,6 @@ export default function sidebar(props) {
                 {/* Divider */}
                 <hr className="sidebar-divider" />
 
-
                 <li className="nav-item ml-2" id='bookings' >
                     <Link href="/customer/bookings">
                         <a className="nav-link">
@@ -54,52 +53,42 @@ export default function sidebar(props) {
                         </a>
                     </Link>
                 </li>
+
                 {/* Divider */}
                 <hr className="sidebar-divider" />
 
-
-                <li className="nav-item ml-2" id='bookings' >
-                    <Link href="/customer/purchases">
+                <li className="nav-item ml-2" id='products' >
+                    <Link href="/customer/products">
                         <a className="nav-link">
-                            <BsFillBasketFill />
-                            <span className='m-1'> Products and Services </span>
+                            <FaShoppingBag />
+                            <span className='m-1'> Products</span>
                         </a>
                     </Link>
                 </li>
                 {/* Divider */}
-                {/* <hr className="sidebar-divider" />
+                <hr className="sidebar-divider" />
 
-                <li className="nav-item ml-2" id='cashflow' >
-                    <Link href="/customer/transactions">
+                <li className="nav-item ml-2" id='services' >
+                    <Link href="/customer/services">
                         <a className="nav-link">
-                            <FaDollarSign />
-                            <span className='m-1'> Transactions</span>
+                            <FaCogs />
+                            <span className='m-1'>Services</span>
                         </a>
                     </Link>
-                </li> */}
+                </li>
+
                 {/* Divider */}
                 <hr className="sidebar-divider" />
 
-                <li className="nav-item ml-2" id='account' >
+                <li className="nav-item ml-2" id='faq' >
                     <Link href="/customer/faq">
                         <a className="nav-link">
                             <FaBoxes />
-                            <span className='m-1'>FAQ</span>
+                            <span className='m-1'> FAQ </span>
                         </a>
                     </Link>
                 </li>
 
-                {/* Divider */}
-                {/* <hr className="sidebar-divider" />
-
-                <li className="nav-item ml-2" id='settings' >
-                    <Link href="/customer/settings">
-                        <a className="nav-link">
-                            <FaCogs />
-                            <span className='m-1'> Settings </span>
-                        </a>
-                    </Link>
-                </li> */}
 
                 {/* Divider */}
                 <hr className="sidebar-divider" />
