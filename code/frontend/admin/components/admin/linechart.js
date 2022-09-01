@@ -47,7 +47,7 @@ export default function Linechart (props) {
             <div className="card-body">
               <div className="chart-area">
                 {(typeof window !== 'undefined') &&
-                  <Chart options={options1} series={series} type="line" height="300" />
+                  <Chart options={options1} series={series} type="line" height="250" />
                 }
               </div>
             </div>
