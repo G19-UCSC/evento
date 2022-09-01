@@ -10,7 +10,7 @@ export default function bookings() {
     const [events, setEvents] = useState([]);
     const columns = [
         {
-            text: 'Prodent/Service',
+            text: 'Product',
         },
         {
             text: 'Date',
@@ -40,7 +40,7 @@ export default function bookings() {
     return (
         <>
             <div id="wrapper">
-                <Sidebar linkId="bookings" />
+                <Sidebar linkId="products" />
                 <div id="content-wrapper" className="d-flex flex-column">
                     <div id="content">
                         <Header />

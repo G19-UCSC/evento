@@ -24,6 +24,7 @@ const getFAQ = async (req) => {
 const setFAQ = async (req) => {
 
     const attributes = {
+        userid: req.body.userid,
         question: req.body.question,
         answer: req.body.answer
     }
@@ -35,6 +36,7 @@ const updateFAQ = async (req) => {
 
     const attributes = {
         id: req.params.id,
+        userid: req.body.userid,
         question: req.body.question,
         answer: req.body.answer
     }
