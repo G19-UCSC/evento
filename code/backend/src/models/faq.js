@@ -9,6 +9,10 @@ const FAQ = db.define(
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true,
         },
+        userid: {
+            type: DataTypes.STRING(100),
+            allowNull: true,
+        },
         question: {
             type: DataTypes.STRING(100),
             allowNull: false,
