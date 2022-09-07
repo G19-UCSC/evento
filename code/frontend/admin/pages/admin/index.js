@@ -64,10 +64,10 @@ const dashboard = () => {
     const findElementByStatus = (arr, status) => arr.filter(element => element.status == status);
 
     const cardtitles= [
-        { one: "TOTAL BOOKINGS"},
-        { two: "PENDING BOOKINGS"},
+        { one: "TOTAL EVENTS"},
+        { two: "PENDING EVENTS"},
         { three: "TOTAL INCOME"},
-        { four: "TOTAL PAYABLE"}
+        { four: "PENDING PAYMENTS"}
     ]
 
     useEffect(() => {
@@ -75,28 +75,31 @@ const dashboard = () => {
             let events = res.data.events
             let bookingCount = [0,0,0,0,0,0,0,0,0,0,0,0];
             let cancellationCount = [0,0,0,0,0,0,0,0,0,0,0,0];
+            let today = new Date();
             events.forEach(e=>{
+                let year = (e.createdAt.split('T')[0].split('-')[0]);
                 let month = (e.createdAt.split('T')[0].split('-')[1]);
-                switch(month){
-                    case '01': bookingCount[0] += 1; break;
-                    case '02': bookingCount[1] += 1; break;
-                    case '03': bookingCount[2] += 1; break;
-                    case '04': bookingCount[3] += 1; break;
-                    case '05': bookingCount[4] += 1; break;
-                    case '06': bookingCount[5] += 1; break;
-                    case '07': bookingCount[6] += 1; break;
-                    case '08': bookingCount[7] += 1; break;
-                    case '09': bookingCount[8] += 1; break;
-                    case '10': bookingCount[9] += 1; break;
-                    case '11': bookingCount[10] += 1; break;
-                    default: bookingCount[11] += 1; break;
+                if(year == today.getFullYear()){
+                    switch(month){
+                        case '01': bookingCount[0] += 1; break;
+                        case '02': bookingCount[1] += 1; break;
+                        case '03': bookingCount[2] += 1; break;
+                        case '04': bookingCount[3] += 1; break;
+                        case '05': bookingCount[4] += 1; break;
+                        case '06': bookingCount[5] += 1; break;
+                        case '07': bookingCount[6] += 1; break;
+                        case '08': bookingCount[7] += 1; break;
+                        case '09': bookingCount[8] += 1; break;
+                        case '10': bookingCount[9] += 1; break;
+                        case '11': bookingCount[10] += 1; break;
+                        default: bookingCount[11] += 1; break;
+                    }
                 }
             })
             let pending = findElementByStatus(events,"Pending")
             let approved = findElementByStatus(events,"Approved")
             setEvents(bookingCount);
             setCancels(cancellationCount);
-            console.log(events.length);
             setTotalevents(events.length);
             setPendingevents(pending.length);
             setApprovedevents(approved.length);

@@ -57,11 +57,11 @@ export default function sidebar(props) {
         {/* Divider */}
         <hr className="sidebar-divider" />
 
-        <li className="nav-item ml-2" id='bookings' >
-            <Link href="/admin/bookings">
+        <li className="nav-item ml-2" id='events' >
+            <Link href="/admin/events">
             <a className="nav-link">
                 <FaCalendar />
-                <span className='m-1'> Bookings </span>
+                <span className='m-1'> Events </span>
             </a>
             </Link>
         </li>
@@ -69,11 +69,23 @@ export default function sidebar(props) {
         {/* Divider */}
         <hr className="sidebar-divider" />
 
-        <li className="nav-item ml-2" id='products' >
-            <Link href="/admin/products">
+        <li className="nav-item ml-2" id='shoppings' >
+            <Link href="/admin/shoppings">
             <a className="nav-link">
                 <FaShoppingBag />
-                <span className='m-1'> Products and Services </span>
+                <span className='m-1'> Shopping </span>
+            </a>
+            </Link>
+        </li>
+
+        {/* Divider */}
+        <hr className="sidebar-divider" />
+
+        <li className="nav-item ml-2" id='cashflow' >
+            <Link href="/admin/cashflow">
+            <a className="nav-link">
+                <FaDollarSign />
+                <span className='m-1'> Event Cashflow </span>
             </a>
             </Link>
         </li>
