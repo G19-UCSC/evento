@@ -180,11 +180,11 @@ export default function sidebar() {
 
         <div className="topbar-divider d-none d-sm-block"></div>
 
-        <li>
-        <Dropdown.Button style={{marginTop:'20px', marginRight:'50px'}} overlay={menu} placement="bottomLeft" icon={<UserOutlined />}>
-       {user?(user.username):('user')}
-    </Dropdown.Button>
-        </li>
+            <li>
+            <Dropdown.Button style={{marginTop:'20px', marginRight:'50px'}} overlay={menu} placement="bottomLeft" icon={<UserOutlined />}>
+        {user?(user.username):('user')}
+        </Dropdown.Button>
+            </li>
 
     </ul>
 
