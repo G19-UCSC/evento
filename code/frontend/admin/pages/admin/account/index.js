@@ -133,12 +133,12 @@ export default function account () {
              }, function(error) {
                 console.log('FAILED...', error);
              });
-            //   Swal.fire({
-            //     title: `OTP is send to your mail ${formData.email}`,
-            //     iconColor: "black",
-            //     confirmButtonColor: "black",
-            //   });
-            alert(`OTP is send to your mail ${formData.email}`);
+              Swal.fire({
+                title: `OTP is send to your mail ${formData.email}`,
+                iconColor: "black",
+                confirmButtonColor: "black",
+              });
+            // alert(`OTP is send to your mail ${formData.email}`);
                 push({
                     pathname:'/admin/account/otp', 
                     query:{otp:otp,firstname:formData.firstname, lastname:formData.lastname,email:formData.email}
