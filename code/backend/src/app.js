@@ -34,6 +34,7 @@ app.use('/api/system', require('./routes/systemRoutes'))
 app.use('/api/service', require('./routes/serviceRoutes'))
 app.use('/api/faq', require('./routes/faqRoutes'))
 app.use('api/eventProvider',require('./routes/eventProviderRoutes'))
+app.use('api/provider',require('./routes/providerRoutes'))
 
 // Custom error handler
 app.use(errorHandler)
