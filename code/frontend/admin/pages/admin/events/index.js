@@ -1,9 +1,10 @@
 import "bootstrap/dist/css/bootstrap.css";
-import Header from  "../../components/admin/header";
-import Sidebar from "../../components/admin/sidebar";
-import Footer from "../../components/admin/footer";
+import Header from "../../../components/admin/header";
+import Sidebar from "../../../components/admin/sidebar";
+import Footer from "../../../components/admin/footer";
 import { useEffect, useState } from "react";
-import axios from "../../utils/axios";
+import axios from "../../../utils/axios";
+import Link from "next/link";
 
 var $ = require('jquery');
 import 'datatables.net';
@@ -161,9 +162,12 @@ export default function bookings() {
                                                                     )}
                                                                 </td>
                                                                 <td>
-                                                                    <button className='btn' onClick={(e) => { onClickUpdate(a._id) }}>
+                                                                    {/* <button className='btn' onClick={(e) => { onClickUpdate(a._id) }}>
                                                                         <FaEdit />
-                                                                    </button>
+                                                                    </button> */}
+                                                                    <Link href={`events/${encodeURIComponent(a._id)}`}>
+                                                                        <FaEdit />
+                                                                    </Link>
                                                                 </td>
                                                             </tr>
                                                         ))}
