@@ -25,14 +25,9 @@ const Provider = db.define(
 Provider.sync()
 // Provider.sync().then((res) => {
 //   Provider.create({
-//     userid:"87adfe52-d2b8-42cd-91ff-6c764e97e717", 
-//     username: "Vinothini", 
-//     password: "12345",
-//     contact : "0771234567",
-//     address: "Station road, kodikaamam",
-//     role : "Customer",
-//     status : "Approved",
-//     approvedAt : "2022-09-08"
+//     userid:"b928dd43-fb9f-4103-9045-a9596e45325d", 
+//     businessName: "Raj Bakers", 
+//     location: "229,Palliyawatha,Hendala,Wattala",
 
 //   }).then((res) => {
 //     console.log(`Insert successful: ${res._id}`);

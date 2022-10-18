@@ -16,9 +16,9 @@ const getProvider = async(attributes)=>{
 
 const setProvider = async(attributes)=>{
     const provider = await Provider.create({
-        email: attributes.email,
-        firstname: attributes.firstname,
-        lastname: attributes.lastname
+        userid: attributes.userid,
+        businessName: attributes.businessName,
+        location: attributes.location
     }).then((res)=>{
         console.log(`New provider insert successful: ${res._userid}`);
         return {
@@ -35,9 +35,8 @@ const setProvider = async(attributes)=>{
 
 const updateProvider = async(attributes)=>{
     const provider = await Provider.update({
-        email: attributes.email,
-        firstname: attributes.firstname,
-        lastname: attributes.lastname
+        businessName: attributes.businessName,
+        location: attributes.location
     },{
         where: { _userid: attributes.userid },
         returning: true,

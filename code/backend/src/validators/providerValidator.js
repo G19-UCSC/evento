@@ -19,6 +19,7 @@ const getProvider = async(req)=>{
 
 const setProvider = async(req)=>{
     const attributes = {
+        userid: req.body.userid,
         businessName: req.body.businessName,
         location: req.body.location
     }
