@@ -1,4 +1,4 @@
-const Event = require("../models/eventProvider");
+const EventProvider = require("../models/eventProvider");
 
 const getAllEventProviders = async () => {
 

@@ -7,6 +7,7 @@ const getProviderSchema = () => Joi.object().keys({
   });
 
 const setProviderSchema = () => Joi.object().keys({
+  userid: Joi.alternatives(Joi.string(), Joi.number()).required(),
   businessName: Joi.string().required(),
   location: Joi.string().required(),
   
