@@ -5,7 +5,7 @@ import Footer from "../../../components/admin/footer";
 import { useEffect, useState } from "react";
 import axios from "../../../utils/axios";
 import { useRouter } from "next/router";
-import { FaCross, FaMinus, FaUserPlus } from "react-icons/fa";
+import { FaCheckCircle, FaCross, FaMinus, FaSpinner, FaTimesCircle, FaUserPlus } from "react-icons/fa";
 
 export default function event() {
 
@@ -13,7 +13,8 @@ export default function event() {
     const { event } = router.query
     const [eventDetails, setEventDetails] = useState([]);
     const [userDetails, setUserDetails] = useState([]);
-    const [packDetails, setPackDetails] = useState([])
+    const [packDetails, setPackDetails] = useState([]);
+    const [eventProvider, setEventProvider] = useState([]);
 
     useEffect(() => {
 
@@ -21,19 +22,54 @@ export default function event() {
             return (axios.get(`/event/${event}`))
         }
 
-        // Promise.all([getEvent()]).then((res) => {
-        //     let e = res[0].data.event;
-        //     console.log(e);
-        //     setEventDetails(e);
-        // }).catch((error) => {
-        //     console.log(error)
-        // })
+        const getEventProvider = () => {
+            return (axios.get('/eventProvider'))
+        }
 
-        axios.get(`/event/${event}`).then((res)=>{
-            let e = res.data.event;
-            console.log(e);
-            setEventDetails(e);
-            return(res.data)
+        const getProvider = () => {
+            return (axios.get(`/provider/`))
+        }
+
+        const getProduct = () => {
+            return (axios.get(`/product/`))
+        }
+
+        const getService = () => {
+            return (axios.get(`/service/`))
+        }
+
+        Promise.all([getEventProvider(),getProduct(),getService(),getEvent(),getProvider()]).then((res) => {
+            let all = res[0].data.eventProviders;
+            let eventproviders = all.filter(element => element.eventid == event);
+            let products = res[1].data.products;
+            let services = res[2].data.service;
+            let eventdetail = res[3].data.event;
+            let providers = res[4].data.providers;
+            console.log(eventproviders);
+            console.log(products)
+            console.log(services)
+            console.log(eventdetail)
+            console.log(providers)
+            eventproviders.forEach(e => {
+                products.forEach(p => {
+                    if(e.productid == p._id){
+                        e.productname = p.name;
+                    }
+                })
+            })
+            eventproviders.forEach(e => {
+                services.forEach(p => {
+                    if(e.productid == p._id){
+                        e.productname = p.name;
+                    }
+                })
+            })
+            eventproviders.forEach(e => {
+                e.provider = providers.filter(element => element.userid == e.providerid)[0].businessName;
+            })
+            setEventDetails(eventdetail);
+            setEventProvider(eventproviders);
+            return(res[3].data);
         }).then(async (data)=>{
             await axios.get(`/user/${data.event.userid}`).then((res)=>{
                 let u = res.data.user;
@@ -100,7 +136,18 @@ export default function event() {
                                                         <th>Provider</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody></tbody>
+                                                <tbody>
+                                                    {eventProvider.map(e => (
+                                                        <tr key={e._id}>
+                                                            <td>
+                                                                {(e.status == "Accepted") && <FaCheckCircle color="green"/>}
+                                                                {(e.status == "Pending") && <FaSpinner color="grey"/>}
+                                                                {(e.status == "Rejected") && <FaTimesCircle color="red"/>}
+                                                                {" " + e.productname}</td>
+                                                            <td>{e.provider}</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>

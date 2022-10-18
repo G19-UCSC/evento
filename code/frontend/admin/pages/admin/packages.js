@@ -108,9 +108,9 @@ export default function settings() {
                 if(f.productid == p._id){
                     f._id = p._id;
                     f.name = p.name;
+                    f.type = "Product";
                     f.category = p.category;
                     f.price = p.price;
-                    f.type = p.type;
                 }
             })
         })
@@ -120,9 +120,9 @@ export default function settings() {
                 if(f.productid == p._id){
                     f._id = p._id;
                     f.name = p.name;
+                    f.type = "Service";
                     f.category = p.category;
                     f.price = p.price;
-                    f.type = p.type;
                 }
             })
         })
@@ -388,7 +388,7 @@ export default function settings() {
                                                                 {filteredpp.map((a,i) => (
                                                                     <tr id={a._id} key={i}>
                                                                         <td>{a.name}</td>
-                                                                        <td>Product</td>
+                                                                        <td>{a.type}</td>
                                                                         <td>{a.category}</td>
                                                                         <td>Rs. {a.price}</td>
                                                                     </tr>
