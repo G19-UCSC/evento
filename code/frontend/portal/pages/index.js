@@ -7,7 +7,7 @@ import Footer from "../components/home/footer"
 import Header from "../components/home/header"
 
 import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
+
 
 
 export default function Home() {
