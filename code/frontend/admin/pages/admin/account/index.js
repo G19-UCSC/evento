@@ -3,18 +3,22 @@ import { useRouter } from 'next/router'
 import Link from 'next/link';
 import "bootstrap/dist/css/bootstrap.css";
 import { FaEdit, FaUserPlus, FaWindowClose } from 'react-icons/fa';
-import Header from  "../../components/admin/header";
-import Sidebar from "../../components/admin/sidebar";
-import Footer from "../../components/admin/footer";
+import Header from  "../../../components/admin/header";
+import Sidebar from "../../../components/admin/sidebar";
+import Footer from "../../../components/admin/footer";
 
 var $ = require('jquery');
 import 'datatables.net';
 import 'datatables.net-bs4';
-import axios from '../../utils/axios';
+import axios from '../../../utils/axios';
+import generateOtp  from '../../../utils/otp'
 import { useForm } from 'react-hook-form';
+import emailjs from '@emailjs/browser';
+// import Swal from 'sweetalert2'
 
 export default function account () {
 
+    const { push } = useRouter()
     const [btn,setBtn] = useState('null')
     const [update,setUpdate] = useState('')
     const [accounts,setAccounts] = useState([])
@@ -27,6 +31,8 @@ export default function account () {
         text: 'Username'
     },{
         text: 'Email'
+    }, {
+        text: 'User Role'
     }, {
         text: 'Status'
     }, {
@@ -121,6 +127,22 @@ export default function account () {
             onClickCancel();
         }else{
             //Create Form
+            const otp = generateOtp()
+            emailjs.send("service_hxq4tfa","template_rvtb5iq", {to_name:`${formData.firstname} ${formData.lastname}`,message:otp,from_name:'evento',to_mail:formData.email,reply_to:'alwaysvictoryforme@gmail.com'},'_yWQOnFaW35ggFchq').then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+             }, function(error) {
+                console.log('FAILED...', error);
+             });
+              Swal.fire({
+                title: `OTP is send to your mail ${formData.email}`,
+                iconColor: "black",
+                confirmButtonColor: "black",
+              });
+            // alert(`OTP is send to your mail ${formData.email}`);
+                push({
+                    pathname:'/admin/account/otp', 
+                    query:{otp:otp,firstname:formData.firstname, lastname:formData.lastname,email:formData.email}
+                },'/admin/account/otp')
         }
     }
 
@@ -199,6 +221,7 @@ export default function account () {
                                                         <td>{a.firstname + " " + a.lastname}</td>
                                                         <td>{a.username}</td>
                                                         <td>{a.email}</td>
+                                                        <td>{a.role}</td>
                                                         <td>{a.status}</td>
                                                         <td>
                                                             <button className='btn' onClick={(e)=>{onClickUpdate(a.userid)}}> 
@@ -231,15 +254,15 @@ export default function account () {
                                                         name='lastname' id='lname' placeholder='Last Name'
                                                         disabled={(btn == 'update') && (true)} 
                                                         {...register("lastname", { required: true })}/>
-                                                    <select className='form-control mb-4' name="role" id='role'
-                                                        disabled={(btn == 'update') && (true)} 
-                                                        {...register("role", { required: true })}>
-                                                        <option value={null} selected>User Role</option>
-                                                        <option value="Staff">Staff</option>
-                                                        <option value="Customer">Individual Customer</option>
-                                                    </select>
                                                     {(btn == 'update') && (
                                                         <>
+                                                        <select className='form-control mb-4' name="role" id='role'
+                                                        disabled={(btn == 'update') && (true)} 
+                                                        {...register("role", { required: true })}>
+                                                            <option value={null} selected>User Role</option>
+                                                            <option value="Staff">Staff</option>
+                                                            <option value="Customer">Individual Customer</option>
+                                                        </select>
                                                         <select className='form-control mb-4' name="status" id='status'
                                                             {...register("status", { required: true })}>
                                                             <option value={null} >Account Status</option>
@@ -253,15 +276,7 @@ export default function account () {
                                                         <>
                                                         <input className='form-control mb-4' type="email"
                                                             name='email' id='email' placeholder='Email'
-                                                            {...register("email", { required: true })}/> 
-                                                        <input className='form-control mb-4' type="text"
-                                                            name='username' id='username' placeholder='Username'
-                                                            {...register("username", { required: true })}/>
-                                                        <input className='form-control mb-4' type="password"
-                                                            name='password' id='password' placeholder='Password'/>
-                                                        <input className='form-control mb-4' type="password"
-                                                            name='re-enterpass' id='re-enterpass' 
-                                                            placeholder='Re-enter Password'/>
+                                                            {...register("email", { required: true })}/>    
                                                         </>
                                                     )}
                                                     {submitBtn}

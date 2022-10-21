@@ -34,6 +34,7 @@ const setPackageproduct = async (req) => {
 const updatePackageproduct = async (req) => {
 
     const attributes = {
+        id: req.params.id,
         packageid: req.body.packageid,
         productid: req.body.productid,
     }

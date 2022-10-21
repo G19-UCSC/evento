@@ -11,9 +11,9 @@ const setEventProviderSchema = () => Joi.object().keys({
   providerid: Joi.string().required(),
   productid: Joi.string().required(),
   status: Joi.string().required(),
-  providerpay: Joi.number().required(),
+  providerpay: Joi.number().allow(null),
   providerpay_status: Joi.string().required(),
-  providerpay_date: Joi.date().required(),
+  providerpay_date: Joi.date().allow(null),
 });
 
 const updateEventProviderSchema = () => Joi.object().keys({
@@ -22,9 +22,9 @@ const updateEventProviderSchema = () => Joi.object().keys({
   providerid: Joi.string().required(),
   productid: Joi.string().required(),
   status: Joi.string().required(),
-  providerpay: Joi.number().required(),
+  providerpay: Joi.number().allow(null),
   providerpay_status: Joi.string().required(),
-  providerpay_date: Joi.date().required(),
+  providerpay_date: Joi.date().allow(null),
 });
 
 const deleteEventProviderSchema = () => Joi.object().keys({

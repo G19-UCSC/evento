@@ -27,15 +27,15 @@ const EventProvider = db.define(
     },
     providerpay: {
         type: DataTypes.FLOAT(3),
-        allowNull: false,
+        allowNull: true,
     },
     providerpay_status: {
-        type: DataTypes.ENUM('Pending', 'Accepted', 'Rejected'),
+        type: DataTypes.ENUM('Pending', 'Paid'),
         allowNull: false,
     },
     providerpay_date: {
         type: DataTypes.DATE(),
-        allowNull: false,
+        allowNull: true,
     },
   }
   , {
