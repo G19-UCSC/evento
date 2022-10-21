@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import "bootstrap/dist/css/bootstrap.css";
+
 import Header from "../../components/staff/header";
 import Sidebar from "../../components/staff/sidebar";
 import Footer from "../../components/staff/footer";
@@ -8,16 +9,24 @@ import { FaAngleUp, FaCalendar, FaDownload, FaEllipsisH } from 'react-icons/fa';
 
 import Cards from '../../components/staff/cards';
 import axios from '../../utils/axios';
+
+import Head from 'next/head';
+// import Body from 'next/';
+import Script from 'next/script'
 var $ = require('jquery');
 
 const dashboard = () => {
 
-    const [events, setEvents] = useState([]);
-    const [cancels, setCancels] = useState([]);
-    const [totalevents, setTotalevents] = useState(0);
-    const [cancelledevents, setCancelledevents] = useState(0);
-    const [approvedevents, setApprovedevents] = useState(0);
+    // const [eventstaffs, seteventStaff] = useState([]);
+    const [eventids, seteventid] = useState([]);
+    // const [cancels, setCancels] = useState([]);
+    const [newassigns, setnewassigns] = useState(0);
+    const [totalevents, setTotalAssignedEvents] = useState(0);
+    // const [cancelledevents, setCancelledevents] = useState(0);
+    // const [approvedevents, setApprovedevents] = useState(0);
     const [pendingevents, setPendingevents] = useState(0);
+    // const [user, setUser] = useState([]);
+
 
     const events2 = [
         {
@@ -61,50 +70,78 @@ const dashboard = () => {
     const findElementByStatus = (arr, status) => arr.filter(element => element.status == status);
 
     const cardtitles = [
-        { one: "TOTAL BOOKINGS" },
-        { two: "PENDING BOOKINGS" },
+        { one: "TOTAL ASSIGNED EVENTS" },
+        { two: "PENDING EVENTS" },
         { three: "NEWLY ASSIGNED" }
     ]
 
     useEffect(() => {
-        axios.get("/event").then((res) => {
-            let events = res.data.events
-            let bookingCount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            let cancellationCount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            events.forEach(e => {
-                let month = (e.createdAt.split('T')[0].split('-')[1]);
-                switch (month) {
-                    case '01': bookingCount[0] += 1; break;
-                    case '02': bookingCount[1] += 1; break;
-                    case '03': bookingCount[2] += 1; break;
-                    case '04': bookingCount[3] += 1; break;
-                    case '05': bookingCount[4] += 1; break;
-                    case '06': bookingCount[5] += 1; break;
-                    case '07': bookingCount[6] += 1; break;
-                    case '08': bookingCount[7] += 1; break;
-                    case '09': bookingCount[8] += 1; break;
-                    case '10': bookingCount[9] += 1; break;
-                    case '11': bookingCount[10] += 1; break;
-                    default: bookingCount[11] += 1; break;
-                }
-            })
-            let pending = findElementByStatus(events, "Pending")
-            let approved = findElementByStatus(events, "Approved")
-            setEvents(bookingCount);
-            setCancels(cancellationCount);
-            console.log(events.length);
-            setTotalevents(events.length);
-            setPendingevents(pending.length);
-            setApprovedevents(approved.length);
+        const user_ = JSON.parse(localStorage.getItem('user'))
 
+        axios.get("/eventstaff").then((res) => {
+            let eventstaffs = res.data.alleventstaff
+            let events = [];
+            let newEvents = 0;
+            let pendingEvents = 0;
+            let date = new Date().toJSON().split('T')[0];
+            // let Selectdate = date;
+            // console.log('date', date)
+            // console.log('Selectdate', Selectdate)
+            let i = 0;
+            eventstaffs.forEach(e => {
+                if ((user_.userid == e.userid) && (e.status == 'Assigned')) {
+                    events[i] = e.eventid;
+                    i++
+
+                    // seteventid(eventid => [...eventid, e.eventid]);
+                    if ((e.createdAt.split('T')[0] == date) || (e.updatedAt.split('T')[0] == date)) {
+                        newEvents++;
+
+                    }
+                    axios.get(`/event/${e.eventid}`).then((res) => {
+                        let eventdetails = res.data.event
+                        // console.log('eventdetails', eventdetails);
+                        // console.log('eventdetails', eventdetails.status);
+                        if (eventdetails.status == "Pending") {
+                            pendingEvents++;
+                            setPendingevents(pendingEvents);
+                        }
+
+                    })
+                }
+
+            });
+            // setTotalAssignedEvents(count);
+            console.log('newEvents', newEvents)
+            console.log("pendingEvents", pendingEvents)
+            seteventid(events);
+            setTotalAssignedEvents(events.length);
+            setnewassigns(newEvents);
+
+            // setPendingevents(pendingEvents);
         }).catch((error) => {
             console.log(error)
         })
 
+        // $("#calendar").evoCalendar();
+
+
     }, [])
+
+
+    // console.log("eventstaffs", eventstaffs)
+    // console.log("totalevents", totalevents)
+    // console.log("eventids", eventids)
+    // console.log("newassigns", newassigns)
+    // console.log("Assigned ", Assigned)
+
+
 
     return (
         <>
+            <Head><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/css/evo-calendar.min.css" /></Head>
+            <Script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></Script>
+            <Script src="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/js/evo-calendar.min.js"></Script>
             <div id="wrapper">
 
                 {/* Sidebar */}
@@ -134,80 +171,10 @@ const dashboard = () => {
 
                             {/* Content Row */}
                             <div className="row align-items-center  justify-content-center">
-                                <Cards cardTitles={cardtitles} cardData={[totalevents, pendingevents]} />
+                                <Cards cardTitles={cardtitles} cardData={[totalevents, pendingevents, newassigns]} />
                             </div>
 
-                            {/* Content Row */}
-                            <div className="row">
-                                <div className="col-xl-8 col-lg-7">
-
-                                </div>
-
-                                {/* Pie Chart */}
-                                <div className="col-xl-4 col-lg-5">
-
-                                </div>
-                            </div>
-
-                            {/* Content Row */}
-                            <div className="row">
-                                <div className="col-xl-8 col-lg-7">
-
-                                </div>
-
-                                {/* Pie Chart */}
-                                <div className="col-xl-4 col-lg-5">
-
-                                </div>
-                            </div>
-
-                            {/* Content Row */}
-                            {/* <div className="row">
-
-                        // Content Column
-                        <div className="col-lg-6 mb-4">
-
-                            // Project Card Example
-                            <div className="card shadow mb-4">
-                                <div className="card-header py-3">
-                                    <h6 className="m-0 font-weight-bold text-primary">Projects</h6>
-                                </div>
-                                <div className="card-body">
-                                    <h4 className="small font-weight-bold">Server Migration <span
-                                            className="float-right">20%</span></h4>
-                                    <div className="progress mb-4">
-                                        <div className="progress-bar bg-danger" role="progressbar" style={{width: '20%'}}
-                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 className="small font-weight-bold">Sales Tracking <span
-                                            className="float-right">40%</span></h4>
-                                    <div className="progress mb-4">
-                                        <div className="progress-bar bg-warning" role="progressbar" style={{width: '40%'}}
-                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 className="small font-weight-bold">Customer Database <span
-                                            className="float-right">60%</span></h4>
-                                    <div className="progress mb-4">
-                                        <div className="progress-bar" role="progressbar" style={{width: '60%'}}
-                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 className="small font-weight-bold">Payout Details <span
-                                            className="float-right">80%</span></h4>
-                                    <div className="progress mb-4">
-                                        <div className="progress-bar bg-info" role="progressbar" style={{width: '80%'}}
-                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 className="small font-weight-bold">Account Setup <span
-                                            className="float-right">Complete!</span></h4>
-                                    <div className="progress">
-                                        <div className="progress-bar bg-success" role="progressbar" style={{width: '100%'}}
-                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div> */}
+                            <div id="calendar"></div>
 
                         </div>
                         {/* /.container-fluid */}

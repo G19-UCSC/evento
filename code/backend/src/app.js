@@ -25,6 +25,7 @@ app.use('/api/eventstaff', require('./routes/eventstaffRoutes'))
 app.use('/api/user', require('./routes/userRoutes'))
 app.use('/api/ruser', require('./routes/registereduserRoutes'))
 app.use('/api/product', require('./routes/productRoutes'))
+app.use('/api/review', require('./routes/reviewRoutes'))
 
 app.use('/api/payment', require('./routes/paymentRoutes'))
 app.use('/api/productPayment', require('./routes/productPaymentRoutes'))
@@ -33,7 +34,8 @@ app.use('/api/packageproduct', require('./routes/packageproductRoutes'))
 app.use('/api/system', require('./routes/systemRoutes'))
 app.use('/api/service', require('./routes/serviceRoutes'))
 app.use('/api/faq', require('./routes/faqRoutes'))
-app.use('api/eventProvider',require('./routes/eventProviderRoutes'))
+app.use('api/eventProvider', require('./routes/eventProviderRoutes'))
+
 
 // Custom error handler
 app.use(errorHandler)

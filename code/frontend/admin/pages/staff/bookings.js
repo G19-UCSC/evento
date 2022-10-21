@@ -16,12 +16,14 @@ import { useForm } from 'react-hook-form';
 
 export default function account() {
     const router = useRouter()
-    const [btn, setBtn] = useState('null')
-    const [update, setUpdate] = useState('')
-    const [faqs, setfaqs] = useState([])
-    const [user, setUser] = useState([]);
+    const [eventids, seteventid] = useState([]);
+    // const [btn, setBtn] = useState('null')
+    // const [update, setUpdate] = useState('')
+    // const [faqs, setfaqs] = useState([])
+    // const [eventstaff, seteventStaff] = useState([]);
+    const [events, setevents] = useState([]);
     // const [registered_accounts, setRegistered_accounts] = useState([])
-    const { register, handleSubmit, watch, control, reset, setValue, formState: { errors } } = useForm();
+    // const { register, handleSubmit, watch, control, reset, setValue, formState: { errors } } = useForm();
 
     const columns = [{
         text: 'Customer'
@@ -37,190 +39,65 @@ export default function account() {
         text: 'Action'
     },];
 
-    // let createFormViewBtn;
-
-    // if (btn == 'null') {
-    //     createFormViewBtn = <button className="btn" onClick={e => onClickCreate()} id="createBtn"> <FaUserPlus /> Add Question </button>
-    // }
-    // else {
-    //     createFormViewBtn = <button className="btn" onClick={e => onClickCancel()}> <FaWindowClose /> Cancel </button>
-    // }
-
-    // let submitBtn;
-
-    // if (btn == 'create') {
-    //     submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Add Question </button>
-    // }
-    // else if (btn == 'update') {
-    //     submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Update Question </button>
-    // }
-    // const arr = [];
-
-    const findElementById = (arr, id) => arr.filter(element => element._id == id);
-    const removeElementById = (arr, id) => arr.filter(element => element._id !== id);
-
-    const setForm = (id) => {
-        // console.log('question id', id)
-        // console.log('question faq', faqs)
-        const faq = findElementById(faqs, id)[0];
-        console.log('the faq', faq);
-        setValue('question', faq.question);
-        // setValue('lastname', account.lastname);
-        // setValue('status', account.status);
-        // setValue('role', account.role);
-        setUpdate(id)
-    }
-    // const router = useRouter();
     const viewEventDetails = useCallback((singleevent) => {
         router.push(`./bookings/${singleevent}`);
     }, [router]
     );
-    function onClickCreate(e) {
-        if (btn == 'null') {
-            setBtn('create');
-            document.getElementById("accountsTableCard").classList.toggle("col-lg-6");
-        }
-    }
 
-    function onClickUpdate(_id) {
-        console.log(_id)
-        if (btn == 'null' && _id != '') {
-            setBtn('update');
-            setForm(_id);
-            document.getElementById("accountsTableCard").classList.toggle("col-lg-6");
-        }
-
-    }
-
-    function onClickCancel(e) {
-        setBtn('null');
-        document.getElementById("accountsTableCard").classList.toggle("col-lg-6");
-        reset({
-            question: ''
-        })
-    }
-
-    const onSubmit = (formData) => {
-
-        if (btn == 'update' && update != '') {
-            console.log('update'.update)
-            let u = findElementById(faqs, update)[0];
-            console.log('get elements', u)
-            formData.id = update
-            // formData.question = req.data.question
-            // formData.answer = u.answer
-            // formData.password = u.password
-            // formData.contact = u.contact
-            // formData.address = u.address
-            // if(formData.status == 'Approved'){
-            //     formData.approvedAt = Date();
-            // }else{
-            //     formData.approvedAt = u.approvedAt
-            // }
-
-            console.log('formData', formData)
-            axios.put(`/faq/${update}`, formData).then((res) => {
-                const newQuestion = res.data.faq.res[0]
-                setfaqs([formData].concat(removeElementById(faqs, newQuestion.id)))
-            }).catch((error) => {
-                console.log(error)
-            })
-            router.reload('/customer/faq')
-
-            onClickCancel();
-        } else {
-            // let u = findElementById(faqs)[0];
-            // formData.question = u.question
-            // formData.answer = u.answer
-            console.log(formData)
-            axios.post(`/faq`, formData).then((res) => {
-                const newQuestion = res.data.faqs
-                console.log('userData', userData)
-                setfaqs([formData].concat(removeElementById(faqs, newQuestion)))
-            }).catch((error) => {
-                console.log(error)
-            })
-
-            onClickCancel();
-        }
-    }
 
     useEffect(() => {
-        const table = () => {
-            $(function () {
-                $('#accountsTable').DataTable({
-                    ordering: true,
-                    select: true,
-                    responsive: true,
-                    buttons: [
-                        'copy', 'excel', 'pdf'
-                    ]
-                });
-            });
-        }
         const user_ = JSON.parse(localStorage.getItem('user'))
 
-        if (user_) {
-            // setUser(user_)
-            axios.get(`/user/${user_.userid}`).then((res) => {
-                setUser(user_)
-            })
-        }
+        axios.get("/eventstaff").then((res) => {
+            let eventstaffs = res.data.alleventstaff
+            // let events = [];
+            // let newEvents = 0;
+            // let pendingEvents = 0;
+            // let date = new Date().toJSON().split('T')[0];
+            // let Selectdate = date;
+            // console.log('date', date)
+            // console.log('Selectdate', Selectdate)
+            let i = 0;
+            eventstaffs.forEach(e => {
+                if ((user_.userid == e.userid) && (e.status == 'Assigned')) {
+                    // events[i] = e.eventid;
+                    // i++
+
+                    // seteventid(eventid => [...eventid, e.eventid]);
+                    // if ((e.createdAt.split('T')[0] == date) || (e.updatedAt.split('T')[0] == date)) {
+                    //     newEvents++;
+
+                    // }
+                    axios.get(`/event/${e.eventid}`).then((res) => {
+                        let eventdetails = res.data.event
+                        console.log('eventdetails', eventdetails);
+                        // console.log('eventdetails', eventdetails.status);
+
+                        setevents(details => [...details, eventdetails]);
 
 
-        axios.get("/faq").then((res) => {
-            // console.log('faqs', res)
-            // console.log('user', user_.userid)
-            let allfaqs = res.data.faqs
-            allfaqs.forEach(q => {
-                if (user_.userid == q.userid) {
-                    // console.log("q", q)
-                    setfaqs(faq => [...faq, q]);
+                    })
                 }
+
             });
+            // setTotalAssignedEvents(count);
+            // console.log('newEvents', newEvents)
+            // console.log("pendingEvents", pendingEvents)
+            // seteventid(events);
+            // setTotalAssignedEvents(events.length);
+            // setnewassigns(newEvents);
 
-
-            // if (user_.userid == res.data.faqs.userid) {
-            //     setfaqs(res.data.faqs);
-
-            // }
-            // setfaqs(faqs);
-            // table();
+            // setPendingevents(pendingEvents);
         }).catch((error) => {
             console.log(error)
         })
-        // const getUsers = () => {
-        //     return axios.get("/user");
-        // }
-
-        // const getRUsers = () => {
-        //     return axios.get("/ruser");
-        // }
-
-        // Promise.all([getUsers(), getRUsers()]).then((res) => {
-        //     let users = res[0].data.users;
-        //     let rusers = res[1].data.users;
-        //     rusers.forEach(r => {
-        //         users.forEach(u => {
-        //             if (u._userid == r.userid) {
-        //                 r.firstname = u.firstname;
-        //                 r.lastname = u.lastname;
-        //                 r.email = u.email;
-
-        //             }
-        //         })
-        //     });
-        //     setAccounts(rusers);
-        //     table();
-        // }).catch((error) => {
-        //     console.log(error)
-        // })
-
-    }, []);
 
 
-    // const session = getSession();
-    // console.log('session user', session.user)
+    }, [])
+
+
+    console.log('eventids', eventids)
+    console.log('events', events)
 
     return (
         <>
@@ -261,25 +138,61 @@ export default function account() {
                                                                 </td>
                                                             </tr>
                                                         ))} */}
-                                                        <tr>
-                                                            <td>Nimal Ruwan</td>
-                                                            <td>10-09-2022</td>
-                                                            <td>02-09-2022</td>
-                                                            <td>Pending</td>
-                                                            <td>
-                                                                <h4 className="small font-weight-bold">Pending
-                                                                    <span className="float-right">25%</span></h4>
-                                                                <div className="progress mb-4">
-                                                                    <div className="progress-bar bg-warning" role="progressbar"
-                                                                        style={{ width: '20%' }}></div>
-                                                                </div>
-                                                            </td>
-                                                            <td className='align-items-center justify-content-center'>
-                                                                <button className='btn' onClick={() => viewEventDetails("c3ef5f8e-183a-4fd0-bada-089da9143e7c")}><FaEye /></button>
+                                                        {events.map((a) => (
+                                                            <tr id={a._id} key={a._id}>
+                                                                <td>Nimal Ruwan</td>
+                                                                <td>{a.start_date.split('T')[0]}</td>
+                                                                <td>{a.createdAt.split('T')[0]}</td>
+                                                                <td>{a.status}</td>
+                                                                <td>
+                                                                    {(a.status == "Pending") && (
+                                                                        <>
+                                                                            <h4 className="small font-weight-bold">{a.status}
+                                                                                <span className="float-right">25%</span></h4>
+                                                                            <div className="progress mb-4">
+                                                                                <div className="progress-bar bg-secondary" role="progressbar"
+                                                                                    style={{ width: '25%' }}></div>
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                    {(a.status == "Approved") && (
+                                                                        <>
+                                                                            <h4 className="small font-weight-bold">{a.status}
+                                                                                <span className="float-right">50%</span></h4>
+                                                                            <div className="progress mb-4">
+                                                                                <div className="progress-bar bg-warning" role="progressbar"
+                                                                                    style={{ width: '50%' }}></div>
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                    {(a.status == "Payed") && (
+                                                                        <>
+                                                                            <h4 className="small font-weight-bold">{a.status}
+                                                                                <span className="float-right">75%</span></h4>
+                                                                            <div className="progress mb-4">
+                                                                                <div className="progress-bar bg-info" role="progressbar"
+                                                                                    style={{ width: '75%' }}></div>
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                    {(a.status == "Completed") && (
+                                                                        <>
+                                                                            <h4 className="small font-weight-bold">{a.status}
+                                                                                <span className="float-right">100%</span></h4>
+                                                                            <div className="progress mb-4">
+                                                                                <div className="progress-bar bg-success" role="progressbar"
+                                                                                    style={{ width: '100%' }}></div>
+                                                                            </div>
+                                                                        </>
+                                                                    )}
+                                                                </td>
+                                                                <td className='align-items-center justify-content-center'>
+                                                                    <button className='btn' onClick={() => viewEventDetails(a._id)}><FaEye /></button>
 
-                                                            </td>
+                                                                </td>
 
-                                                        </tr>
+                                                            </tr>
+                                                        ))}
                                                     </tbody>
                                                 </table>
                                             </div>

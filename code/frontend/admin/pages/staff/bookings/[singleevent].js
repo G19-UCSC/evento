@@ -17,6 +17,9 @@ import { useForm } from 'react-hook-form';
 export default function EventDetails() {
     const router = useRouter()
     const [eventData, setEventdata] = useState([]);
+    const [packageData, setpackagedata] = useState([]);
+    const [packageProducts, setpackageproducts] = useState([]);
+    const [packageServices, setpackageservices] = useState([]);
     const columns = [{
         text: 'Product / Service'
     }, {
@@ -25,14 +28,79 @@ export default function EventDetails() {
         text: 'Status'
     },];
 
-    const eventstaffID = router.query.singleevent
+    const eventid = router.query.singleevent
     // const { id } = eventstaffID.singleevent
-    // console.log('params', id)
-    // axios.get(`/eventstaff/${eventstaffID}`).then((res) => {
-    //     // let eventData = res.data.eventData
-    //     setEventdata(eventData)
-    // })
+    console.log('params', eventid)
+    useEffect(() => {
+        const user_ = JSON.parse(localStorage.getItem('user'))
+        // console.log('paramss', eventid)
+        axios.get(`/event/${eventid}`).then((res) => {
+            let eventData = res.data.event
+            setEventdata(eventData)
+
+            const getpacakedeials = axios.get(`/package/${eventData.packageid}`);
+            let getallpackageproduct = axios.get("/packageproduct");
+            let getallproductdetails = axios.get("/product");
+            let getallservicedetails = axios.get("/service");
+            let getalleventstaff = axios.get("/eventstaff");
+            let getallusers = axios.get("/users");
+
+            Promise.all([getpacakedeials, getallpackageproduct, getallproductdetails, getallservicedetails, getalleventstaff, getallusers]).then((res) => {
+                // axios.get(`/package/${eventData.packageid}`).then((res) => {
+                let pacakedetails = res[0].data.package;
+                let allpackageproduct = res[1].data.packageproducts;
+                let allproductdetails = res[2].data.products;
+                let allservicedetails = res[3].data.service;
+                let alleventstaff = res[4].data.alleventstaff
+                let getallusers = res[4].data.alleventstaff
+                setpackagedata(pacakedetails)
+                alleventstaff.forEach(alles => {
+                    if (alles.eventid == eventid) {
+                        setallassignendstaff
+                    }
+                });
+                allpackageproduct.forEach(apac => {
+                    if (apac.packageid == eventData.packageid) {
+
+                        allproductdetails.forEach(alpro => {
+                            // console.log("alpro.id", alpro._id)
+                            // console.log("eventData.packageid", eventData.packageid)
+                            // console.log("apac.productid", apac.productid)
+                            if (alpro._id == apac.productid) {
+                                setpackageproducts(product => [...product, alpro])
+                            }
+
+                        });
+                        allservicedetails.forEach(alser => {
+                            if (alser._id == apac.productid) {
+                                setpackageservices(service => [...service, alser])
+                            }
+
+                        });
+
+                    }
+
+                });
+                // console.log("pacakedeials", pacakedeials)
+                // console.log("allpackageproduct", allpackageproduct)
+                // console.log("allproductdetails", allproductdetails)
+                // console.log("allservicedetails", allservicedetails)
+
+            }).catch((error) => {
+                console.log(error)
+            })
+        }).catch((error) => {
+            console.log(error)
+        })
+
+
+    }, [])
+
     console.log('eventData', eventData)
+    console.log('packageProducts', packageProducts)
+    console.log('packageServices', packageServices)
+
+
     return (
         <>
             <div id="wrapper">
@@ -49,19 +117,20 @@ export default function EventDetails() {
                         <div className='d-flex align-items-center justify-content-center'>
                             <div className='card border-secondary shadow ' style={{ maxWidth: "60rem" }}>
                                 <div className='d-flex align-items-center justify-content-between card-header h4 bg-secondary text-white'>
-                                    <span>Event Title</span><span>Pending</span>
+                                    <span>{eventData.title}</span><span>{eventData.status}</span>
                                 </div>
                                 <div className='card-body row d-flex align-items justify-content-between'>
                                     <div className='container col-md-4  mt-0'>
-                                        <h5 class="card-title">Event Details</h5>
-                                        <p class="card-text">Event Description</p>
-                                        <p class="card-text">Created Date: 27-08-2022</p>
-                                        <p class="card-text">Start Date: 08-09-2022</p>
-                                        <p class="card-text">End Date: 08-09-2022</p>
-                                        <p class="card-text">Venue: address of the place</p>
-                                        <p class="card-text">No of Participants: 30</p>
+                                        <h5 className="card-title">Event Details</h5>
+                                        {/* <p className="card-text">Event Description</p> */}
+                                        {/* <p className="card-text">Created Date: {eventData.createdAt.split('T')[0]}</p>
+                                        <p className="card-text">Start Date: {eventData.start_date.split('T')[0]}</p>
+                                        <p className="card-text">End Date: {eventData.end_date.split('T')[0]}</p> */}
+                                        <p className="card-text">Venue:{eventData.location}</p>
+                                        <p className="card-text">No of Participants: {eventData.maxPeople}</p>
                                     </div>
-                                    <div className='container col-md-4  mt-0'><h5 class="card-title">Package: packagetype</h5>
+                                    <div className='container col-md-4  mt-0'><h5 className="card-title">Package: {packageData.category}</h5>
+                                        <h5 className="card-title">Price: Rs.{' '}{eventData.price}</h5>
                                         <div className='table-responsive'>
                                             <table className='table'>
                                                 <thead>
@@ -72,35 +141,39 @@ export default function EventDetails() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>Love Cake</td>
-                                                        <td>Perera and Sons</td>
-                                                        <td><FaSpinner /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Reception Hall</td>
-                                                        <td>Happy Venue</td>
-                                                        <td><FaCheck /></td>
-                                                    </tr>
+                                                    {packageProducts.map((a) => (
+                                                        <tr id={a._id} key={a.i}>
+                                                            <td>{a.name}</td>
+                                                            <td>Perera and Sons</td>
+                                                            <td><FaSpinner /></td>
+                                                        </tr>
+                                                    ))}
+                                                    {packageServices.map((b) => (
+                                                        <tr id={b._id} key={b.i}>
+                                                            <td>{b.name}</td>
+                                                            <td>Happy Venue</td>
+                                                            <td><FaCheck /></td>
+                                                        </tr>
+                                                    ))}
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                     <div className='container col-md-4  mt-0'>
-                                        <h5 class="card-title">Monitored By </h5>
-                                        <p class="card-text">Person who monitor it</p>
+                                        <h5 className="card-title">Monitored By </h5>
+                                        <p className="card-text">Person who monitor it</p>
                                     </div>
                                     <div className='container col-md-4  mt-3'>
-                                        <h5 class="card-title">Advance Payment</h5>
-                                        <p class="card-text">Payment Status: statshere</p>
-                                        <p class="card-text">Advance Amount: Rs. 5000.00</p>
-                                        <p class="card-text">PaymentDate: 08-09-2022</p>
+                                        <h5 className="card-title">Advance Payment</h5>
+                                        <p className="card-text">Payment Status:{eventData.advanceStatus}</p>
+                                        <p className="card-text">Advance Amount:{eventData.advance == null ? <span>Payment Pending</span> : <span>Rs.{' '}{eventData.advance}</span>}</p>
+                                        <p className="card-text">PaymentDate: {eventData.advanceDate == null ? <span>Payment Pending</span> : <span>{eventData.advanceDate.split('T')[0]}</span>}</p>
                                     </div>
                                     <div className='container col-md-4  mt-3'>
-                                        <h5 class="card-title">Final Payment</h5>
-                                        <p class="card-text">Payment Status: statshere</p>
-                                        <p class="card-text">Final Amount: Rs. 15000.00</p>
-                                        <p class="card-text">PaymentDate: 08-09-2022</p>
+                                        <h5 className="card-title">Final Payment</h5>
+                                        <p className="card-text">Payment Status:{eventData.finalPayStatus}</p>
+                                        <p className="card-text">Final Amount:{eventData.finalPay == null ? <span>Payment Pending</span> : <span>Rs.{' '}{eventData.finalPay}</span>}</p>
+                                        <p className="card-text">PaymentDate:{eventData.finalPayDate == null ? <span>Payment Pending</span> : <span>{eventData.finalPayDate.split('T')[0]}</span>}</p>
                                     </div>
                                 </div>
                             </div>

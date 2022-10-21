@@ -52,7 +52,7 @@ export default function Cards(props) {
                                 <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                     {props.cardTitles[2].three}
                                 </div>
-                                <div className="h5 mb-0 ml-4 font-weight-bold text-gray-800">3</div>
+                                <div className="h5 mb-0 ml-4 font-weight-bold text-gray-800">{props.cardData[2]}</div>
                             </div>
                             <div className="col-auto mr-4">
                                 <FaClipboardList color='#ffcd03' fontSize="30px" />
