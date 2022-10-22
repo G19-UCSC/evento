@@ -9,128 +9,121 @@ import { useRouter } from 'next/router'
 import { filterByCategory, filterByPrice } from '../../utils/product';
 import { CartContext, CartDispatchContext } from '../../context/productContext';
 import axios from '../../utils/axios'
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState,useEffect } from 'react'
+import { Controller,useForm } from "react-hook-form";
 
-export default function Shop() {
-    const [setCart, setPrices] = useContext(CartDispatchContext);
-    const [cart, prices] = useContext(CartContext);
+import emailjs from 'emailjs-com';
 
+import Swal from 'sweetalert2'
 
-    const [events, setProducts] = useState([])
-    const [productsAll, setProductsAll] = useState([])
-    // const [cart, setCart] = useState([])
-    const router = useRouter()
-
-
-
-    useEffect(() => {
-        axios.get("/event:id").then((res) => {
-            setProducts(res.data.events)
-            setProductsAll(res.data.events)
-        }).catch((error) => {
-            console.log(error.response.data)
-        })
-    }, [])
-
-    const handleClick = (item) => {
-        item.amount = 1
-        if (cart.indexOf(item) !== -1) return;
-        setCart([...cart, item]);
-        router.push("/cart")
-    };
+export default function Event() {
+  const { push } = useRouter()
+  const [otpVal, setOtpVal] = useState('')
+  
 
 
-    return (
-        <div class="site-wrap">
-            <Header />
+  const { register, handleSubmit, watch, control,reset, setValue, formState: { errors } } = useForm();
+  // setOtpVal(generateOtp())
 
-            <div class="bg-light py-3">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Events</strong></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="site-section">
-                <div class="container">
-
-                    <div class="row mb-5">
-                        <div class="col-md-12 order-2">
-
-                            <div class="row">
-                                <div class="col-md-12 mb-5">
-                                    <div class="d-flex">
-                                        <div class="row mb-5">
-                                            <div class="col-md-12">
-                                                <div class="row d-flex mb-12">
-                                                    <div class="col-md-6">
-                                                        <h2 class="h3 mb-3 text-black">Booked Events</h2>
-                                                    </div>
-                                                    <div class="col-md-6 align-content-end">
-                                                        <a href="/event/addEvent"><button type="button" class="btn btn-dark">Add Event</button></a>
-                                                    </div>
-                                                </div>
+const onSubmit = (formData) => {
+  // axios.post("/user",formData).then((res)=>{
+  //   // push({pathname:'/signup/creds', query:{userid:res.data.user._userid}},'/signup/creds')
+  //   console.log(res.data.user)
+  // }).catch((error) => {
+  //     console.log(error)
+  // })
+  // Swal.fire({
+  //   title: `OTP is send to your mail ${formData.email}`,
+  //   iconColor: "black",
+  //   confirmButtonColor: "black",
+  // });
+    // push({pathname:'/signup/otp', query:{otp:otp,firstname:formData.firstname, lastname:formData.lastname,email:formData.email}},'/signup/otp')
+  }
 
 
-                                                <div class="p-3 p-lg-5 border">
-                                                    <table class="table site-block-order-table mb-5">
-                                                        <thead>
-                                                            <th>Event Name</th>
-                                                            <th>Date</th>
-                                                            <th>Status</th>
-                                                            <th>Action</th>
-                                                        </thead>
-                                                        <tbody>
-                                                            {events.map((item, i) => (
-                                                                // <tr key={i}>
-                                                                //     <th>{item.name}<strong class="mx-2">x</strong>{item.amount}</th>
-                                                                //     <td>{item.price * item.amount}</td>
-                                                                // </tr>
-                                                                <tr key={i}>
-                                                                    <td class="text-black font-weight-bold">{item.title}</td>
-                                                                    <td class="text-black font-weight-bold">{item.start_date}</td>
-                                                                    <td class="text-black font-weight-bold">{item.status}</td>
-                                                                    <td class="d-flex justify-content-between">
-                                                                        <Link href=" "><button type="button" class=" btn btn-dark" style={{ margin: "10px" }}>View</button></Link>
-                                                                        <Link href=" "><button type="button" class=" btn btn-dark" style={{ margin: "10px" }}>Update</button></Link>
-                                                                        <button type="button" class="btn btn-outline-dark" onClick={() => handleClick(item)} style={{ margin: "10px" }}>Delete</button>
-                                                                    </td>
-                                                                </tr>
-
-                                                            ))}
-                                                            {/* <tr>
-                                                                <th class="text-black font-weight-bold"><strong>Date</strong></th>
-                                                                
-                                                            </tr> */}
-
-                                                            {/* 
-                                                            <tr>
-                                                                <th class="text-black font-weight-bold"><strong>Action</strong></th>
-                                                                <div class="d-flex justify-content-between mb-2" style={{ marginTop: "20px" }}>
-                                                                    <Link href=" "><button type="button" class=" btn btn-dark">Update</button></Link>
-                                                                    <button type="button" class="btn btn-outline-dark" onClick={() => handleClick(item)}>Delete</button>
-
-                                                                </div>
-                                                            </tr> */}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-
-                            </div>
-                            <Footer />
-                        </div >
-                    </div>
-                </div>
-            </div>
+  return (
+     <div class="site-wrap">
+     <Header />
+    
+     <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="index.html">Event</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Event</strong></div>
         </div>
+      </div>
+    </div>
+
+    <div class="site-section">
+      <div class="container">
+
+        <div class="row mb-5">
+
+        <div className="" style={{  display: 'flex',justifyContent: 'center',aligItems: 'center'}}>
+            <form className="Auth-form" onSubmit={handleSubmit(onSubmit)}>
+              <div className="Auth-form-content">
+                <h3 className="Auth-form-title">Event Details</h3>
+                <div className="form-group mt-3">
+                  <label>Location</label>
+                  <input
+                    type="text"
+                    className="form-control mt-1"
+                    placeholder="Enter first name"
+                    {...register("firstname", { required: true })}
+                  />
+                </div>
+                <div className="form-group mt-3">
+                  <label>Start Date Time</label>
+                  <input
+                    type="text"
+                    className="form-control mt-1"
+                    placeholder="Enter last name"
+                    {...register("lastname", { required: true })}
+                  />
+                </div> 
+                <div className="form-group mt-3">
+                  <label>End Date Time</label>
+                  <input
+                    type="email"
+                    className="form-control mt-1"
+                    placeholder="Enter email"
+                    {...register("email", { required: true })}
+                  />
+                </div> 
+                <div className="form-group mt-3">
+                  <label>No.of Participants</label>
+                  <input
+                    type="email"
+                    className="form-control mt-1"
+                    placeholder="Enter email"
+                    {...register("email", { required: true })}
+                  />
+                </div> 
+                <div className="form-group mt-3">
+                  <label>Budget</label>
+                  <input
+                    type="email"
+                    className="form-control mt-1"
+                    placeholder="Enter email"
+                    {...register("email", { required: true })}
+                  />
+                </div> 
+                <div className="d-grid gap-2 mt-3">
+                  <button type="submit" className="btn btn-dark">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
 
 
-    )
+            </div>
+          </div>
+      </div>    
+    
+     <Footer/>
+   </div>
+   
+
+  )
 }
