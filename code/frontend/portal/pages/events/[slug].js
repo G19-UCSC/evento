@@ -3,12 +3,6 @@ import Footer from "../../components/home/footer"
 import Header from "../../components/home/header"
 import { useRouter } from 'next/router'
 // import "react-datepicker/dist/react-datepicker.css";
-import dayjs from 'dayjs';
-import TextField from '@mui/material/TextField';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import Stack from '@mui/material/Stack';
 import React, {  useContext,useState,useEffect} from "react";
 import axios from '../../utils/axios'
 // import DatePicker from "react-datepicker";
@@ -18,7 +12,6 @@ import { useForm } from 'react-hook-form';
 
 
 export default function Service() {
-  const [value, setValue] = React.useState(dayjs('2022-04-07'));
     const router = useRouter()
     const [setCart, setPrices] = useContext(CartDispatchContext);
     const [cart,prices]= useContext(CartContext);
@@ -31,7 +24,7 @@ export default function Service() {
     const{
       register,
       handleSubmit,
-      
+      setValue
       } = useForm();
 
     useEffect(() => {
@@ -99,30 +92,21 @@ const handleClick = (item) => {
             <p><strong class="text-primary h4">{service.price}</strong></p>
            
             <div class="mb-5">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <Stack spacing={3}>
-                  {/* <DateTimePicker
-                    renderInput={(params) => <TextField {...params} />}
-                    label="Ignore date and time"
-                    value={value}
-                    onChange={(newValue) => {
-                      setValue(newValue);
-                    }}
-                    minDateTime={dayjs('2022-04-02T12:00')}
-                  /> */}
-                  <DateTimePicker
-                    renderInput={(params) => <TextField {...params} />}
-                    label="Ignore time in each day"
-                    value={value}
-                    onChange={(newValue) => {
-                      setValue(newValue);
-                    }}
-                    minDate={dayjs('2022-02-14')}
-                    minTime={dayjs('2022-02-14T08:00')}
-                    maxTime={dayjs('2022-02-14T18:45')}
-                  />
-                </Stack>
-    </LocalizationProvider>
+            {/* <form className="needs-validation" noValidate="" onSubmit={handleSubmit(service)}> */}
+
+                            {/* <DatePicker
+                                        isClearable
+                                        className={"form-control"}
+                                                onChange={(date) => setDate(date)}
+                                                // selected={field.value}
+                                        showTimeSelect
+                                        timeFormat="HH:mm"
+                                        timeIntervals={60}
+                                        timeCaption="time"
+                                        dateFormat="MM-dd-yyyy h:mm"
+                                        // selected={date}
+                                        // excludeTimes={time}
+                                        /> */}
                                   <p><a  class="buy-now btn btn-sm btn-primary"  onClick={() => handleClick(service)}>Add To Cart</a></p>
 
                       {/* </form> */}

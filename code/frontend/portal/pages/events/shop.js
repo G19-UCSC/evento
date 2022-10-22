@@ -1,7 +1,3 @@
-
-import Footer from "../../components/home/footer"
-import Header from "../../components/home/header"
-
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -11,48 +7,18 @@ import { CartContext, CartDispatchContext } from '../../context/productContext';
 import axios from '../../utils/axios'
 import React, { useContext, useState,useEffect } from 'react'
 
-export default function Shop() {
-  const [setCart, setPrices] = useContext(CartDispatchContext);
-  const [cart,prices]= useContext(CartContext);
+const shop = (router,counts, handleClicks,products,productsAll,handlePrice) =>{
 
-
-  const [products, setProducts] = useState([])
-  const [productsAll, setProductsAll] = useState([])
-  // const [cart, setCart] = useState([])
-  const router = useRouter()
+    const [setCart, setPrices] = useContext(CartDispatchContext);
+    const [cart,prices]= useContext(CartContext);
   
-
-
-  useEffect(() => {
-    axios.get("/product").then((res)=>{
-    setProducts(res.data.products)
-    setProductsAll(res.data.products)
-}).catch((error) => {
-    console.log(error.response.data)
-})}, [])
-
-const handleClick = (item) => {
-  item.amount = 1
-  if (cart.indexOf(item) !== -1) return;
-  setCart([...cart, item]);
-  router.push("/cart")
-};
-
-
-  return (
-     <div class="site-wrap">
-     <Header />
-    
-     <div class="bg-light py-3">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Shop</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="site-section">
-      <div class="container">
+      const increaseCount = (count) => {
+          setTotalCount(count+1)
+        };
+        const decreaseCount = (count) => {
+          setTotalCount(count-1)
+        };
+<div class="container">
 
         <div class="row mb-5">
           <div class="col-md-9 order-2">
@@ -98,7 +64,7 @@ const handleClick = (item) => {
                     <p class="text-primary font-weight-bold">Rs.{item.price}</p>
                   </div>
                   <div class="d-flex justify-content-between mb-2" style={{ marginTop: "20px"}}>
-                    <button type="button" class="w-100 btn btn-outline-dark" onClick={() => handleClick(item)}>Add to cart</button>
+                    <button type="button" class="w-100 btn btn-outline-dark" onClick={() => handleClicks(item,handlePrice)}>Add to cart</button>
                     <Link href=" "><button type="button" class="w-100 btn btn-dark" onClick={() => router.push(`/shop/${item._id}`)}>View Product</button></Link>
                   </div>
                 </div>
@@ -129,12 +95,12 @@ const handleClick = (item) => {
           <div class="col-md-3 order-1 mb-5 mb-md-0">
             <div class="border p-4 rounded mb-4">
               <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
-              <ul class="list-unstyled mb-0">
+              {/* <ul class="list-unstyled mb-0">
               <li class="mb-1"><a href="#" onClick={() => setProducts(productsAll)} class="d-flex"><span>All</span> <span class="text-black ml-auto"> &nbsp;({productsAll.length})</span></a></li>
                 <li class="mb-1"><a href="#" onClick={() => setProducts(filterByCategory(productsAll,'clothing'))} class="d-flex"><span>Clothing</span> <span class="text-black ml-auto"> &nbsp;({filterByCategory(productsAll,'clothing').length})</span></a></li>
                 <li class="mb-1"><a href="#" onClick={() => setProducts(filterByCategory(productsAll,'food'))} class="d-flex"><span>Food</span> <span class="text-black ml-auto">&nbsp;({filterByCategory(productsAll,'food').length})</span></a></li>
                 <li class="mb-1"><a href="#" onClick={() => setProducts(filterByCategory(productsAll,'decor'))} class="d-flex"><span>Decor</span> <span class="text-black ml-auto">&nbsp;({filterByCategory(productsAll,'decor').length})</span></a></li>
-              </ul>
+              </ul> */}
             </div>
 
             <div class="border p-4 rounded mb-4">
@@ -155,62 +121,6 @@ const handleClick = (item) => {
 
             </div>
       </div>
-      </div>
-
-        <div class="row">
-          <div class="col-md-12">
-            <div class="site-section site-blocks-2">
-                <div class="row justify-content-center text-center mb-5">
-                  <div class="col-md-7 site-section-heading pt-4">
-                    <h2>Categories</h2>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
-                    <a class="block-2-item" href="#">
-                      <figure class="image">
-                        <img src="images/weddings.jpg" style={{objectFit: "cover", height: "700px"}} layout='fill' alt="" class="img-fluid" />
-                      </figure>
-                      <div class="text">
-                        <span class="text-uppercase">Collections</span>
-                        <h3>Venue</h3>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="100">
-                    <a class="block-2-item" href="#">
-                      <figure class="image">
-                        <img src="images/bridal_shower.jpg" style={{objectFit: "cover", height: "700px"}} layout='fill' alt="" class="img-fluid" />
-                      </figure>
-                      <div class="text">
-                        <span class="text-uppercase">Collections</span>
-                        <h3>Decor</h3>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="200">
-                    <a class="block-2-item" href="#">
-                      <figure class="image">
-                        <img src="images/lunch_food.jfif" style={{objectFit: "fill", height: "700px"}} layout='fill' alt="" class="img-fluid" />
-                      </figure>
-                      <div class="text">
-                        <span class="text-uppercase">Collections</span>
-                        <h3>Caterings</h3>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              
-            </div>
-          </div>
-        </div>
-        
-      
-    
-    
-     <Footer/>
-   </div>
-   
-
-  )
 }
+
+export default shop;

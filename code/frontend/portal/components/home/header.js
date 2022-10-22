@@ -95,6 +95,7 @@ export default function header() {
             </li>
             <li><a href="/shop">Shop</a></li>
             <li><a href="/service">Service</a></li>
+            <li><a href="/events">Events</a></li>
             {/* <li><a href="/event">Event</a></li> */}
             <li><a href="/faq">FAQ</a></li>
             <li><a href="/contact">Contact</a></li>

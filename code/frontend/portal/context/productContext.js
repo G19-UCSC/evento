@@ -11,9 +11,10 @@ const CartDispatchContext = createContext(undefined);
 function CartProvider({ children }) {
   const [CartDetails, setCartDetails] = useState([]);
   const [TotalPrice, setTotalPrice] = useState(0);
+  const [TotalCount, setTotalCount] = useState(0);
   return (
-    <CartContext.Provider value={[CartDetails,TotalPrice]}>
-      <CartDispatchContext.Provider value={[setCartDetails, setTotalPrice]}>
+    <CartContext.Provider value={[CartDetails,TotalPrice,TotalCount]}>
+      <CartDispatchContext.Provider value={[setCartDetails, setTotalPrice,setTotalCount]}>
         {children}
       </CartDispatchContext.Provider>
     </CartContext.Provider>
