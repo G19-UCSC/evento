@@ -37,6 +37,7 @@ const setPackage = async (req) => {
 const updatePackage = async (req) => {
 
     const attributes = {
+        id: req.params.id,
         createdBy: req.body.createdBy,
         description: req.body.description,
         name: req.body.name,

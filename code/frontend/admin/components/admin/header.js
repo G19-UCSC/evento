@@ -128,7 +128,7 @@ export default function sidebar() {
                 </h6>
                 <a className="dropdown-item d-flex align-items-center" href="#">
                     <div className="dropdown-list-image mr-3">
-                        <img className="rounded-circle" src="img/undraw_profile_1.svg"
+                        <img className="rounded-circle" src=""
                             alt="..." />
                         <div className="status-indicator bg-success"></div>
                     </div>
@@ -140,7 +140,7 @@ export default function sidebar() {
                 </a>
                 <a className="dropdown-item d-flex align-items-center" href="#">
                     <div className="dropdown-list-image mr-3">
-                        <img className="rounded-circle" src="img/undraw_profile_2.svg"
+                        <img className="rounded-circle" src=""
                             alt="..." />
                         <div className="status-indicator"></div>
                     </div>
@@ -152,7 +152,7 @@ export default function sidebar() {
                 </a>
                 <a className="dropdown-item d-flex align-items-center" href="#">
                     <div className="dropdown-list-image mr-3">
-                        <img className="rounded-circle" src="img/undraw_profile_3.svg"
+                        <img className="rounded-circle" src=""
                             alt="..." />
                         <div className="status-indicator bg-warning"></div>
                     </div>
@@ -164,7 +164,7 @@ export default function sidebar() {
                 </a>
                 <a className="dropdown-item d-flex align-items-center" href="#">
                     <div className="dropdown-list-image mr-3">
-                        <img className="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                        <img className="rounded-circle" src=""
                             alt="..." />
                         <div className="status-indicator bg-success"></div>
                     </div>
@@ -180,11 +180,11 @@ export default function sidebar() {
 
         <div className="topbar-divider d-none d-sm-block"></div>
 
-        <li>
-        <Dropdown.Button style={{marginTop:'20px', marginRight:'50px'}} overlay={menu} placement="bottomLeft" icon={<UserOutlined />}>
-       {user?(user.username):('user')}
-    </Dropdown.Button>
-        </li>
+            <li>
+            <Dropdown.Button style={{marginTop:'20px', marginRight:'50px'}} overlay={menu} placement="bottomLeft" icon={<UserOutlined />}>
+        {user?(user.username):('user')}
+        </Dropdown.Button>
+            </li>
 
     </ul>
 

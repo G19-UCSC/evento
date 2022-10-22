@@ -24,6 +24,7 @@ const setFAQ = async (attributes) => {
 
     // create one event
     const faq = await FAQ.create({
+        userid: attributes.userid,
         question: attributes.question,
         answer: attributes.answer
     }).then((res) => {
@@ -44,6 +45,7 @@ const updateFAQ = async (attributes) => {
 
     // update one event
     const faq = await FAQ.update({
+        userid: attributes.userid,
         question: attributes.question,
         answer: attributes.answer
     }, {

@@ -7,12 +7,14 @@ const getFAQSchema = () => Joi.object().keys({
 });
 
 const setFAQSchema = () => Joi.object().keys({
+    userid: Joi.string().allow(null),
     question: Joi.string().required(),
     answer: Joi.string().allow(null),
 });
 
 const updateFAQSchema = () => Joi.object().keys({
     id: Joi.alternatives(Joi.string(), Joi.number()).required(),
+    userid: Joi.string().allow(null),
     question: Joi.string().required(),
     answer: Joi.string().allow(null),
 });

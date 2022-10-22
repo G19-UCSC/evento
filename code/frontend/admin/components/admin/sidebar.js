@@ -21,11 +21,14 @@ export default function sidebar(props) {
        <ul className={newLocal} id="accordionSidebar">
 
         {/* Sidebar - Brand */}
-        <a className="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-            <div className="sidebar-brand-icon rotate-n-15">
-                <FaHatCowboy fontSize="2rem" />
+        <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
+            <div className="sidebar-brand-icon" >
+                {/* <FaHatCowboy fontSize="2rem" /> */}
+                <br />
+                <img src="/images/evento-logo.jpeg" style={{borderRadius:"50%", height:"4rem"}} />
+                <br/>
             </div>
-            <div className="sidebar-brand-text mx-3">EVENTO</div>
+            {/* <div className="sidebar-brand-text mx-3">EVENTO</div> */}
         </a>
 
         {/* Divider */}
@@ -57,11 +60,11 @@ export default function sidebar(props) {
         {/* Divider */}
         <hr className="sidebar-divider" />
 
-        <li className="nav-item ml-2" id='bookings' >
-            <Link href="/admin/bookings">
+        <li className="nav-item ml-2" id='events' >
+            <Link href="/admin/events">
             <a className="nav-link">
                 <FaCalendar />
-                <span className='m-1'> Bookings </span>
+                <span className='m-1'> Events </span>
             </a>
             </Link>
         </li>
@@ -69,11 +72,23 @@ export default function sidebar(props) {
         {/* Divider */}
         <hr className="sidebar-divider" />
 
-        <li className="nav-item ml-2" id='products' >
-            <Link href="/admin/products">
+        <li className="nav-item ml-2" id='shoppings' >
+            <Link href="/admin/shoppings">
             <a className="nav-link">
                 <FaShoppingBag />
-                <span className='m-1'> Products and Services </span>
+                <span className='m-1'> Shopping </span>
+            </a>
+            </Link>
+        </li>
+
+        {/* Divider */}
+        <hr className="sidebar-divider" />
+
+        <li className="nav-item ml-2" id='cashflow' >
+            <Link href="/admin/cashflow">
+            <a className="nav-link">
+                <FaDollarSign />
+                <span className='m-1'> Event Cashflow </span>
             </a>
             </Link>
         </li>
