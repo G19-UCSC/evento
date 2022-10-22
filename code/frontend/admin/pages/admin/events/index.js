@@ -114,7 +114,7 @@ export default function bookings() {
                                                                 <td>{a.title}</td>
                                                                 <td>{a.userName}</td>
                                                                 <td>{(a.start_date).split('T')[0] + " to " + (a.end_date).split('T')[0]}</td>
-                                                                <td>{a.createdAt}</td>
+                                                                <td>{(a.createdAt).split('T')[0]}</td>
                                                                 <td>{a.location}</td>
                                                                 <td>
                                                                     {(a.status == "Pending") && (

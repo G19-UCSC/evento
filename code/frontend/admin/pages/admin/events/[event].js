@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { FaCheckCircle, FaCross, FaMinus, FaSpinner, FaTimesCircle, FaUserPlus } from "react-icons/fa";
 
 export default function event() {
-
+    
     const router = useRouter()
     const { event } = router.query
     const [eventDetails, setEventDetails] = useState([]);
@@ -17,6 +17,8 @@ export default function event() {
     const [eventProvider, setEventProvider] = useState([]);
 
     useEffect(() => {
+
+        const user_ = JSON.parse(localStorage.getItem('user'))
 
         const getEvent = () => {
             return (axios.get(`/event/${event}`))
@@ -67,6 +69,9 @@ export default function event() {
             eventproviders.forEach(e => {
                 e.provider = providers.filter(element => element.userid == e.providerid)[0].businessName;
             })
+            eventdetail.createdAt = (eventdetail.createdAt).split('T')[0];
+            eventdetail.start_date = (eventdetail.start_date).split('T')[0];
+            eventdetail.end_date = (eventdetail.end_date).split('T')[0];
             setEventDetails(eventdetail);
             setEventProvider(eventproviders);
             return(res[3].data);
@@ -111,16 +116,13 @@ export default function event() {
                                     <div className='card shadow md-4'>
                                         <div className='card-header'> <b>Event</b> </div>
                                         <div className="card-body">
-                                            <p>Event Id = {event}</p>
                                             <p>{eventDetails.title}</p>
                                             <p>Booked On {eventDetails.createdAt}</p>
-                                            {/* <p>Event Date {(eventDetails.start_date).split('T')[0] + " to "
-                                             + (eventDetails.end_date).split('T')[0]}</p> */}
+                                            <p>Event Date {(eventDetails.start_date) + " to "
+                                             + (eventDetails.end_date)}</p>
                                             <p>Location at {eventDetails.location}</p>
                                         </div>
-                                    </div>
-                                    <div className='card shadow md-4'>
-                                        <div className='card-header'>Advanced Payment</div>
+                                        <div className='card-header'> <b>Advanced Payment</b> </div>
                                     </div>
                                 </div>
                                 <div className='mb-4 col-lg-4' id="packageDetailsCard">
