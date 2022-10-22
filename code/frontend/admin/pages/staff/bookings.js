@@ -47,50 +47,81 @@ export default function account() {
 
     useEffect(() => {
         const user_ = JSON.parse(localStorage.getItem('user'))
-
-        axios.get("/eventstaff").then((res) => {
-            let eventstaffs = res.data.alleventstaff
-            // let events = [];
-            // let newEvents = 0;
-            // let pendingEvents = 0;
-            // let date = new Date().toJSON().split('T')[0];
-            // let Selectdate = date;
-            // console.log('date', date)
-            // console.log('Selectdate', Selectdate)
-            let i = 0;
-            eventstaffs.forEach(e => {
-                if ((user_.userid == e.userid) && (e.status == 'Assigned')) {
-                    // events[i] = e.eventid;
-                    // i++
-
-                    // seteventid(eventid => [...eventid, e.eventid]);
-                    // if ((e.createdAt.split('T')[0] == date) || (e.updatedAt.split('T')[0] == date)) {
-                    //     newEvents++;
-
-                    // }
-                    axios.get(`/event/${e.eventid}`).then((res) => {
-                        let eventdetails = res.data.event
-                        console.log('eventdetails', eventdetails);
-                        // console.log('eventdetails', eventdetails.status);
-
-                        setevents(details => [...details, eventdetails]);
-
-
-                    })
-                }
-
+        const table = () => {
+            $(function () {
+                $('#bookingsTable').DataTable({
+                    ordering: true,
+                    select: true,
+                    responsive: true,
+                    buttons: [
+                        'copy', 'excel', 'pdf'
+                    ]
+                });
             });
-            // setTotalAssignedEvents(count);
-            // console.log('newEvents', newEvents)
-            // console.log("pendingEvents", pendingEvents)
-            // seteventid(events);
-            // setTotalAssignedEvents(events.length);
-            // setnewassigns(newEvents);
+        }
 
-            // setPendingevents(pendingEvents);
+        const getEvents = () => {
+            return axios.get("/event");
+        }
+
+        const getUsers = () => {
+            return axios.get("/user");
+        }
+        const getEventStaff = () => {
+            return axios.get("/eventstaff");
+        }
+
+        Promise.all([getEvents(), getUsers(), getEventStaff()]).then((res) => {
+            let events = res[0].data.events;
+            let users = res[1].data.users;
+            let alleventstaff = res[2].data.alleventstaff
+            let eventstaff = alleventstaff.filter(element => (element.userid == user_.userid) && (element.status == "Assigned"))
+            // let selectedevents = events.filter(element => element.id == eventstaff.eventid)
+
+            eventstaff.forEach(eventS => {
+                events.forEach(e => {
+                    if ((e._id == eventS.eventid) && (eventS.status == "Assigned")) {
+                        users.forEach(u => {
+                            if (e.userid == u._userid) {
+                                e.userName = u.firstname + " " + u.lastname;
+                                setevents(event => [...event, e]);
+                            }
+                        })
+                    }
+
+                });
+            });
+            // setevents(events)
+            // console.log('eventstaff', eventstaff);
+            // console.log('selectedevents', selectedevents);
+
+            table();
+
         }).catch((error) => {
             console.log(error)
         })
+        // axios.get("/eventstaff").then((res) => {
+        //     let eventstaffs = res.data.alleventstaff
+
+        //     let i = 0;
+        //     eventstaffs.forEach(e => {
+        //         if ((user_.userid == e.userid) && (e.status == 'Assigned')) {
+
+        //             axios.get(`/event/${e.eventid}`).then((res) => {
+        //                 let eventdetails = res.data.event
+        //                 console.log('eventdetails', eventdetails);
+        //                 // console.log('eventdetails', eventdetails.status);
+
+        //                 setevents(details => [...details, eventdetails]);
+
+
+        //             })
+        //         }
+
+        //     });
+        // }).catch((error) => {
+        //     console.log(error)
+        // })
 
 
     }, [])
@@ -114,10 +145,10 @@ export default function account() {
                             <div className='row'>
                                 <div className='mb-4' id="accountsTableCard">
                                     <div className='card shadow md-4'>
-                                        <div className='card-header'>Events</div>
+                                        <div className='card-header'>Bookings</div>
                                         <div className='card-body'>
                                             <div className='table-responsive'>
-                                                <table className='table' id="accountsTable">
+                                                <table className='table' id="bookingsTable">
                                                     <thead>
                                                         <tr>
                                                             {columns.map((c) => (
@@ -140,7 +171,7 @@ export default function account() {
                                                         ))} */}
                                                         {events.map((a) => (
                                                             <tr id={a._id} key={a._id}>
-                                                                <td>Nimal Ruwan</td>
+                                                                <td>{a.userName}</td>
                                                                 <td>{a.start_date.split('T')[0]}</td>
                                                                 <td>{a.createdAt.split('T')[0]}</td>
                                                                 <td>{a.status}</td>
@@ -165,7 +196,7 @@ export default function account() {
                                                                             </div>
                                                                         </>
                                                                     )}
-                                                                    {(a.status == "Payed") && (
+                                                                    {(a.status == "Paied") && (
                                                                         <>
                                                                             <h4 className="small font-weight-bold">{a.status}
                                                                                 <span className="float-right">75%</span></h4>
