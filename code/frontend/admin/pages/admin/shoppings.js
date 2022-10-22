@@ -1,30 +1,32 @@
 import "bootstrap/dist/css/bootstrap.css";
-import Header from  "../../components/admin/header";
+import Header from "../../components/admin/header";
 import Sidebar from "../../components/admin/sidebar";
 import Footer from "../../components/admin/footer";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "../../utils/axios";
-import { FaEdit, FaStar } from "react-icons/fa";
+import { FaEdit, FaStar, FaEye } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 var $ = require('jquery');
 import 'datatables.net';
 import 'datatables.net-bs4';
 
 export default function products() {
+    const router = useRouter()
+    const [products, setProducts] = useState([]);
+    const [services, setServices] = useState([]);
+    const [reviews, setReviews] = useState([]);
 
-    const [products,setProducts] = useState([]);
-    const [services,setServices] = useState([]);
-
-    useEffect(()=>{
+    useEffect(() => {
 
         const table = () => {
-            $(function() {
+            $(function () {
                 $('#productsTable').DataTable({
-                    ordering:true,
+                    ordering: true,
                     select: true,
                     responsive: true,
                     buttons: [
-                        'copy','excel','pdf'
+                        'copy', 'excel', 'pdf'
                     ]
                 });
             });
@@ -37,20 +39,26 @@ export default function products() {
         const getProduct = () => {
             return axios.get("/product");
         }
+        const getReview = () => {
+            return axios.get("/review");
+        }
 
-        Promise.all([getService(),getProduct()]).then((res) => {
+
+        Promise.all([getService(), getProduct(), getReview()]).then((res) => {
             let service = res[0].data.service;
             setServices(service)
             let p = res[1].data.products;
             setProducts(p);
+            let review = res[2].data.reviews
+            setReviews(review)
             console.log(res);
 
             table();
-            
+
         }).catch((error) => {
             console.log(error)
         })
-    },[])
+    }, [])
 
     const columns = [
         {
@@ -64,10 +72,17 @@ export default function products() {
         },
         {
             text: "Ratings"
+        },
+        {
+            text: ""
         }
     ]
+    const viewProductDetails = useCallback((shoppingselected) => {
+        router.push(`./shopping/${shoppingselected}`);
+    }, [router]
+    );
 
-    return(
+    return (
         <>
             <div id="wrapper">
                 <Sidebar linkId="shoppings" />
@@ -94,8 +109,11 @@ export default function products() {
                                                     </thead>
                                                     <tbody>
                                                         {products.map((a, i) => (
+
                                                             <tr id={a._id} key={i}>
-                                                                <td>{a.name}</td>
+
+                                                                <td >{a.name}</td>
+
                                                                 <td>Rs. {a.price}</td>
                                                                 <td>{a.category}</td>
                                                                 <td>
@@ -105,11 +123,9 @@ export default function products() {
                                                                     <FaStar color="" />
                                                                     <FaStar color="" />
                                                                 </td>
-                                                                {/* <td>
-                                                                            <button className='btn' onClick={(e) => { onClickUpdate(a._id) }}>
-                                                                                <FaEdit />
-                                                                            </button>
-                                                                        </td> */}
+                                                                <td>
+                                                                    <button className='btn' onClick={() => viewProductDetails(a._id)}><FaEye /></button>
+                                                                </td>
                                                             </tr>
                                                         ))}
                                                     </tbody>
@@ -118,7 +134,7 @@ export default function products() {
                                         </div>
                                     </div>
                                 </div>
-                        </div>
+                            </div>
                         </div>
                     </div>
                     <Footer />

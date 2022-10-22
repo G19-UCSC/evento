@@ -20,6 +20,7 @@ export default function EventDetails() {
     const [packageData, setpackagedata] = useState([]);
     const [packageProducts, setpackageproducts] = useState([]);
     const [packageServices, setpackageservices] = useState([]);
+    const [assignedStaff, setallassignendstaff] = useState([]);
     const columns = [{
         text: 'Product / Service'
     }, {
@@ -41,22 +42,31 @@ export default function EventDetails() {
             const getpacakedeials = axios.get(`/package/${eventData.packageid}`);
             let getallpackageproduct = axios.get("/packageproduct");
             let getallproductdetails = axios.get("/product");
-            let getallservicedetails = axios.get("/service");
+            // let getallservicedetails = axios.get("/service");
             let getalleventstaff = axios.get("/eventstaff");
             let getallusers = axios.get("/users");
 
-            Promise.all([getpacakedeials, getallpackageproduct, getallproductdetails, getallservicedetails, getalleventstaff, getallusers]).then((res) => {
+            Promise.all([getpacakedeials, getallpackageproduct, getallproductdetails, getalleventstaff, getallusers]).then((res) => {
                 // axios.get(`/package/${eventData.packageid}`).then((res) => {
                 let pacakedetails = res[0].data.package;
                 let allpackageproduct = res[1].data.packageproducts;
                 let allproductdetails = res[2].data.products;
-                let allservicedetails = res[3].data.service;
-                let alleventstaff = res[4].data.alleventstaff
-                let getallusers = res[4].data.alleventstaff
+                // let allservicedetails = res[3].data.service;
+                let alleventstaff = res[3].data.alleventstaff;
+                console.log('alleventstaff', alleventstaff)
+
+                let eventstaff = alleventstaff.filter(element => (element.eventid == eventid))
+                let getallusers = res[5].data.users
                 setpackagedata(pacakedetails)
                 alleventstaff.forEach(alles => {
                     if (alles.eventid == eventid) {
-                        setallassignendstaff
+                        getallusers.forEach(u => {
+                            if (alles.userid == u._id) {
+                                setallassignendstaff(user => [...user, u])
+                            }
+
+                        });
+
                     }
                 });
                 allpackageproduct.forEach(apac => {
@@ -81,10 +91,6 @@ export default function EventDetails() {
                     }
 
                 });
-                // console.log("pacakedeials", pacakedeials)
-                // console.log("allpackageproduct", allpackageproduct)
-                // console.log("allproductdetails", allproductdetails)
-                // console.log("allservicedetails", allservicedetails)
 
             }).catch((error) => {
                 console.log(error)
@@ -93,11 +99,10 @@ export default function EventDetails() {
             console.log(error)
         })
 
-
-    }, [])
+    }, [eventid])
 
     console.log('eventData', eventData)
-    console.log('packageProducts', packageProducts)
+
     console.log('packageServices', packageServices)
 
 
@@ -123,14 +128,14 @@ export default function EventDetails() {
                                     <div className='container col-md-4  mt-0'>
                                         <h5 className="card-title">Event Details</h5>
                                         {/* <p className="card-text">Event Description</p> */}
-                                        {/* <p className="card-text">Created Date: {eventData.createdAt.split('T')[0]}</p>
-                                        <p className="card-text">Start Date: {eventData.start_date.split('T')[0]}</p>
-                                        <p className="card-text">End Date: {eventData.end_date.split('T')[0]}</p> */}
+                                        <p className="card-text">Created Date: {eventData.createdAt}</p>
+                                        <p className="card-text">Start Date: {eventData.start_date}</p>
+                                        <p className="card-text">End Date: {eventData.end_date}</p>
                                         <p className="card-text">Venue:{eventData.location}</p>
                                         <p className="card-text">No of Participants: {eventData.maxPeople}</p>
                                     </div>
                                     <div className='container col-md-4  mt-0'><h5 className="card-title">Package: {packageData.category}</h5>
-                                        <h5 className="card-title">Price: Rs.{' '}{eventData.price}</h5>
+
                                         <div className='table-responsive'>
                                             <table className='table'>
                                                 <thead>
@@ -161,7 +166,7 @@ export default function EventDetails() {
                                     </div>
                                     <div className='container col-md-4  mt-0'>
                                         <h5 className="card-title">Monitored By </h5>
-                                        <p className="card-text">Person who monitor it</p>
+                                        <p className="card-text">{assignedStaff.firstname + " " + assignedStaff.lastname}</p>
                                     </div>
                                     <div className='container col-md-4  mt-3'>
                                         <h5 className="card-title">Advance Payment</h5>
