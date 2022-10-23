@@ -18,9 +18,13 @@ const Product = db.define(
       allowNull: false,
     },
     price: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
+    discount: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     category: {
       type: DataTypes.ENUM('clothing', 'food', 'decor'),
       allowNull: false,

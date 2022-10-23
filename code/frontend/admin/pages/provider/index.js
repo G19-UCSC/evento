@@ -6,9 +6,9 @@ import Sidebar from "../../components/provider/sidebar";
 import Footer from "../../components/provider/footer";
 import { FaAngleUp, FaCalendar, FaDownload, FaEllipsisH } from 'react-icons/fa';
 
-import Cards from '../../components/admin/cards';
-import Linechart from '../../components/admin/linechart';
-import Piechart from '../../components/admin/piechart';
+import Cards from '../../components/provider/cards';
+import Linechart from '../../components/provider/linechart';
+import Piechart from '../../components/provider/piechart';
 import Dropdown from '../../components/dropdown';
 import axios from '../../utils/axios';
 var $ = require('jquery');
@@ -145,7 +145,7 @@ const dashboard = () => {
                             <div className="row">
                                 <div className="col-xl-8 col-lg-7">
                                     <Linechart
-                                        cardTitle="Event Bookings vs Cancellations" xData={months} name1="Booked Events" name2="Cancelled Events"
+                                        cardTitle="Event Bookings vs Time" xData={months} name1="Booked Events" name2="Cancelled Events"
                                         series1={events} series2={cancels}
                                     />
                                 </div>
@@ -159,23 +159,6 @@ const dashboard = () => {
                                 </div>
                             </div>
 
-                            {/* Content Row */}
-                            <div className="row">
-                                <div className="col-xl-8 col-lg-7">
-                                    <Linechart
-                                        cardTitle="Product vs Purchases" xData={months} name1="Income" name2="Payments"
-                                        series1={events} series2={cancels}
-                                    />
-                                </div>
-
-                                {/* Pie Chart */}
-                                <div className="col-xl-4 col-lg-5">
-                                    <Piechart
-                                        cardTitle="Revenue Insight " names={["Income", "Profit"]}
-                                        series={[totalevents, pendingevents]}
-                                    />
-                                </div>
-                            </div>
 
                             {/* Content Row */}
                             {/* <div className="row">

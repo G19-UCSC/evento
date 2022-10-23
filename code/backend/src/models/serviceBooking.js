@@ -1,8 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../utilities/dbHelper');
 
-const ProductPayment = db.define(
-  'productPayment',
+const ServiceBooking = db.define(
+  'serviceBooking',
   {
     
     _id: {
@@ -18,22 +18,23 @@ const ProductPayment = db.define(
       type: DataTypes.STRING(30),
       allowNull: false,
     },
-    quantity: {
-      type: DataTypes.INTEGER(30),
+    
+    timeslot: {
+      type: DataTypes.DATE(),
+      allowNull: false,
+    },
+    Status: {
+      type: DataTypes.ENUM('Pending','Accepted','Paid'),
       allowNull: false,
     }, 
-    purchaseDate: {
+    cancelledOn: {
       type: DataTypes.DATE(),
       allowNull: true,
     },
-    price: {
-      type: DataTypes.FLOAT(3),
+    cancelledBy: {
+      type: DataTypes.STRING(100),
       allowNull: true,
-    }, 
-    commission: {
-      type: DataTypes.FLOAT(3),
-      allowNull: true,
-    }, 
+    },
     CusPayStatus: {
       type: DataTypes.ENUM('Pending','Received'),
       allowNull: false,
@@ -50,14 +51,17 @@ const ProductPayment = db.define(
       type: DataTypes.DATE(),
       allowNull: true,
     }, 
-
+    commission: {
+      type: DataTypes.FLOAT(3),
+      allowNull: true,
+    }, 
   }
   ,{
     logging: false,
   }
 );
 
-ProductPayment.sync()
+ServiceBooking.sync()
 
 // Product.sync().then((res) => {
 //   Product.create({ 
@@ -75,4 +79,4 @@ ProductPayment.sync()
 // });
 
 
-module.exports= ProductPayment;
+module.exports= ServiceBooking;

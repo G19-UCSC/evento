@@ -14,7 +14,8 @@ const getProductCategorySchema = () => Joi.object().keys({
 const setProductSchema = () => Joi.object().keys({
     name: Joi.string().required(),
     description: Joi.string().required(),
-    price: Joi.string().required(),
+    price: Joi.number().required(),
+    discount: Joi.number().required(),
     category: Joi.string().required(),
     comission: Joi.number().precision(2).required(),
     count: Joi.number().required(),
@@ -26,6 +27,7 @@ const updateProductSchema = () => Joi.object().keys({
     name: Joi.string().required(),
     description: Joi.string().required(),
     price: Joi.string().required(),
+    discount: Joi.number().required(),
     category: Joi.string().required(),
     comission: Joi.number().precision(2).required(),
     count: Joi.string().required(),

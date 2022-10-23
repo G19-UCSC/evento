@@ -1,20 +1,76 @@
 const validate = require('../utilities/validationHelper')
 const {
+    getAllProductPaymentSchema,
+    getProductPaymentSchema,
     setProductPaymentSchema,
+    updateProductPaymentSchema,
+    deleteProductPaymentSchema
     
 } = require('../schema/productPaymentSchema');
+
+const getAllProductPayments = async (req) => {
+
+    const attributes = { id: req.params.id }
+
+    return validate(getAllProductPaymentSchema(), attributes);
+};
+
+const getProductPayment= async (req) => {
+
+    const attributes = { id: req.params.id }
+
+    return validate(getProductPaymentSchema(), attributes);
+};
 
 const setProductPayment = async (req) => {
 
     const attributes = {
-        productid: req.body.productid, 
-        paymentid: req.body.paymentid,
-        count: req.body.count
+        userid: req.params.userid,
+        productid: req.params.productid,
+        quantity: req.params.quantity,
+        purchaseDate: req.params.purchaseDate,
+        price: req.params.price,
+        commission: req.params.commission,
+        CusPayStatus: req.params.CusPayStatus,
+        CusPayDate: req.params.CusPayDate,
+        ProviderPayStatus: req.params.ProviderPayStatus,
+        ProviderPayDate: req.params.ProviderPayDate,
     }
-    
+
     return validate(setProductPaymentSchema(), attributes);
-    };
+};
+
+const updateProductPayment= async (req) => {
+
+    const attributes = {
+        id: req.params.id,
+        userid: req.params.userid,
+        productid: req.params.productid,
+        quantity: req.params.quantity,
+        purchaseDate: req.params.purchaseDate,
+        price: req.params.price,
+        commission: req.params.commission,
+        CusPayStatus: req.params.CusPayStatus,
+        CusPayDate: req.params.CusPayDate,
+        ProviderPayStatus: req.params.ProviderPayStatus,
+        ProviderPayDate: req.params.ProviderPayDate,
+    }
+
+    return validate(updateProductPaymentSchema(), attributes);
+};
+
+const deleteProductPayment = async (req) => {
+
+    const attributes = { id: req.params.id }
+
+    return validate(deleteProductPaymentSchema(), attributes);
+
+};
 
     module.exports = {
-        setProductPayment
+        getAllProductPayments,
+        getProductPayment,
+        setProductPayment,
+        updateProductPayment,
+        deleteProductPayment
     }
