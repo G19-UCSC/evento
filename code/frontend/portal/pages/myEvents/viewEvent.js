@@ -120,7 +120,7 @@ const handleClick = (item) => {
       <div class="container">
         <div class="row">
           <div class="col-md-12 mb-0">
-            <a href="index.html">My Events</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">My Events</strong></div>
+            <a href="index.html">My Events</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">View Event</strong></div>
         </div>
       </div>
     </div>
@@ -133,35 +133,7 @@ const handleClick = (item) => {
 
             <div class="row mb-5">
                                   {/* Content Row */}
-                                  <table className='table' id="bookingsTable">
-                                                    <thead>
-                                                        <tr>
-                                                            {/* {columns.map((c) => ( */}
-                                                                {/* <th key={c.text} >{c.text}</th> */}
-                                                                <th>Event Id</th>
-                                                                <th>Event Name</th>
-                                                                <th>Event Status</th>
-                                                                <th>Paid Amount</th>
-                                                                <th>Pending Amount</th>
-                                                                <th></th>
-                                                            {/* ))} */}
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {/* {events.map((a) => ( */}
-                                                    {events.map((item, i) => (
-                                                             <tr key={i}>
-                                                                <td>{item._id}</td>
-                                                                <td>{item.title}</td>
-                                                                <td>{item.status}</td>
-                                                                <td>{item.price}</td>
-                                                                <td>{item.finalPay}</td>
-                                                                <td><Link href="./myEvents/viewEvent" ><FaEye color='black' fontSize="16px" padding-left='10'/></Link></td>
-                                                                
-                                                            </tr> 
-                                                       ))} 
-                                                    </tbody>
-                                                </table>
+                                  
             
 
               

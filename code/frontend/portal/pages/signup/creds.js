@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { useSession, signIn} from 'next-auth/react'
 import { BsGithub, BsTwitter, BsGoogle } from 'react-icons/bs'
 // const dotenv = reNquire('dotenv').config()
 // Form
