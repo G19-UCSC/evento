@@ -17,13 +17,17 @@ const Payment = db.define(
       type: DataTypes.FLOAT(3),
       allowNull: false,
     },
-    providerPayStatus: {
-      type: DataTypes.ENUM('Pending', 'Paid'),
+    PayStatus: {
+      type: DataTypes.ENUM('Pending', 'Paid','Received'),
       allowNull: false,
     },
-    providerPayDate: {
+    PayDate: {
       type: DataTypes.DATE(),
       allowNull: true,
+    },
+    Type:{
+      type: DataTypes.ENUM('Product', 'Service','Event'),
+      allowNull: false,
     }
     
     
