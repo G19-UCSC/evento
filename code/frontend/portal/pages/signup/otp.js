@@ -11,14 +11,15 @@ import axios from '../../utils/axios'
 import Swal from 'sweetalert2'
 
 
-const OTP = (otp) => {
-  
-  const router = useRouter()
+const OTP = () => {
 
-  if(!router.query.otp){ 
+  useEffect(() => {
+    const router = useRouter()
+
+  if(!router.query.userid){ 
     router.push('/signup')
   }
-
+}, [])
 
   const { register, handleSubmit, watch, control,reset, setValue, formState: { errors } } = useForm();
 

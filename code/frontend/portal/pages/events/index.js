@@ -27,6 +27,7 @@ export default function events() {
 
   // Cart Functions
   const [prices, setPrices] = useState(0);
+  const [discount, setDiscount] = useState(0);
   const [cart, setCart] = useState([]);
   const [data, setData] = useState({ name: 0 });
 
@@ -63,8 +64,11 @@ export default function events() {
 
   const handlePrice = (cart) => {
     let ans = 0;
-    cart.map((item) => (ans += item.amount * (item.price  * (100)/100)));
+    let discount = 0;
+    cart.map((item) => (ans += item.amount * item.price));
+    cart.map((item) => (discount += item.amount * (item.price  * (item.discount)/100)));
     setPrices(ans);
+    setDiscount(discount);
   };
 
   // Use effect
@@ -155,7 +159,7 @@ return(
               <div class="col-md-7">
                 <div class="row">
                   <div class="col-md-12 text-right border-bottom mb-5">
-                    <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                    <h3 class="text-black h4 text-uppercase">Package Budget</h3>
                   </div>
                 </div>
                 <div class="row mb-3">
@@ -168,10 +172,19 @@ return(
                 </div>
                 <div class="row mb-5">
                   <div class="col-md-6">
+                    <span class="text-black">Discount</span>
+                  </div>
+                  <div class="col-md-6 text-right">
+                    <strong class="text-red">({discount})</strong>
+                  </div>
+                </div>
+                <hr ></hr>
+                <div class="row mb-5">
+                  <div class="col-md-6">
                     <span class="text-black">Total</span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <strong class="text-black">{prices}</strong>
+                    <strong class="text-black">{prices-discount}</strong>
                   </div>
                 </div>
 
@@ -236,7 +249,7 @@ return(
                           <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up" key={i}>
                             <div class="block-4 text-center border">
                               <figure class="block-4-image">
-                                <a href="shop-single.html"><img src={item.image_path} style={{objectFit: "cover",height: "400px"}} layout='fill' alt="Image placeholder" class="img-fluid" /></a>
+                                <a href="shop-single.html"><img src={item.image_path} style={{objectFit: "cover",height: "200px"}} layout='fill' alt="Image placeholder" class="img-fluid" /></a>
                               </figure>
                               <div class="block-4-text p-4">
                                 <h3><a href="shop-single.html">{item.name}</a></h3>
