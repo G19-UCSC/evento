@@ -7,18 +7,7 @@ import { CartContext, CartDispatchContext } from '../../context/productContext';
 import axios from '../../utils/axios'
 import React, { useContext, useState,useEffect } from 'react'
 
-const service = (router,count,handleClicks,services,handlePrice) =>{
-
-  const [setCart, setPrices,setTotalCount] = useContext(CartDispatchContext);
-  const [cart,prices,TotalCount]= useContext(CartContext);
-  
-  const increaseCount = (count) => {
-        setTotalCount(1)
-        console.log(TotalCount)
-      };
-      const decreaseCount = (count) => {
-        setTotalCount(count-1)
-      };
+const service = (router,setCount,handleClicks,services,handlePrice) =>{
 
     return(
         <div class="container">
@@ -31,11 +20,13 @@ const service = (router,count,handleClicks,services,handlePrice) =>{
                        <div class="float-md-left mb-4"><h2 class="text-black h5">Select Services</h2></div>
                        <div class="d-flex float-md-right">
                          <div class=" mr-1 ml-md-auto float-right">
-                         <button onClick={() => increaseCount(count)} type="button" class="btn btn-secondary btn-sm float-right"  aria-haspopup="true" aria-expanded="false">
+                         <button onClick={() => {console.log("Shop"); setCount(1)}} type="button" class="btn btn-secondary btn-sm float-right"  aria-haspopup="true" aria-expanded="false">
                              Next
                            </button>
+                           <button onClick={() => {console.log("Service"); setCount(0)}} type="button" class="btn btn-secondary btn-sm float-right"  aria-haspopup="true" aria-expanded="false">
+                             Back
+                           </button>
                          </div>
-                         
                        </div>
                      </div>
                    </div>

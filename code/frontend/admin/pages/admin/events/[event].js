@@ -5,7 +5,8 @@ import Footer from "../../../components/admin/footer";
 import { useEffect, useRef, useState } from "react";
 import axios from "../../../utils/axios";
 import { useRouter } from "next/router";
-import { FaCheckCircle, FaCross, FaMinus, FaSpinner, FaTimesCircle, FaUserPlus } from "react-icons/fa";
+import { FaCheckCircle, FaCross, FaEye, FaMinus, FaPlus, FaSpinner, FaTimesCircle, FaUserPlus } from "react-icons/fa";
+import RevoCalendar from 'revo-calendar'
 
 var $ = require('jquery');
 
@@ -19,10 +20,32 @@ export default function event() {
     const [eventProvider, setEventProvider] = useState([]);
     const [staff, setStaff] = useState([]);
     const [eventStaff, setEventStaff] = useState([]);
+    const [allestaff, setAllestaff] = useState([]);
     const [pending, setPending] = useState(0);
     const [staffAssign, setStaffAssign] = useState(false);
+    const [staffView, setStaffView] = useState(false);
     const rowOne = useRef(null);
     const rowTwo = useRef(null);
+
+    var Data = [
+        // {
+        //     name: "title1",
+        //     date: "2022-10-30",
+        //     userid: "12457893554fjjfk"
+        // },
+        // {
+        //     name: "title2",
+        //     date: "2022-10-26",
+        //     userid: "12457893554fjjfk"
+        // },
+        // {
+        //     name: "title3",
+        //     date: "2022-08-02",
+        //     userid: "12457893554fjjfk"
+        // }
+    ]
+
+    const [data,setData] = useState(Data);
 
     function getPendingAmount(eventdetail){
         let amount = parseFloat(eventdetail.price,10) + parseFloat(eventdetail.serviceCharge,10);
@@ -38,6 +61,7 @@ export default function event() {
     function staffBtnClicked(e){
         if(staffAssign){
             setStaffAssign(false);
+            setStaffView(false);
             rowOne.current.style.overflowY="auto"
             rowOne.current.style.height="100%"
         }
@@ -48,12 +72,43 @@ export default function event() {
         }
     }
 
+    function viewStaffEvent(userid){
+        setStaffView(true)
+        let data = allestaff.filter(element => element.userid == userid)
+        console.log(data)
+        setData(data);
+    }
+
+    function assignStaff(userid){
+        let newStaff = [{
+            userid : userid,
+            eventit : event,
+            firstname : staff.filter(element => element._userid == userid)[0].firstname,
+            lastname : staff.filter(element => element._userid == userid)[0].lastname,
+            name : eventDetails.title,
+            date : eventDetails.start_date,
+            eventend : eventDetails.start_date,
+            eventend : eventDetails.end_date,
+            eventmax : eventDetails.maxPeople,
+
+        }]
+        setAllestaff(allestaff=>[...allestaff,newStaff])
+
+        let allstaff = staff.filter(element => element._userid != userid)
+        console.log(allstaff);
+        setStaff(allstaff);
+    }
+
     useEffect(() => {
 
         const user_ = JSON.parse(localStorage.getItem('user'))
 
         const getEvent = () => {
             return (axios.get(`/event/${event}`))
+        }
+
+        const getAllEvents = () => {
+            return (axios.get(`/event/`))
         }
 
         const getEventProvider = () => {
@@ -84,7 +139,7 @@ export default function event() {
             return (axios.get(`/user/`))
         }
 
-        Promise.all([getEventProvider(),getProduct(),getService(),getEvent(),getProvider(),getRUsers(),getEventStaff(),getUsers()]).then((res) => {
+        Promise.all([getEventProvider(),getProduct(),getService(),getEvent(),getProvider(),getRUsers(),getEventStaff(),getUsers(),getAllEvents()]).then((res) => {
             let all = res[0].data.eventProviders;
             let eventproviders = all.filter(element => element.eventid == event);
             let products = res[1].data.products;
@@ -93,6 +148,7 @@ export default function event() {
             let providers = res[4].data.providers;
             let rusers = res[5].data.users;
             let users = res[7].data.users;
+            let allevents = res[8].data.events;
             console.log(eventproviders);
             console.log(products)
             console.log(services)
@@ -117,17 +173,27 @@ export default function event() {
                 e.provider = providers.filter(element => element.userid == e.providerid)[0].businessName;
             })
             let staff = rusers.filter(element => element.role == "Staff");
-            let estaff = res[6].data.alleventstaff.filter(element => element.eventid == event);
-            estaff.forEach(e => {
+            let allestaff = res[6].data.alleventstaff;
+            allestaff.forEach(e => {
                 e.firstname = users.filter(element => element._userid == e.userid)[0].firstname;
                 e.lastname = users.filter(element => element._userid == e.userid)[0].lastname;
+                e.name = allevents.filter(element => element._id == e.eventid)[0].title;
+                e.date = allevents.filter(element => element._id == e.eventid)[0].start_date;
+                e.eventend = allevents.filter(element => element._id == e.eventid)[0].start_date;
+                e.eventend = allevents.filter(element => element._id == e.eventid)[0].end_date;
+                e.eventmax = allevents.filter(element => element._id == e.eventid)[0].maxPeople;
             })
+            let estaff = allestaff.filter(element => element.eventid == event);
             staff.forEach(e => {
                 e.firstname = users.filter(element => element._userid == e.userid)[0].firstname;
                 e.lastname = users.filter(element => element._userid == e.userid)[0].lastname;
             })
+            estaff.forEach(e => {
+                staff = estaff.filter(element => element.userid != e.userid);
+            })
             console.log(staff)
             console.log(estaff)
+            console.log(allestaff)
             eventdetail.createdAt = getDateOnly(eventdetail.createdAt);
             eventdetail.start_date = getDateOnly(eventdetail.start_date);
             eventdetail.end_date = getDateOnly(eventdetail.end_date);
@@ -137,6 +203,7 @@ export default function event() {
             setEventProvider(eventproviders);
             setStaff(staff);
             setEventStaff(estaff);
+            setAllestaff(allestaff);
 
             return(res[3].data);
         }).then(async (data)=>{
@@ -308,9 +375,9 @@ export default function event() {
                                                 <table className="table">
                                                     {(staff.length != 0 ) && (staff.map(e => (
                                                         <tr>
-                                                            <button className="btn">
                                                             <td>{e.firstname + " " + e.lastname}</td>
-                                                            </button>
+                                                            <td><button className="btn" onClick={(e)=>{viewStaffEvent(e.userid)}}><FaEye/></button></td>
+                                                            <td><button className="btn" onClick={(e)=>{assignStaff(e.userid)}}><FaPlus/></button></td>
                                                         </tr>
                                                     )))}
                                                     {(staff.length == 0) && (
@@ -323,6 +390,22 @@ export default function event() {
                                     <div className='mb-4 col-lg-8' id="staffDetailsCard">
                                         <div className="card shadow md-4">
                                             <div className='card-header'> <b>Calendar</b></div>
+                                            <div className="card-body">
+                                                {(staffView) ? (
+                                                    <RevoCalendar 
+                                                    events = {data}
+                                                    lang="en"
+                                                    highlightToday={true}
+                                                    style={{
+                                                        height: "100%"
+                                                    }}
+                                                    primaryColor="#024fde"
+                                                    secondaryColor="#D7E6EE"
+                                                />
+                                                ) : (
+                                                    <p className="card-text">No Staff Selected</p>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -11,8 +11,6 @@ import { CartContext, CartDispatchContext } from '../../context/productContext';
 import axios from '../../utils/axios'
 import React, { useContext, useState,useEffect } from 'react'
 
-import Swal from 'sweetalert2'
-
 
 import { FaAlignJustify,FaDollarSign, FaShoppingCart,FaRegCalendarAlt,FaRegPlayCircle,FaQuestionCircle,FaEye} from 'react-icons/fa';
 var $ = require('jquery');
@@ -50,18 +48,6 @@ const cardtitles= [
 ]
 
   useEffect(() => {
-    const table2 = () => {
-      $(function() {
-          $('#rejectedTable').DataTable({
-              ordering:true,
-              select: true,
-              responsive: true,
-              buttons: [
-                  'copy','excel','pdf'
-              ]
-          });
-      });
-    }
     const table1 = () => {
       $(function() {
           $('#bookingsTable').DataTable({
@@ -81,7 +67,40 @@ const cardtitles= [
       console.log(error)
   })
   
-  
+    
+    // axios.get("/event").then((res)=>{
+    //     let events = res.data.events
+    //     let bookingCount = [0,0,0,0,0,0,0,0,0,0,0,0];
+    //     let cancellationCount = [0,0,0,0,0,0,0,0,0,0,0,0];
+    //     events.forEach(e=>{
+    //         let month = (e.createdAt.split('T')[0].split('-')[1]);
+    //         switch(month){
+    //             case '01': bookingCount[0] += 1; break;
+    //             case '02': bookingCount[1] += 1; break;
+    //             case '03': bookingCount[2] += 1; break;
+    //             case '04': bookingCount[3] += 1; break;
+    //             case '05': bookingCount[4] += 1; break;
+    //             case '06': bookingCount[5] += 1; break;
+    //             case '07': bookingCount[6] += 1; break;
+    //             case '08': bookingCount[7] += 1; break;
+    //             case '09': bookingCount[8] += 1; break;
+    //             case '10': bookingCount[9] += 1; break;
+    //             case '11': bookingCount[10] += 1; break;
+    //             default: bookingCount[11] += 1; break;
+    //         }
+    //     })
+    //     let pending = findElementByStatus(events,"Pending")
+    //     let approved = findElementByStatus(events,"Approved")
+    //     setEvents(bookingCount);
+    //     setCancels(cancellationCount);
+    //     console.log(events.length);
+    //     setTotalevents(events.length);
+    //     setPendingevents(pending.length);
+    //     setApprovedevents(approved.length);
+
+    // }).catch((error) => {
+    //     console.log(error)
+    // })
 
 }, [])
 
@@ -92,16 +111,7 @@ const handleClick = (item) => {
   router.push("/cart")
 };
 
-const showEvent= () => {
-  Swal.fire({
-    title: 'Sweet!',
-    text: 'Modal with a custom image.',
-    imageUrl: 'https://unsplash.it/400/200',
-    imageWidth: 400,
-    imageHeight: 200,
-    imageAlt: 'Custom image',
-  })
-}
+
   return (
      <div class="site-wrap">
      <Header />
@@ -110,7 +120,7 @@ const showEvent= () => {
       <div class="container">
         <div class="row">
           <div class="col-md-12 mb-0">
-            <a href="index.html">My Events</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">My Events</strong></div>
+            <a href="index.html">My Events</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">View Event</strong></div>
         </div>
       </div>
     </div>
@@ -121,75 +131,13 @@ const showEvent= () => {
         <div class="row mb-5">
           <div class="col-md-9 order-2">
 
-            <div class="row mb-5 border p-4 rounded">
-                {/* Content Row */}
-                <div className="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                <strong >Rejected Events</strong></div>
-                <br />
-                
-                <table className='table' id="rejectedTable">
-                  <thead>
-                      <tr>
-                          {/* {columns.map((c) => ( */}
-                              {/* <th key={c.text} >{c.text}</th> */}
-                              <th>Event Id</th>
-                              <th>Event Name</th>
-                              <th>Event Status</th>
-                              <th>Paid Amount</th>
-                              <th>Pending Amount</th>
-                              <th></th>
-                          {/* ))} */}
-                      </tr>
-                  </thead>
-                  <tbody>
-                  {/* {events.map((a) => ( */}
-                  {events.map((item, i) => (
-                            <tr key={i}>
-                              <td>{item._id}</td>
-                              <td>{item.title}</td>
-                              <td>{item.status}</td>
-                              <td>{item.price}</td>
-                              <td>{item.finalPay}</td>
-                              <td onClick={showEvent}><FaEye color='black' fontSize="16px" padding-left='10'/></td>
-                              
-                          </tr> 
-                      ))} 
-                  </tbody>
-              </table>
-            </div>
-            <div class="row mb-5 border p-4 rounded">
-                {/* Content Row */}
-               <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
-               <strong > All Events</strong></div>
-                <table className='table' id="bookingsTable">
-                  <thead>
-                      <tr>
-                          {/* {columns.map((c) => ( */}
-                              {/* <th key={c.text} >{c.text}</th> */}
-                              <th>Event Id</th>
-                              <th>Event Name</th>
-                              <th>Event Status</th>
-                              <th>Paid Amount</th>
-                              <th>Pending Amount</th>
-                              <th></th>
-                          {/* ))} */}
-                      </tr>
-                  </thead>
-                  <tbody>
-                  {/* {events.map((a) => ( */}
-                  {events.map((item, i) => (
-                            <tr key={i}>
-                              <td>{item._id}</td>
-                              <td>{item.title}</td>
-                              <td>{item.status}</td>
-                              <td>{item.price}</td>
-                              <td>{item.finalPay}</td>
-                              <td onClick={showEvent}><FaEye color='black' fontSize="16px" padding-left='10'/></td>
-                              
-                          </tr> 
-                      ))} 
-                  </tbody>
-              </table>
+            <div class="row mb-5">
+                                  {/* Content Row */}
+                                  
+            
+
+              
+
             </div>
           </div>
 
