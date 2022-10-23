@@ -37,6 +37,7 @@ const setProduct = async (attributes) => {
             name: attributes.name, 
             description: attributes.description,
             price: attributes.price,
+            discount: attributes.discount,
             category: attributes.category,
             comission: attributes.comission,
             count: attributes.count,
@@ -62,6 +63,7 @@ const updateProduct = async (attributes) => {
             name: attributes.name, 
             description: attributes.description,
             price: attributes.price,
+            discount: attributes.discount,
             category: attributes.category,
             comission: attributes.comission,
             count: attributes.count,
@@ -84,7 +86,7 @@ const updateProduct = async (attributes) => {
     };
 };
 
-const deleteEvent = async (attributes) => {
+const deleteProduct = async (attributes) => {
 
     // delete one product
     const product = await Product.destroy({
@@ -102,6 +104,6 @@ module.exports = {
     getProduct,
     setProduct,
     updateProduct,
-    deleteEvent,
+    deleteProduct,
     getProductCategory
 }
