@@ -12,7 +12,7 @@ import axios from '../../utils/axios'
 import React, { useContext, useState,useEffect } from 'react'
 
 
-import { FaAlignJustify,FaDollarSign, FaShoppingCart,FaRegCalendarAlt,FaRegPlayCircle,FaQuestionCircle } from 'react-icons/fa';
+import { FaAlignJustify,FaDollarSign, FaShoppingCart,FaRegCalendarAlt,FaRegPlayCircle,FaQuestionCircle,FaEye} from 'react-icons/fa';
 var $ = require('jquery');
 import 'datatables.net';
 import 'datatables.net-bs4';
@@ -143,6 +143,7 @@ const handleClick = (item) => {
                                                                 <th>Event Status</th>
                                                                 <th>Paid Amount</th>
                                                                 <th>Pending Amount</th>
+                                                                <th></th>
                                                             {/* ))} */}
                                                         </tr>
                                                     </thead>
@@ -155,6 +156,7 @@ const handleClick = (item) => {
                                                                 <td>{item.status}</td>
                                                                 <td>{item.price}</td>
                                                                 <td>{item.finalPay}</td>
+                                                                <td><Link href="./myEvents/viewEvent" ><FaEye color='black' fontSize="16px" padding-left='10'/></Link></td>
                                                                 
                                                             </tr> 
                                                        ))} 
