@@ -83,10 +83,23 @@ Event.sync()
 
 // Event.sync().then((res) => {
 //   Event.create({ 
-//     title: "Create business website", 
-//     location: "Jaffna",
-//     category: "Workshop",
-//     date: "2020-01-01" 
+//     title: "Birthday Party", 
+//     start_date: "2023-01-11",
+//     end_date: "2023-01-20",
+//     location: "Jaffna" ,
+//     maxPeople:150,
+//     userid:"0b3bb10d-5bd4-47aa-bf98-bffefe2b1f13",
+//     packageid:"p12",
+//     status:"Pending",
+//     serviceCharge:15,
+//     price:80000,
+//     advance:20000,
+//     advanceStatus:"Received",
+//     finalPay:60000,
+//     finalPayStatus:"Pending",
+//     finalPayDate:"2023-01-30"
+
+
 //   }).then((res) => {
 //     console.log(`Insert successful: ${res._id}`);
 //   });
