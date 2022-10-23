@@ -79,6 +79,26 @@ export default function event() {
         setData(data);
     }
 
+    function assignStaff(userid){
+        let newStaff = [{
+            userid : userid,
+            eventit : event,
+            firstname : staff.filter(element => element._userid == userid)[0].firstname,
+            lastname : staff.filter(element => element._userid == userid)[0].lastname,
+            name : eventDetails.title,
+            date : eventDetails.start_date,
+            eventend : eventDetails.start_date,
+            eventend : eventDetails.end_date,
+            eventmax : eventDetails.maxPeople,
+
+        }]
+        setAllestaff(allestaff=>[...allestaff,newStaff])
+
+        let allstaff = staff.filter(element => element._userid != userid)
+        console.log(allstaff);
+        setStaff(allstaff);
+    }
+
     useEffect(() => {
 
         const user_ = JSON.parse(localStorage.getItem('user'))
@@ -158,8 +178,8 @@ export default function event() {
                 e.firstname = users.filter(element => element._userid == e.userid)[0].firstname;
                 e.lastname = users.filter(element => element._userid == e.userid)[0].lastname;
                 e.name = allevents.filter(element => element._id == e.eventid)[0].title;
-                e.eventstart = allevents.filter(element => element._id == e.eventid)[0].start_date;
                 e.date = allevents.filter(element => element._id == e.eventid)[0].start_date;
+                e.eventend = allevents.filter(element => element._id == e.eventid)[0].start_date;
                 e.eventend = allevents.filter(element => element._id == e.eventid)[0].end_date;
                 e.eventmax = allevents.filter(element => element._id == e.eventid)[0].maxPeople;
             })
@@ -357,7 +377,7 @@ export default function event() {
                                                         <tr>
                                                             <td>{e.firstname + " " + e.lastname}</td>
                                                             <td><button className="btn" onClick={(e)=>{viewStaffEvent(e.userid)}}><FaEye/></button></td>
-                                                            <td><button className="btn"><FaPlus/></button></td>
+                                                            <td><button className="btn" onClick={(e)=>{assignStaff(e.userid)}}><FaPlus/></button></td>
                                                         </tr>
                                                     )))}
                                                     {(staff.length == 0) && (
