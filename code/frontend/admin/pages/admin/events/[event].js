@@ -79,12 +79,12 @@ export default function event() {
         setData(data);
     }
 
-    function assignStaff(userid){
+    function assignStaff(id){
         let newStaff = [{
-            userid : userid,
-            eventit : event,
-            firstname : staff.filter(element => element._userid == userid)[0].firstname,
-            lastname : staff.filter(element => element._userid == userid)[0].lastname,
+            userid : id,
+            eventid : event,
+            firstname : staff.filter(element => element.userid == id)[0].firstname,
+            lastname : staff.filter(element => element.userid == id)[0].lastname,
             name : eventDetails.title,
             date : eventDetails.start_date,
             eventend : eventDetails.start_date,
@@ -92,9 +92,10 @@ export default function event() {
             eventmax : eventDetails.maxPeople,
 
         }]
-        setAllestaff(allestaff=>[...allestaff,newStaff])
+        setAllestaff([newStaff],...allestaff)
+        console.log(newStaff)
 
-        let allstaff = staff.filter(element => element._userid != userid)
+        let allstaff = staff.filter(element => element.userid != id)
         console.log(allstaff);
         setStaff(allstaff);
     }
@@ -373,11 +374,11 @@ export default function event() {
                                             <div className='card-header d-flex justify-content-between'> <b>Available Staff</b></div>
                                             <div className="card-body">
                                                 <table className="table">
-                                                    {(staff.length != 0 ) && (staff.map(e => (
-                                                        <tr>
-                                                            <td>{e.firstname + " " + e.lastname}</td>
-                                                            <td><button className="btn" onClick={(e)=>{viewStaffEvent(e.userid)}}><FaEye/></button></td>
-                                                            <td><button className="btn" onClick={(e)=>{assignStaff(e.userid)}}><FaPlus/></button></td>
+                                                    {(staff.length != 0 ) && (staff.map(s => (
+                                                        <tr id={s.userid}>
+                                                            <td>{s.firstname + " " + s.lastname}</td>
+                                                            <td><button className="btn" onClick={(e)=>{viewStaffEvent(s.userid)}}><FaEye/></button></td>
+                                                            <td><button className="btn" onClick={(e)=>{assignStaff(s.userid)}}><FaPlus/></button></td>
                                                         </tr>
                                                     )))}
                                                     {(staff.length == 0) && (
