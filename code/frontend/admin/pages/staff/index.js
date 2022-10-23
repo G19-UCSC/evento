@@ -189,89 +189,51 @@ const dashboard = () => {
                             </div>
 
                             <div id="calendar">
-                                <
-                                    RevoCalendar
-                                    events
-                                    ={
+                                <RevoCalendar
+                                    events={
                                         totalevents
                                     }
-                                    style
-                                    ={{
-                                        borderRadius:
-                                            "5px"
-                                        ,
-                                        border:
-                                            "5px solid #4F6995"
+                                    style={{
+                                        borderRadius: "5px",
+                                        border: "5px solid #024fde"
                                     }}
-                                    highlightToday
-                                    ={
+                                    highlightToday={
                                         true
                                     }
-                                    lang
-                                    =
-                                    "en"
-                                    primaryColor
-                                    =
-                                    "#4F6995"
-                                    secondaryColor
-                                    =
-                                    "#D7E6EE"
-                                    todayColor
-                                    =
-                                    "#3B3966"
-                                    textColor
-                                    =
-                                    "#333333"
-                                    indicatorColor
-                                    =
-                                    "orange"
-                                    animationSpeed
-                                    ={
+                                    lang="en"
+                                    primaryColor="#024fde"
+                                    secondaryColor="#D7E6EE"
+                                    todayColor="#3B3966"
+                                    textColor="#333333"
+                                    indicatorColor="orange"
+                                    animationSpeed={
                                         300
                                     }
-                                    sidebarWidth
-                                    ={
+                                    sidebarWidth={
                                         180
                                     }
-                                    detailWidth
-                                    ={
+                                    detailWidth={
                                         280
                                     }
-                                    showDetailToggler
-                                    ={
+                                    showDetailToggler={
                                         true
                                     }
-                                    showSidebarToggler
-                                    ={
+                                    showSidebarToggler={
                                         true
                                     }
-                                    onePanelAtATime
-                                    ={
+                                    onePanelAtATime={
                                         false
                                     }
-                                    allowDeleteEvent
-                                    ={
+                                    openDetailsOnDateSelection={
                                         true
                                     }
-                                    allowAddEvent
-                                    ={
+                                    timeFormat24={
                                         true
                                     }
-                                    openDetailsOnDateSelection
-                                    ={
-                                        true
-                                    }
-                                    timeFormat24
-                                    ={
-                                        true
-                                    }
-                                    showAllDayLabel
-                                    ={
+                                    showAllDayLabel={
                                         false
                                     }
-                                    detailDateFormat
-                                    =
-                                    "DD/MM/YYYY"
+                                    detailDateFormat="DD/MM/YYYY"
 
                                 />
                             </div>
