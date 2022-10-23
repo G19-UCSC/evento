@@ -14,7 +14,7 @@ import axios from '../../../utils/axios';
 import generateOtp  from '../../../utils/otp'
 import { useForm } from 'react-hook-form';
 import emailjs from '@emailjs/browser';
-// import Swal from 'sweetalert2'
+import Swal from 'sweetalert2'
 
 export default function account () {
 
