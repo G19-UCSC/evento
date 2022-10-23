@@ -7,6 +7,9 @@ import { CartContext } from '../context/productContext';
 import React, { useContext, useState,useEffect} from "react";
 import { useForm } from 'react-hook-form';
 import axios from '../utils/axios'
+
+import Swal from 'sweetalert2'
+
 export default function Checkout() {
   const router = useRouter()
   const query = router.query.name;
@@ -113,7 +116,36 @@ console.log(paymentData)
     }
   , [])
 
-   
+   const checkout = () =>{
+    Swal.fire({
+      title: 'Enter Card Details',
+      html: `
+      <div class="icon-container">
+      <i class="fa fa-cc-visa" style="color:navy;"></i>
+      <i class="fa fa-cc-amex" style="color:blue;"></i>
+      <i class="fa fa-cc-mastercard" style="color:red;"></i>
+      <i class="fa fa-cc-discover" style="color:orange;"></i>
+    </div>
+      <input type="text" id="login" class="swal2-input" placeholder="Username">
+      <input type="password" id="password" class="swal2-input" placeholder="Password">`,
+      confirmButtonText: 'Sign in',
+      focusConfirm: false,
+      preConfirm: () => {
+        const login = Swal.getPopup().querySelector('#login').value
+        const password = Swal.getPopup().querySelector('#password').value
+        if (!login || !password) {
+          Swal.showValidationMessage(`Please enter login and password`)
+        }
+        return { login: login, password: password }
+      }
+    }).then((result) => {
+      Swal.fire(`
+        Login: ${result.value.login}
+        Password: ${result.value.password}
+      `.trim())
+    })
+    
+   }
   return (
      <div class="site-wrap">
      <Header />
@@ -249,6 +281,7 @@ console.log(paymentData)
                     <div class="form-group">
                       <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)" />
                     </div>
+                    
 
                     <div class="form-group row">
                       <div class="col-md-6">
@@ -281,6 +314,24 @@ console.log(paymentData)
                 <label for="c_order_notes" class="text-black">Order Notes</label>
                 <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control" placeholder="Write your notes here..."></textarea>
               </div> */}
+
+<div class="form-group">
+          <div class="col-md-6 mb-3">
+            <label for="cc-name">Name on card</label>
+            <input type="text" class="form-control" id="cc-name" placeholder="" required="" />
+            <small class="text-muted">Full name as displayed on card</small>
+            <div class="invalid-feedback">
+              Name on card is required
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="cc-number">Credit card number</label>
+            <input type="text" class="form-control" id="cc-number" placeholder="" required="" />
+            <div class="invalid-feedback">
+              Credit card number is required
+            </div>
+          </div>
+        </div>
               
             <div class="form-group">
                 <button class="btn btn-primary btn-lg py-3 btn-block" onClick={() => handleClick()}>Place Order</button>
@@ -338,7 +389,7 @@ console.log(paymentData)
                     </tbody>
                   </table>
 
-                  {/* <div class="border p-3 mb-3">
+                  <div class="border p-3 mb-3">
                     <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank">Direct Bank Transfer</a></h3>
 
                     <div class="collapse" id="collapsebank">
@@ -346,9 +397,9 @@ console.log(paymentData)
                         <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
                       </div>
                     </div>
-                  </div> */}
+                  </div> 
 
-                  {/* <div class="border p-3 mb-3">
+                  <div class="border p-3 mb-3">
                     <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsecheque" role="button" aria-expanded="false" aria-controls="collapsecheque">Cheque Payment</a></h3>
 
                     <div class="collapse" id="collapsecheque">
@@ -366,7 +417,7 @@ console.log(paymentData)
                         <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
                       </div>
                     </div>
-                  </div> */}
+                  </div>
 
                   
 
