@@ -7,17 +7,8 @@ import { CartContext, CartDispatchContext } from '../../context/productContext';
 import axios from '../../utils/axios'
 import React, { useContext, useState,useEffect } from 'react'
 
-const shop = (router,counts, handleClicks,products,productsAll,handlePrice) =>{
+const shop = (router,setCount, handleClicks,products,productsAll,handlePrice) =>{
 
-    const [setCart, setPrices] = useContext(CartDispatchContext);
-    const [cart,prices]= useContext(CartContext);
-  
-      const increaseCount = (count) => {
-          setTotalCount(count+1)
-        };
-        const decreaseCount = (count) => {
-          setTotalCount(count-1)
-        };
 <div class="container">
 
         <div class="row mb-5">
@@ -31,6 +22,16 @@ const shop = (router,counts, handleClicks,products,productsAll,handlePrice) =>{
                     <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Latest
                     </button>
+                    <div class="d-flex float-md-right">
+                         <div class=" mr-1 ml-md-auto float-right">
+                         <button onClick={() => setCount(1)} type="button" class="btn btn-secondary btn-sm float-right"  aria-haspopup="true" aria-expanded="false">
+                             Next
+                           </button>
+                           <button onClick={() => setCount(0)} type="button" class="btn btn-secondary btn-sm float-right"  aria-haspopup="true" aria-expanded="false">
+                             Back
+                           </button>
+                         </div>
+                       </div>
                     {/* <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
                       <a class="dropdown-item" href="#">Men</a>
                       <a class="dropdown-item" href="#">Women</a>
