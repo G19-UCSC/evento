@@ -19,6 +19,21 @@ body {
 ::selection {
   background: #000;
   color: #fff; }
+  .list-group {
+     
+    margin:auto;
+    float:left;
+    padding-top:20px;
+   }
+   .lead {
+    
+    margin:auto;
+    left:0;
+    right:0;
+    padding-top:10%;
+    
+   }
+   
 
 a {
   -webkit-transition: .3s all ease;

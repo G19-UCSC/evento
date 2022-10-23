@@ -10,9 +10,13 @@ import { filterByCategory, filterByPrice } from '../../utils/product';
 import { CartContext, CartDispatchContext } from '../../context/productContext';
 import axios from '../../utils/axios'
 import React, { useContext, useState,useEffect } from 'react'
+<script type="text/javascript" src="../../public/js/sidebar.js"></script>
 import Cards from "./cards"
 import Linechart from "./linechart"
 import Piechart from "./piechart"
+import { FaAlignJustify,FaDollarSign, FaShoppingCart,FaRegCalendarAlt,FaRegPlayCircle,FaQuestionCircle } from 'react-icons/fa';
+
+
 
 export default function Dashboard() {
   const [setCart, setPrices] = useContext(CartDispatchContext);
@@ -95,7 +99,8 @@ const handleClick = (item) => {
      <div class="bg-light py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Dashboard</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Dashboard</strong></div>
+          <div class="col-md-12 mb-0">
+            <a href="index.html">Dashboard</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Dashboard</strong></div>
         </div>
       </div>
     </div>
@@ -157,7 +162,14 @@ const handleClick = (item) => {
           <div class="col-md-3 order-1 mb-5 mb-md-0">
 
           <div class="border p-4 rounded mb-4">
-              <h3 class="h6 text-uppercase text-black d-block">Dashboard</h3>
+              {/* <h3 class="h6 text-uppercase text-black d-block">Dashboard</h3>
+              <h3 class="h6 text-uppercase text-black d-block">My Events</h3> */}
+              <a href="#" class="h6 list-group-item active"><FaAlignJustify color='black' fontSize="16px" padding-left='10'/><span class="p-4">Dashboard</span></a>
+              <a href="./myEvents" class="h6 list-group-item "><FaRegPlayCircle color='black' fontSize="16px" padding-left='10'/> <span class="p-4">My Events</span></a>
+              <a href="#" class="h6 list-group-item "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10'/><span class="p-4">My Bookings</span></a>
+              <a href="#" class="h6 list-group-item "><FaShoppingCart color='black' fontSize="16px" padding-left='10'/> <span class="p-4">My Purchases</span></a>
+              <a href="#" class="h6 list-group-item "><FaDollarSign color='black' fontSize="16px" padding-left='10'/> <span class="p-4">My Payments</span></a>
+              <a href="#" class="h6 list-group-item "><FaQuestionCircle color='black' fontSize="16px" padding-left='10'/> <span class="p-4">FAQ</span></a>
               {/* <ul class="list-unstyled mb-0">
               <li class="mb-1"><a href="#" onClick={() => setProducts(productsAll)} class="d-flex"><span>All</span> <span class="text-black ml-auto"> &nbsp;({productsAll.length})</span></a></li>
                 <li class="mb-1"><a href="#" onClick={() => setProducts(filterByCategory(productsAll,'clothing'))} class="d-flex"><span>Past</span> <span class="text-black ml-auto"> &nbsp;({filterByCategory(productsAll,'clothing').length})</span></a></li>
@@ -257,7 +269,7 @@ const handleClick = (item) => {
       
     
     
-     <Footer/>
+     {/* <Footer/> */}
    </div>
    
 
