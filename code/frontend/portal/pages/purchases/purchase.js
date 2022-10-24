@@ -10,9 +10,9 @@ import { CartContext, CartDispatchContext } from '../../context/productContext';
 import axios from '../../utils/axios'
 import React, { useContext, useState, useEffect } from 'react'
 <script type="text/javascript" src="../../public/js/sidebar.js"></script>
-import Cards from "./cards"
-import Linechart from "./linechart"
-import Piechart from "./piechart"
+//import Cards from "./cards"
+//import Linechart from "./linechart"
+//import Piechart from "./piechart"
 import { FaAlignJustify, FaDollarSign, FaShoppingCart, FaRegCalendarAlt, FaRegPlayCircle, FaQuestionCircle } from 'react-icons/fa';
 
 export default function providerDash() {
@@ -130,49 +130,51 @@ export default function providerDash() {
                             <div class="row mb-5">
                                 {/* Content Row */}
                                 <div className="row">
-                                    <Cards cardTitles={cardtitles} cardData={[totalevents, pendingevents]} />
+                                    {/*<Cards cardTitles={cardtitles} cardData={[totalevents, pendingevents]} />*/}
                                 </div>
 
                                 {/* Content Row */}
                                 <div className="row">
                                     <div className="col-xl-8 col-lg-7">
-                                        <Linechart
+                                        {/*<Linechart
                                             cardTitle="Bookings vs Time" xData={months} name1="Booked Events" name2="Cancelled Events"
                                             series1={events} series2={cancels}
                                         />
                                     </div>
 
                                     {/* Pie Chart */}
-                                    <div className="col-xl-4 col-lg-5">
-                                        <Piechart
+                                        <div className="col-xl-4 col-lg-5">
+                                            {/* <Piechart
                                             cardTitle="Event Bookings" names={["Booked Events", "Pending Events", "Approved Events", "Cancelled Events"]}
                                             series={[totalevents, pendingevents, approvedevents, cancelledevents]}
-                                        />
+                                        />*/}
+                                        </div>
                                     </div>
+
                                 </div>
-
                             </div>
-                        </div>
 
-                        <div class="col-md-3 order-1 mb-5 mb-md-0">
+                            <div class="col-md-3 order-1 mb-5 mb-md-0">
 
-                            <div class="border p-4 rounded mb-4">
-                                <a href="#" class="h6 list-group-item active"><FaAlignJustify color='black' fontSize="16px" padding-left='10' /><span class="p-4">Dashboard</span></a>
-                                <a href="./product" class="h6 list-group-item "><FaRegPlayCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Products</span></a>
-                                <a href="./service" class="h6 list-group-item "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10' /><span class="p-4">Services</span></a>
-                                <a href="./purchase" class="h6 list-group-item "><FaShoppingCart color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Purchases</span></a>
-                                <a href="./servicebooking" class="h6 list-group-item "><FaDollarSign color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Bookings</span></a>
-                                <a href="./event" class="h6 list-group-item "><FaQuestionCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Events</span></a>
+                                <div class="border p-4 rounded mb-4">
+                                    <a href="./provider" class="h6 list-group-item active"><FaAlignJustify color='black' fontSize="16px" padding-left='10' /><span class="p-4">Dashboard</span></a>
+                                    <a href="#" class="h6 list-group-item "><FaRegPlayCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Products</span></a>
+                                    <a href="#" class="h6 list-group-item "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10' /><span class="p-4">Services</span></a>
+                                    <a href="#" class="h6 list-group-item "><FaShoppingCart color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Purchases</span></a>
+                                    <a href="#" class="h6 list-group-item "><FaDollarSign color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Bookings</span></a>
+                                    <a href="#" class="h6 list-group-item "><FaQuestionCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Events</span></a>
 
+                                </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
-
-            {/* <Footer/> */}
         </div>
+
+
+
 
 
     )
