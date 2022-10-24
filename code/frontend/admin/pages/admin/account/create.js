@@ -31,7 +31,7 @@ export default function create () {
      axios.post("/ruser",form).then((res)=>{
         Swal.fire({
             icon: 'success',
-            title: 'Signup is successfull!',
+            title: 'Signup is successful!',
             iconColor: "green",
             confirmButtonColor: "green",
         });

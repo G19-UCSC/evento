@@ -23,12 +23,12 @@ const Basic = () => {
 
 const onSubmit = (formData) => {
   const otp = generateOtp()
-  // axios.post("/user",formData).then((res)=>{
-  //   // push({pathname:'/signup/creds', query:{userid:res.data.user._userid}},'/signup/creds')
-  //   console.log(res.data.user)
-  // }).catch((error) => {
-  //     console.log(error)
-  // })
+  axios.post("/user",formData).then((res)=>{
+    // push({pathname:'/signup/creds', query:{userid:res.data.user._userid}},'/signup/creds')
+    console.log(res.data.user)
+  }).catch((error) => {
+      console.log(error)
+  })
   emailjs.send("service_hxq4tfa","template_rvtb5iq", {to_name:`${formData.firstname} ${formData.lastname}`,message:otp,from_name:'evento',to_mail:formData.email,reply_to:'alwaysvictoryforme@gmail.com'},'_yWQOnFaW35ggFchq').then(function(response) {
     console.log('SUCCESS!', response.status, response.text);
  }, function(error) {

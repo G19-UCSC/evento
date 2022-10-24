@@ -10,13 +10,16 @@ import axios from '../../utils/axios'
 import Swal from 'sweetalert2'
 
 
-const OTP = (otp) => {
-  
+const Creds = () => {
+
   const router = useRouter()
 
-  if(!router.query.userid){ 
-    router.push('/signup')
+    useEffect(() => {
+
+    if(!router.query.userid){ 
+      router.push('/signup')
   }
+    }, [])
 
 
   const { register, handleSubmit, watch, control,reset, setValue, formState: { errors } } = useForm();
@@ -38,13 +41,9 @@ const OTP = (otp) => {
             console.log(error)
         })
       
-        window.location.href = "http://localhost:4000/";
+        window.location.href = "http://localhost:3000/signin";
     
     }
-
-    // useEffect(() => {
-    //   setOtp(generateOtp())
-    // }, [])
     
 
 
@@ -118,4 +117,4 @@ const OTP = (otp) => {
   </div>
   )
 }
-export default OTP
+export default Creds;
