@@ -71,7 +71,7 @@ export default function header() {
                   </li>
                   <li><a href="#"><span class="icon icon-heart-o"><BsHeart /></span></a></li>
                   <li>
-                    <a href="cart.html" class="site-cart">
+                    <a href="/cart" class="site-cart">
                       <span class="icon icon-shopping_cart"><BsFillCartFill /></span>
                       <span class="count">{cart.length}</span>
                     </a>

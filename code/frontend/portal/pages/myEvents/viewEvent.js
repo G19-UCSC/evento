@@ -22,32 +22,16 @@ export default function Dashboard() {
   const [setCart, setPrices] = useContext(CartDispatchContext);
   const [cart,prices]= useContext(CartContext);
   const[events,setEvents] = useState([]);
-  // const[events,setEvents] = useState([]);
-  // const[cancels,setCancels] = useState([]);
-  // const[totalevents,setTotalevents] = useState(0);
-  // const[cancelledevents,setCancelledevents] = useState(0);
-  // const[approvedevents,setApprovedevents] = useState(0);
-  // const[pendingevents,setPendingevents] = useState(0);
-
+  const [user, setUser] = useState(null);
+ 
   
-  // const [cart, setCart] = useState([])
-  const router = useRouter()
-  
-  const months = Array.from({length: 12}, (item, i) => {
-    return new Date(0, i).toLocaleString('en-US',{month: 'long'})
-});
 
-const findElementByMonth = (arr, month) => arr.filter(element => element.createdAt.getMonth == month);
-const findElementByStatus = (arr, status) => arr.filter(element => element.status == status);
-
-const cardtitles= [
-    { one: "TOTAL BOOKINGS"},
-    { two: "PENDING BOOKINGS"},
-    { three: "TOTAL INCOME"},
-    { four: "TOTAL PAYABLE"}
-]
 
   useEffect(() => {
+    const user_ = JSON.parse(localStorage.getItem('user'))
+      if (user_) {
+          setUser(user_)
+      }
     const table1 = () => {
       $(function() {
           $('#bookingsTable').DataTable({

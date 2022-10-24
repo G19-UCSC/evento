@@ -6,11 +6,15 @@ import Header from "../components/home/header"
 import { CartContext, CartDispatchContext } from '../context/productContext';
 import React, { useContext, useState, useEffect } from "react";
 import Link from 'next/link'
+import { useRouter } from "next/router";
 export default function Cart() {
   const [cart,prices]= useContext(CartContext);
   const [setCart, setPrices] = useContext(CartDispatchContext);
   // const router = useRouter()
   const [data, setData] = useState({ name: 0 });
+  const [discount, setDiscount] = useState(0);
+
+  const router = useRouter()
   // const data = 0
   const handleClick = (item) => {
     if (cart.indexOf(item) !== -1) return;
@@ -19,6 +23,11 @@ export default function Cart() {
   // cart.map((item) => (
   //   item.count ? setData({name : 1 }) : setData({name : 0})
   // ))
+
+  const change_cart = ()=>{
+      localStorage.removeItem('cart');
+      localStorage.setItem('cart',JSON.stringify(cart))
+  }
   const handleChange = (item, d) => {
     const ind = cart.indexOf(item);
     const arr = cart;
@@ -33,6 +42,7 @@ export default function Cart() {
     const arr = cart.filter((item) => item._id !== id);
     setCart(arr);
     handlePrice();
+
   };
 
   const handlePrice = () => {
@@ -42,8 +52,22 @@ export default function Cart() {
   };
 
   useEffect(() => {
-    handlePrice();
+    const cart_ = JSON.parse(localStorage.getItem('cart'))
+    if (cart_) {
+        setCart(cart_)
+    }
   });
+
+  const checkout = () => {
+    let ans = 0;
+    let discount = 0;
+    cart.map((item) => (ans += item.amount * item.price));
+    cart.map((item) => (discount += item.amount * (item.price  * (item.discount)/100)));
+    localStorage.setItem('price',ans)
+    localStorage.setItem('discount',discount)
+    router.push('/checkout')
+}
+
   return (
      <div class="site-wrap">
      <Header />
@@ -185,8 +209,7 @@ export default function Cart() {
 
                 <div class="row">
                   <div class="col-md-12">
-                  <Link href={{pathname:"/checkout" ,query: data}}><button class="btn btn-primary btn-lg py-3 btn-block" >Proceed To Checkout</button></Link>
-                    {/* <Link to="/checkout"><button type="button" class="btn btn-primary" data-bs-toggle="button">Checkout</button></Link> */}
+                  <button class="btn btn-primary btn-lg py-3 btn-block" onClick={checkout} >Proceed To Checkout</button>                    {/* <Link to="/checkout"><button type="button" class="btn btn-primary" data-bs-toggle="button">Checkout</button></Link> */}
                   </div>
                 </div>
               </div>

@@ -13,15 +13,14 @@ import Swal from 'sweetalert2'
 export default function Checkout() {
   const router = useRouter()
   const query = router.query.name;
-  console.log(router.query.name)
-  const [cart,price]= useContext(CartContext);
+  const [cart,setCart] = useState([])
+  const [price,setPrice] = useState(0)
   const [ruser, setRuser] = useState([])
   
-  // const [count, setCount] = useState([])
-  // const [products, setProducts] = useState([])
   const [id, setId] = useState('87adfe52-d2b8-42cd-91ff-6c764e97e717')
 
   const [user, setUser] = useState(null);
+  const [discount, setDiscount] = useState(0);
   const { push } = useRouter();
 
   const [paymentData, setPaymentData] = useState({
@@ -32,24 +31,12 @@ export default function Checkout() {
   })
   const [data, setData] = useState({
     userid:id  })
-  const count = []
-  const products = []
 
-  cart.map((item, i) => {
-    // setCount([...count,item.amount]),
-    // setProducts([...products,item._id])
-    count[i] = item.amount
-    products[i] = item._id
-                      
-  })
-  console.log(count)
   const [productData, setProductData] = useState({
     userid:id,
     count:0,
     productid:''
   })
-// console.log(productData)
-console.log(paymentData)
 
   const handleClick = () => {
     axios.post(`/payment`,paymentData).then((res)=>{
@@ -91,6 +78,13 @@ console.log(paymentData)
     }
     useEffect(() => {
       const user_ = JSON.parse(localStorage.getItem('user'))
+      const cart_ = JSON.parse(localStorage.getItem('cart'))
+      const price_ = JSON.parse(localStorage.getItem('price'))
+      const discount_ = JSON.parse(localStorage.getItem('discount'))
+      setCart(cart_)
+      setPrice(price_)
+      setDiscount(discount_)
+      console.log(cart_)
       if (user_) {
           setUser(user_)
           axios.get(`/user/${user_.userid}`).then((res)=>{
@@ -379,8 +373,8 @@ console.log(paymentData)
                     ))}
                       
                       <tr>
-                        <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                        <td class="text-black">{price}</td>
+                        <td class="text-black font-weight-bold"><strong>Discount</strong></td>
+                        <td class="text-black">({discount})</td>
                       </tr>
                       <tr>
                         <td class="text-black font-weight-bold"><strong>Order Total</strong></td>

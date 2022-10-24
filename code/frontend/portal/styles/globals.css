@@ -45,6 +45,9 @@ a {
 .text-black {
   color: #000; }
 
+.text-red {
+  color: red; }
+
 .site-wrap:before {
   -webkit-transition: .3s all ease-in-out;
   -o-transition: .3s all ease-in-out;
@@ -654,7 +657,7 @@ a {
 .site-blocks-table {
   overflow: auto; }
   .site-blocks-table .product-thumbnail {
-    width: 200px; }
+    height:25px; width: 25px; }
   .site-blocks-table thead th {
     padding: 30px;
     text-align: center;
