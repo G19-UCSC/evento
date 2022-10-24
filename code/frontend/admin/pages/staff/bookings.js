@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { useRouter } from 'next/router'
 import Link from 'next/link';
 import "bootstrap/dist/css/bootstrap.css";
 import { FaEdit, FaUserPlus, FaWindowClose, FaEye } from 'react-icons/fa';
@@ -12,10 +11,8 @@ var $ = require('jquery');
 import 'datatables.net';
 import 'datatables.net-bs4';
 import axios from '../../utils/axios';
-import { useForm } from 'react-hook-form';
 
 export default function account() {
-    const router = useRouter()
     const [eventids, seteventid] = useState([]);
     // const [btn, setBtn] = useState('null')
     // const [update, setUpdate] = useState('')
@@ -39,10 +36,6 @@ export default function account() {
         text: 'Action'
     },];
 
-    const viewEventDetails = useCallback((singleevent) => {
-        router.push(`./bookings/${singleevent}`);
-    }, [router]
-    );
 
 
     useEffect(() => {
@@ -218,8 +211,8 @@ export default function account() {
                                                                     )}
                                                                 </td>
                                                                 <td className='align-items-center justify-content-center'>
-                                                                    <button className='btn' onClick={() => viewEventDetails(a._id)}><FaEye /></button>
-
+                                                                    <Link href={`bookings/${encodeURIComponent(a._id)}`}><FaEye />
+                                                                    </Link>
                                                                 </td>
 
                                                             </tr>
