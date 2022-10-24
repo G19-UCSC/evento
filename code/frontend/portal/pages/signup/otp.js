@@ -13,10 +13,11 @@ import Swal from 'sweetalert2'
 
 const OTP = () => {
 
-  useEffect(() => {
-    const router = useRouter()
+  const router = useRouter()
 
-  if(!router.query.userid){ 
+  useEffect(() => {
+
+  if(!router.query.otp){ 
     router.push('/signup')
   }
 }, [])
