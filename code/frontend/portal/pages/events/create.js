@@ -5,10 +5,23 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { filterByCategory, filterByPrice } from '../../utils/product';
+import { CartContext, CartDispatchContext } from '../../context/productContext';
 import axios from '../../utils/axios'
 import React, { useContext, useState,useEffect } from 'react'
+import dayjs from 'dayjs';
+import TextField from '@mui/material/TextField';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import Stack from '@mui/material/Stack';
 
-export default function events() {
+export default function create() {
+    const [value, setValue] = React.useState(dayjs('2022-04-07'));  
+  // const [setPackages, setCost] = useContext(CartDispatchContext);
+  // const [packages,cost]= useContext(CartContext);
+
+  const [setCart, setPrices,setTotalCount] = useContext(CartDispatchContext);
+  const [cart,prices, TotalCount]= useContext(CartContext);
 
   const router = useRouter()
 
@@ -20,9 +33,7 @@ export default function events() {
   const [productsAll, setProductsAll] = useState([])
 
   // Cart Functions
-  const [prices, setPrices] = useState(0);
   const [discount, setDiscount] = useState(0);
-  const [cart, setCart] = useState([]);
   const [data, setData] = useState({ name: 0 });
 
   const handleClick = (item) => {
@@ -81,6 +92,17 @@ export default function events() {
     })
 }, [])
 
+    useEffect(()=>{
+        localStorage.removeItem('cart');
+        localStorage.setItem('cart',JSON.stringify(cart))
+    },[cart])
+
+    const checkout = () => {
+        localStorage.setItem('price',prices)
+        localStorage.setItem('discount',discount)
+        router.push('/checkout')
+    }
+
 return(
   <div class="site-wrap">
     
@@ -126,7 +148,21 @@ return(
                       </div>) : (
                         <div>
                           {/* {setData({name : 1 })} */}
-                          <p>Not Applicable</p>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <Stack spacing={1}>
+                                <DateTimePicker
+                                    renderInput={(params) => <TextField {...params} />}
+                                    label="Ignore time in each day"
+                                    value={value}
+                                    onChange={(newValue) => {
+                                    setValue(newValue);
+                                    }}
+                                    minDate={dayjs('2022-02-14')}
+                                    minTime={dayjs('2022-02-14T08:00')}
+                                    maxTime={dayjs('2022-02-14T18:45')}
+                                />
+                                </Stack>
+                            </LocalizationProvider>
                         </div>
                       )}
                       
@@ -184,7 +220,7 @@ return(
 
                 <div class="row">
                   <div class="col-md-12">
-                  <Link href={{pathname:"/checkout" ,query: data}}><button class="btn btn-primary btn-lg py-3 btn-block" >Proceed To Checkout</button></Link>
+                  <button class="btn btn-primary btn-lg py-3 btn-block" onClick={checkout} >Proceed To Checkout</button>
                     {/* <Link to="/checkout"><button type="button" class="btn btn-primary" data-bs-toggle="button">Checkout</button></Link> */}
                   </div>
                 </div>
@@ -205,14 +241,14 @@ return(
           
                       <div class="row">
                         <div class="col-md-12 mb-5">
-                          <div class="float-md-left mb-4"><h2 class="text-black h5">Select {(cnt === 0)? "Services":"Shop"}</h2></div>
+                          <div class="float-md-left mb-4"><h2 class="text-black h5">Pick your {(cnt === 0)? "Services":"Products"}...</h2></div>
                           <div class="d-flex float-md-right">
                             <div class=" mr-1 ml-md-auto float-right">
                             <button onClick={() => {setCnt(1)}} type="button" class="btn btn-secondary btn-sm float-right"  aria-haspopup="true" aria-expanded="false">
-                                Next
+                                Products
                               </button>
                               <button onClick={() => {setCnt(0)}} type="button" class="btn btn-secondary btn-sm float-right"  aria-haspopup="true" aria-expanded="false">
-                                Back
+                                Services
                               </button>
                             </div>
                           </div>
@@ -228,10 +264,19 @@ return(
                             </figure>
                             <div class="block-4-text p-4">
                               <h3><a href="shop-single.html">{item.name}</a></h3>
-                              <p class="mb-0">{item.description}</p>
-                              <p class="text-primary font-weight-bold">${item.price}</p>
+                              <br />
+                              {(item.discount==0)?(
+                              <p class="text-primary font-weight-bold">Rs.{item.price}</p>):(
+                                <div style={{display: 'flex', justifyContent: 'center'}}> 
+                                <div style={{display: 'flex', justifyContent: 'center'}}>
+                                <p class="font-weight-bold" style={{textDecorationLine: 'line-through'}}>Rs.{item.price}</p>&nbsp;
+                                <p style={{color:'green'}}>(-{item.discount}%)</p>
+                                </div>&nbsp;&nbsp;&nbsp;
+                                <p class="text-primary font-weight-bold">Rs.{item.price * (100-item.discount) / 100}</p>
+                                </div>
+                              )}
                             </div>
-                            <div class="d-flex justify-content-between mb-2" style={{ marginTop: "20px"}}>
+                            <div class="d-flex justify-content-between mb-2">
                               {/* <button type="button" class="w-100 btn btn-outline-dark" onClick={() => handleClick(item)}>Booking Service</button> */}
                               <Link href=" "><button type="button" class="w-100 btn btn-dark" onClick={() => router.push(`/service/${item._id}`)}>View More</button></Link>
                               <Link href=" "><button type="button" class="w-100 btn btn-dark" onClick={() => handleClicks(item)}>Add To Cart</button></Link>
@@ -247,10 +292,19 @@ return(
                               </figure>
                               <div class="block-4-text p-4">
                                 <h3><a href="shop-single.html">{item.name}</a></h3>
-                                <p class="mb-0">{item.description}</p>
-                                <p class="text-primary font-weight-bold">Rs.{item.price}</p>
+                                <br />
+                                {(item.discount==0)?(
+                                <p class="text-primary font-weight-bold">Rs.{item.price}</p>):(
+                                    <div style={{display: 'flex', justifyContent: 'center'}}> 
+                                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                                    <p class="font-weight-bold" style={{textDecorationLine: 'line-through'}}>Rs.{item.price}</p>&nbsp;
+                                    <p style={{color:'green'}}>(-{item.discount}%)</p>
+                                    </div>&nbsp;&nbsp;&nbsp;
+                                    <p class="text-primary font-weight-bold">Rs.{item.price * (100-item.discount) / 100}</p>
+                                    </div>
+                                )}
                               </div>
-                              <div class="d-flex justify-content-between mb-2" style={{ marginTop: "20px"}}>
+                              <div class="d-flex justify-content-between mb-2">
                                 <button type="button" class="w-100 btn btn-outline-dark" onClick={() => handleClicks(item)}>Add to cart</button>
                                 <Link href=" "><button type="button" class="w-100 btn btn-dark" onClick={() => router.push(`/shop/${item._id}`)}>View Product</button></Link>
                               </div>

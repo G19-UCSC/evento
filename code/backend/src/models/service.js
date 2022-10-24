@@ -14,7 +14,7 @@ const Service = db.define(
       allowNull: false,
     },
     description: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(250),
       allowNull: false,
     },
     price: {
@@ -22,7 +22,7 @@ const Service = db.define(
         allowNull: false,
       },
     category: {
-      type: DataTypes.ENUM('clothing', 'food', 'decor'),
+      type: DataTypes.ENUM('venue', 'catering', 'decorations'),
       allowNull: false,
     },
     comission: {
@@ -55,15 +55,15 @@ Service.sync()
 
 // Service.sync().then((res) => {
 //   Service.create({ 
-//     name: "Wedding hall", 
-//     description: "Wedding hall",
-//     price : 40000,
-//     category: "decor",
-//     comission : 5000,
-//     discount: 0,
-//     image_path:"https://i.ytimg.com/vi/PDxvTCFutc8/maxresdefault.jpg",
-//     timeSlots:['2022-10-10', '2022-11-10'],
-//     userid:"87adfe52-d2b8-42cd-91ff-6c764e97e717"
+//     name: "Green Cabin", 
+//     description: "Our team is so dedicated to working closely with you to create an unforgettable epicurean experience that will not only enhance your event, but also keep your guests talking about it for years to come.",
+//     price : 80000,
+//     category: "catering",
+//     comission : 5,
+//     discount: 10,
+//     image_path:"https://static.wixstatic.com/media/ff1aeb_e238c8a19086419ea0933bb40a90a428~mv2.jpg/v1/fill/w_490,h_656,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/ff1aeb_e238c8a19086419ea0933bb40a90a428~mv2.jpg",
+//     timeSlots:['2022-11-10', '2022-12-10'],
+//     userid:"e1ee36fe-03d2-4b49-8159-8d6e06e1d20a"
 
 //   }).then((res) => {
 //     console.log(`Insert successful: ${res._id}`);
