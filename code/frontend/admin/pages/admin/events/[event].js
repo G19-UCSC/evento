@@ -82,7 +82,8 @@ export default function event() {
 
         axios.post(`/eventStaff/`, newStaff).then((res)=>{
             console.log(res)
-            setAllestaff([newStaff], ...allestaff)
+            newStaff = res.data.eventstaff.res[0];
+            setEventStaff([newStaff], ...eventStaff)
             let allstaff = staff.filter(element => element.userid != id)
             console.log(allstaff);
             setStaff(allstaff);
@@ -94,12 +95,20 @@ export default function event() {
     }
 
     function removeStaff (id){
-        let updateStaff = allestaff.filter(element => element.userid == id)[0];
+        let updateid = allestaff.filter(element => element.userid == id)[0]._id;
+        let updateStaff = allestaff.filter(element => element.userid == id)[0]
         updateStaff.status = "Removed"
         console.log(updateStaff)
-        let estaff = allestaff.filter(element=> element.userid != id)
-        setAllestaff(estaff)
-        setStaff([updateStaff], ...staff) 
+
+        axios.put(`/eventStaff/${updateid}`,updateStaff).then((res)=>{
+            console.log(res)
+            let estaff = eventStaff.filter(element=> element.userid != id)
+            setEventStaff(estaff)
+            setStaff([updateStaff], ...staff)
+            alert('Staff removed Sucessfully')
+        }).catch((err)=>{
+            console.log(err)
+        })
     }
 
     useEffect(() => {
