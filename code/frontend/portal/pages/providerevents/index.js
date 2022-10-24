@@ -17,7 +17,7 @@ import 'datatables.net';
 import 'datatables.net-bs4';
 import { useForm } from 'react-hook-form';
 
-export default function event() {
+export default function providerevent() {
 const [events, setEvents] = useState([]);
 const [eventProviders, setEventProviders] = useState([]);
 
@@ -73,6 +73,7 @@ const columns = [
     Promise.all([getEvents(), getEventProviders()]).then((res) => {
         let events = res[0].data.events;
         let eventProviders = res[1].data.eventProviders;
+        console.log('events', events)
         let myevents = []
         events.forEach(e => {
             eventProviders.forEach(eventP => {
@@ -82,7 +83,7 @@ const columns = [
                 }
             })
         });
-        console.log(myevents);
+        console.log('myevents',myevents);
         setEvents(myevents);
     }).catch((error) => {
         console.log(error)
@@ -185,9 +186,9 @@ return (
                                                                 )}
                                                             </td>
                                                             <td>
-                                                                {/* <button className='btn' onClick={(e) => { onClickUpdate(a._id) }}>
+                                                                <button className='btn' onClick={(e) => { onClickAccept() }}> Accept {/*</button>*/}
                                                                         <FaEdit />
-                                                                    </button> */}
+                                                                  //  </button> 
                                                                 <Link href={`events/${encodeURIComponent(a._id)}`}>
                                                                     <FaEdit />
                                                                 </Link>

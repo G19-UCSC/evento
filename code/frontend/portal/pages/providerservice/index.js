@@ -1,23 +1,10 @@
-import Footer from "../../components/home/footer"
-import Header from "../../components/home/header"
-
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-
-import { filterByCategory, filterByPrice } from '../../utils/product';
-import { CartContext, CartDispatchContext } from '../../context/productContext';
-import axios from '../../utils/axios'
-import React, { useContext, useState, useEffect } from 'react'
-<script type="text/javascript" src="../../public/js/sidebar.js"></script>
-
 import { FaAlignJustify, FaDollarSign, FaShoppingCart, FaRegCalendarAlt, FaRegPlayCircle, FaQuestionCircle, FaUserPlus, FaEdit, FaWindowClose } from 'react-icons/fa';
 var $ = require('jquery');
 import 'datatables.net';
 import 'datatables.net-bs4';
 import { useForm } from 'react-hook-form';
 
-export default function service() {
+export default function providerservice() {
 
     const [btn, setBtn] = useState('null')
     const [update, setUpdate] = useState('')
@@ -126,7 +113,7 @@ export default function service() {
             formData.id = update
 
             console.log(formData)
-            axios.put(`/service/${update}`, formData).then((res) => {
+            axios.put(`/providerservice/${update}`, formData).then((res) => {
                 const newService = res.data.service.res[1]
                 setServices([formData].concat(removeElementById(services, newService._id)))
             }).catch((error) => {
@@ -136,7 +123,7 @@ export default function service() {
             onClickCancel();
         } else {
             console.log(formData)
-            axios.post(`/service/`, formData).then((res) => {
+            axios.post(`/providerservice/`, formData).then((res) => {
                 const newService = res.data.service.res[1]
                 setServices([formData].concat(removeElementById(services, newService._id)))
             }).catch((error) => {
@@ -162,7 +149,7 @@ export default function service() {
         }
 
         const getServices = () => {
-            return axios.get("/service");
+            return axios.get("/providerservice");
         }
 
 
