@@ -27,6 +27,7 @@ const dashboard = () => {
     // const [approvedevents, setApprovedevents] = useState(0);
     const [pendingevents, setPendingevents] = useState(0);
     // const [user, setUser] = useState([]);
+    const [allasignedevents, setallEmployeeStaff] = useState([]);
 
 
     const events2 = [
@@ -94,6 +95,7 @@ const dashboard = () => {
                     events[i] = e.eventid;
                     i++
 
+
                     // seteventid(eventid => [...eventid, e.eventid]);
                     if ((e.createdAt.split('T')[0] == date) || (e.updatedAt.split('T')[0] == date)) {
                         newEvents++;
@@ -101,13 +103,17 @@ const dashboard = () => {
                     }
                     axios.get(`/event/${e.eventid}`).then((res) => {
                         let eventdetails = res.data.event
-                        // console.log('eventdetails', eventdetails);
+                        console.log('eventdetails', eventdetails);
+                        eventdetails.name = eventdetails.title
+                        eventdetails.date = eventdetails.start_date.split('T')[0]
+                        setallEmployeeStaff(el => [...el, eventdetails])
+
                         // console.log('eventdetails', eventdetails.status);
                         if (eventdetails.status == "Pending") {
                             pendingEvents++;
+
                             setPendingevents(pendingEvents);
                         }
-
                     })
                 }
 
@@ -191,7 +197,7 @@ const dashboard = () => {
                             <div id="calendar">
                                 <RevoCalendar
                                     events={
-                                        events
+                                        allasignedevents
                                     }
                                     style={{
                                         borderRadius: "5px",

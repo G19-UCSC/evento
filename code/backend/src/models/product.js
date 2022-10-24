@@ -51,14 +51,16 @@ Product.sync()
 
 // Product.sync().then((res) => {
 //   Product.create({ 
-//     name: "Chocolate Fudge", 
-//     description: "Chocolate Fudge",
-//     price : 2200,
+
+//     name: "130ft Led", 
+//     description: "Lights Keepsmile APP Control Music Sync Color Changing ",
+//     discount: 4,
+//     price : 1200,
 //     category: "food",
-//     comission : 100,
-//     discount : 13,
-//     count: 10,
-//     image_path:"https://i.ytimg.com/vi/PDxvTCFutc8/maxresdefault.jpg"
+//     comission : 50,
+//     count: 20,
+//     image_path:"https://m.media-amazon.com/images/I/81f9ShZY6nL._AC_SL1500_.jpg"
+
 
 //   }).then((res) => {
 //     console.log(`Insert successful: ${res._id}`);
