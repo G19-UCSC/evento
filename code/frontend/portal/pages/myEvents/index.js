@@ -24,6 +24,7 @@ export default function Dashboard() {
   const [setCart, setPrices] = useContext(CartDispatchContext);
   const [cart,prices]= useContext(CartContext);
   const[events,setEvents] = useState([]);
+  const[rejectedEvents,setRejectedEvents] = useState([]);
   // const[events,setEvents] = useState([]);
   // const[cancels,setCancels] = useState([]);
   // const[totalevents,setTotalevents] = useState(0);
@@ -75,7 +76,7 @@ const cardtitles= [
       });
     }
     axios.get("/event").then((res)=>{
-      setEvents(res.data.events)
+      setEvents(res.data.events);
       table1();
     }).catch((error) => {
       console.log(error)
@@ -126,7 +127,7 @@ const showEvent= () => {
                 <div className="text-xs font-weight-bold text-danger text-uppercase mb-1">
                 <strong >Rejected Events</strong></div>
                 <br />
-                
+
                 <table className='table' id="rejectedTable">
                   <thead>
                       <tr>
@@ -144,7 +145,8 @@ const showEvent= () => {
                   <tbody>
                   {/* {events.map((a) => ( */}
                   {events.map((item, i) => (
-                            <tr key={i}>
+                    (item.status=="Rejected")?(
+                      <tr key={i}>
                               <td>{item._id}</td>
                               <td>{item.title}</td>
                               <td>{item.status}</td>
@@ -152,7 +154,9 @@ const showEvent= () => {
                               <td>{item.finalPay}</td>
                               <td onClick={showEvent}><FaEye color='black' fontSize="16px" padding-left='10'/></td>
                               
-                          </tr> 
+                          </tr>
+                    ):(null)
+                             
                       ))} 
                   </tbody>
               </table>
