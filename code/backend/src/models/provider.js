@@ -25,9 +25,9 @@ const Provider = db.define(
 Provider.sync()
 // Provider.sync().then((res) => {
 //   Provider.create({
-//     userid:"b928dd43-fb9f-4103-9045-a9596e45325d", 
-//     businessName: "Raj Bakers", 
-//     location: "229,Palliyawatha,Hendala,Wattala",
+//     userid:"b408382d-712c-4a6f-9c60-368f1d48b9f3", 
+//     businessName: "Everest Bakers", 
+//     location: "Nelliady, Jaffna",
 
 //   }).then((res) => {
 //     console.log(`Insert successful: ${res._id}`);
