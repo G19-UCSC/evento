@@ -51,12 +51,13 @@ Product.sync()
 
 // Product.sync().then((res) => {
 //   Product.create({ 
-//     name: "Black Forest", 
-//     description: "Black forest cake",
-//     price : 1200,
+//     name: "Chocolate Fudge", 
+//     description: "Chocolate Fudge",
+//     price : 2200,
 //     category: "food",
-//     comission : 50,
-//     count: 20,
+//     comission : 100,
+//     discount : 13,
+//     count: 10,
 //     image_path:"https://i.ytimg.com/vi/PDxvTCFutc8/maxresdefault.jpg"
 
 //   }).then((res) => {
