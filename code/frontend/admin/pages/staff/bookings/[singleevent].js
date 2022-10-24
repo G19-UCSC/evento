@@ -1,97 +1,171 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link';
 import "bootstrap/dist/css/bootstrap.css";
-import { FaEdit, FaUserPlus, FaWindowClose, FaEye, FaSpinner, FaCheck } from 'react-icons/fa';
 import Header from "../../../components/staff/header";
 import Sidebar from "../../../components/staff/sidebar";
 import Footer from "../../../components/staff/footer";
-// import { getSession } from 'next-auth/client'
+import { useEffect, useRef, useState } from "react";
+import axios from "../../../utils/axios";
+import { useRouter } from "next/router";
+import { jsPDF } from "jspdf";
+import { FaCheckCircle, FaCross, FaEye, FaMinus, FaPlus, FaSpinner, FaTimesCircle, FaUserPlus } from "react-icons/fa";
+import autoTable from 'jspdf-autotable';
 
 var $ = require('jquery');
-import 'datatables.net';
-import 'datatables.net-bs4';
-import axios from '../../../utils/axios';
-import { useForm } from 'react-hook-form';
 
-export default function EventDetails() {
+export default function event() {
+
     const router = useRouter()
-    const [eventData, setEventdata] = useState([]);
-    const [packageData, setpackagedata] = useState([]);
-    const [packageProducts, setpackageproducts] = useState([]);
-    const [packageServices, setpackageservices] = useState([]);
-    const [assignedStaff, setallassignendstaff] = useState([]);
-    const columns = [{
-        text: 'Product / Service'
-    }, {
-        text: 'Providers'
-    }, {
-        text: 'Status'
-    },];
+    const event = router.query.singleevent
+    console.log('event', event);
+    const [eventDetails, setEventDetails] = useState([]);
+    const [userDetails, setUserDetails] = useState([]);
+    const [packDetails, setPackDetails] = useState([]);
+    const [eventProvider, setEventProvider] = useState([]);
+    const [staff, setStaff] = useState([]);
+    const [eventStaff, setEventStaff] = useState([]);
+    const [allestaff, setAllestaff] = useState([]);
+    const [currentUser, setCurrentUser] = useState([]);
+    const [pending, setPending] = useState(0);
 
-    const eventid = router.query.singleevent
-    // const { id } = eventstaffID.singleevent
-    console.log('params', eventid)
+
+    function getPendingAmount(eventdetail) {
+        let amount = parseFloat(eventdetail.price, 10) + parseFloat(eventdetail.serviceCharge, 10);
+        (eventdetail.advanceStatus == "Received") ? amount = -parseFloat(eventdetail.advance, 10) : amount;
+        (eventdetail.finalPayStatus == "Received") ? amount = -parseFloat(eventdetail.finalPay, 10) : amount;
+        return amount;
+    }
+
+    function getDateOnly(string) {
+        return (string).split('T')[0];
+    }
+
     useEffect(() => {
+
         const user_ = JSON.parse(localStorage.getItem('user'))
-        // console.log('paramss', eventid)
-        axios.get(`/event/${eventid}`).then((res) => {
-            let eventData = res.data.event
-            setEventdata(eventData)
+        console.log('currentuse', user_);
+        const getCurrentUser = () => {
+            return (axios.get(`/user/${user_.userid}`))
+        }
 
-            const getpacakedeials = axios.get(`/package/${eventData.packageid}`);
-            let getallpackageproduct = axios.get("/packageproduct");
-            let getallproductdetails = axios.get("/product");
-            // let getallservicedetails = axios.get("/service");
-            let getalleventstaff = axios.get("/eventstaff");
-            let getallusers = axios.get("/users");
+        const getEvent = () => {
+            return (axios.get(`/event/${event}`))
+        }
 
-            Promise.all([getpacakedeials, getallpackageproduct, getallproductdetails, getalleventstaff, getallusers]).then((res) => {
-                // axios.get(`/package/${eventData.packageid}`).then((res) => {
-                let pacakedetails = res[0].data.package;
-                let allpackageproduct = res[1].data.packageproducts;
-                let allproductdetails = res[2].data.products;
-                // let allservicedetails = res[3].data.service;
-                let alleventstaff = res[3].data.alleventstaff;
-                console.log('alleventstaff', alleventstaff)
+        const getAllEvents = () => {
+            return (axios.get(`/event/`))
+        }
 
-                let eventstaff = alleventstaff.filter(element => (element.eventid == eventid))
-                let getallusers = res[5].data.users
-                setpackagedata(pacakedetails)
-                alleventstaff.forEach(alles => {
-                    if (alles.eventid == eventid) {
-                        getallusers.forEach(u => {
-                            if (alles.userid == u._id) {
-                                setallassignendstaff(user => [...user, u])
-                            }
+        const getEventProvider = () => {
+            return (axios.get('/eventProvider'))
+        }
 
-                        });
+        const getProvider = () => {
+            return (axios.get(`/provider/`))
+        }
 
+        const getProduct = () => {
+            return (axios.get(`/product/`))
+        }
+
+        const getService = () => {
+            return (axios.get(`/service/`))
+        }
+
+        const getRUsers = () => {
+            return (axios.get(`/ruser/`))
+        }
+
+        const getEventStaff = () => {
+            return (axios.get(`/eventstaff/`))
+        }
+
+        const getUsers = () => {
+            return (axios.get(`/user/`))
+        }
+
+        Promise.all([getEventProvider(), getProduct(), getService(), getEvent(), getProvider(), getRUsers(), getEventStaff(), getUsers(), getAllEvents(), getCurrentUser()]).then((res) => {
+            let all = res[0].data.eventProviders;
+            let eventproviders = all.filter(element => element.eventid == event);
+            let products = res[1].data.products;
+            let services = res[2].data.service;
+            let eventdetail = res[3].data.event;
+            let providers = res[4].data.providers;
+            let rusers = res[5].data.users;
+            let users = res[7].data.users;
+            let allevents = res[8].data.events;
+            let currentuser = res[9].data.user;
+            console.log(eventproviders);
+            console.log(products)
+            console.log(services)
+            console.log(eventdetail)
+            console.log(providers)
+            console.log(users);
+            console.log(currentuser);
+
+            setCurrentUser(currentuser);
+            eventproviders.forEach(e => {
+                products.forEach(p => {
+                    if (e.productid == p._id) {
+                        e.productname = p.name;
                     }
-                });
-                allpackageproduct.forEach(apac => {
-                    if (apac.packageid == eventData.packageid) {
-
-                        allproductdetails.forEach(alpro => {
-                            // console.log("alpro.id", alpro._id)
-                            // console.log("eventData.packageid", eventData.packageid)
-                            // console.log("apac.productid", apac.productid)
-                            if (alpro._id == apac.productid) {
-                                setpackageproducts(product => [...product, alpro])
-                            }
-
-                        });
-                        allservicedetails.forEach(alser => {
-                            if (alser._id == apac.productid) {
-                                setpackageservices(service => [...service, alser])
-                            }
-
-                        });
-
+                })
+            })
+            eventproviders.forEach(e => {
+                services.forEach(p => {
+                    if (e.productid == p._id) {
+                        e.productname = p.name;
                     }
+                })
+            })
+            eventproviders.forEach(e => {
+                e.provider = providers.filter(element => element.userid == e.providerid)[0].businessName;
+            })
+            let staff = rusers.filter(element => element.role == "Staff");
+            let allestaff = res[6].data.alleventstaff;
+            allestaff.forEach(e => {
+                e.firstname = users.filter(element => element._userid == e.userid)[0].firstname;
+                e.lastname = users.filter(element => element._userid == e.userid)[0].lastname;
+                e.name = allevents.filter(element => element._id == e.eventid)[0].title;
+                e.date = allevents.filter(element => element._id == e.eventid)[0].start_date;
+                e.eventend = allevents.filter(element => element._id == e.eventid)[0].start_date;
+                e.eventend = allevents.filter(element => element._id == e.eventid)[0].end_date;
+                e.eventmax = allevents.filter(element => element._id == e.eventid)[0].maxPeople;
+            })
+            let estaff = allestaff.filter(element => element.eventid == event);
+            staff.forEach(e => {
+                e.firstname = users.filter(element => element._userid == e.userid)[0].firstname;
+                e.lastname = users.filter(element => element._userid == e.userid)[0].lastname;
+            })
+            estaff.forEach(e => {
+                staff = estaff.filter(element => element.userid != e.userid);
+            })
+            console.log(staff)
+            console.log(estaff)
+            console.log(allestaff)
+            eventdetail.createdAt = getDateOnly(eventdetail.createdAt);
+            eventdetail.start_date = getDateOnly(eventdetail.start_date);
+            eventdetail.end_date = getDateOnly(eventdetail.end_date);
 
-                });
+            setPending(getPendingAmount(eventdetail));
+            setEventDetails(eventdetail);
+            setEventProvider(eventproviders);
+            setStaff(staff);
+            setEventStaff(estaff);
+            setAllestaff(allestaff);
 
+            return (res[3].data);
+        }).then(async (data) => {
+            await axios.get(`/user/${data.event.userid}`).then((res) => {
+                let u = res.data.user;
+                console.log(u);
+                setUserDetails(u);
+            }).catch((error) => {
+                console.log(error)
+            })
+            return (data)
+        }).then(async (data) => {
+            await axios.get(`/package/${data.event.packageid}`).then((res) => {
+                console.log(res);
+                setPackDetails(res.data.package)
             }).catch((error) => {
                 console.log(error)
             })
@@ -99,95 +173,199 @@ export default function EventDetails() {
             console.log(error)
         })
 
-    }, [eventid])
+    }, [event])
 
-    console.log('eventData', eventData)
 
-    console.log('packageServices', packageServices)
+    function generateReport(e) {
+        let doc = new jsPDF();
+        //PDF Header
+        doc.addImage(('/images/evento-logo.jpeg'), 'JPEG', 20, 20, 0, 30, 50);
+        doc.setFontSize(20)
+        doc.text(65, 32, 'Evento Event Management');
+        doc.setFontSize(8)
+        doc.text(125, 5, Date())
+        doc.setFontSize(12)
+        doc.text(55, 43, `${eventDetails.title}`);
+        doc.text(140, 43, 'By:' + ` ${currentUser.firstname}` + ' ' + `${currentUser.lastname}`);
+        //PDF Header
+
+        //PDF Content
+
+        //Event Details
+        doc.setFont(undefined, 'bold').text(20, 60, 'Event Details');
+        doc.setFontSize(10)
+        doc.setFont(undefined, 'bold').text(20, 70, 'Event Title:').setFont(undefined, 'normal').text(55, 70, `${eventDetails.title}`);
+        doc.setFont(undefined, 'bold').text(20, 75, 'Scheduled User:').setFont(undefined, 'normal').text(55, 75, ` ${userDetails.firstname}` + `${userDetails.lastname}`);
+        doc.setFont(undefined, 'bold').text(20, 80, 'Event Duration:').setFont(undefined, 'normal').text(55, 80, ` ${eventDetails.start_date}` + '-' + `${eventDetails.end_date}`);
+        doc.setFont(undefined, 'bold').text(20, 85, 'Booked Date:').setFont(undefined, 'normal').text(55, 85, ` ${eventDetails.createdAt}`);
+        doc.setFont(undefined, 'bold').text(20, 90, 'Location:').setFont(undefined, 'normal').text(55, 90, ` ${eventDetails.location}`);
+        doc.setFont(undefined, 'bold').text(20, 95, 'Status:').setFont(undefined, 'normal').text(55, 95, ` ${eventDetails.status}`);
+
+        //Payment Details
+        doc.setFontSize(12).setFont(undefined, 'bold').text(125, 60, 'Payment Details');
+        doc.setFontSize(10)
+        doc.setFont(undefined, 'bold').text(125, 70, 'Advance Payment');
+        doc.setFont(undefined, 'bold').text(125, 80, 'Payment:').setFont(undefined, 'normal').text(150, 80, `${eventDetails.advance}`);
+        doc.setFont(undefined, 'bold').text(125, 85, 'Date:').setFont(undefined, 'normal').text(150, 85, ` ${userDetails.advanceDate}`);
+        doc.setFont(undefined, 'bold').text(125, 95, 'Final Payment');
+        doc.setFont(undefined, 'bold').text(125, 100, 'Payment:').setFont(undefined, 'normal').text(150, 100, `${eventDetails.finalPay}`);
+        doc.setFont(undefined, 'bold').text(125, 105, 'Date:').setFont(undefined, 'normal').text(150, 105, ` ${userDetails.finalPayDate}`);
+
+        //Package Details
+        doc.setFontSize(12).setFont(undefined, 'bold').text(20, 125, 'Package Details');
+        doc.setFontSize(10)
+        doc.setFont(undefined, 'bold').text(20, 135, 'Name:').setFont(undefined, 'normal').text(55, 135, `${packDetails.name}`);
+        doc.setFont(undefined, 'bold').text(20, 140, 'Type:').setFont(undefined, 'normal').text(55, 140, ` ${packDetails.category}`);
+        doc.setFont(undefined, 'bold').text(20, 150, 'Products and Services');
+        autoTable(doc, { html: '#my-table', theme: 'plain', startY: 155, startX: 20 })
+        //PDF Content
+
+        //PDF Footer
+        doc.line(205, 275, 5, 275);
+        doc.setFontSize(8)
+        doc.text(65, 280, 'Address: No.35 Reid Avanue, Colombo 7, Sri Lanka');
+        doc.text(60, 285, 'Email: evento@mail.com')
+        doc.text(110, 285, 'Contact no: 011 - 000 0000')
+        //PDF Footer
+        doc.save('EventReport.pdf')
+    }
+
+
 
 
     return (
         <>
             <div id="wrapper">
                 <Sidebar linkId="bookings" />
-                <div id="content-wrapper" className='d-flex flex-column '>
-                    <div id="content" >
+                <div id="content-wrapper" className="d-flex flex-column">
+                    <div id="content">
                         <Header />
-                        {/* <div className="container-fluid">
+                        <div className="container-fluid">
                             <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 className="h3 mb-0 text-gray-800">Bookings</h1>
+                                <h1 className="h3 mb-0 text-gray-800">{eventDetails.title + "-" + userDetails.firstname +
+                                    " " + userDetails.lastname}</h1>
+
+                                <button className="btn btn-primary" onClick={e => generateReport(e)}> Generate Report </button>
                             </div>
-
-                        </div> */}
-                        <div className='d-flex align-items-center justify-content-center'>
-                            <div className='card border-secondary shadow ' style={{ maxWidth: "60rem" }}>
-                                <div className='d-flex align-items-center justify-content-between card-header h4 bg-secondary text-white'>
-                                    <span>{eventData.title}</span><span>{eventData.status}</span>
-                                </div>
-                                <div className='card-body row d-flex align-items justify-content-between'>
-                                    <div className='container col-md-4  mt-0'>
-                                        <h5 className="card-title">Event Details</h5>
-                                        {/* <p className="card-text">Event Description</p> */}
-                                        <p className="card-text">Created Date: {eventData.createdAt}</p>
-                                        <p className="card-text">Start Date: {eventData.start_date}</p>
-                                        <p className="card-text">End Date: {eventData.end_date}</p>
-                                        <p className="card-text">Venue:{eventData.location}</p>
-                                        <p className="card-text">No of Participants: {eventData.maxPeople}</p>
+                            <div className="row" id="rowOne" style={{ height: "100%", overflow: "auto" }}>
+                                <div className='mb-4 col-lg-4' id="eventDetailsCard">
+                                    <div className='card shadow md-4'>
+                                        <div className='card-header'> <h5>Event</h5> </div>
+                                        <div className="card-body">
+                                            <p className="card-text">Event Title - {eventDetails.title}</p>
+                                            <p className="card-text">Booked On {eventDetails.createdAt}</p>
+                                            <p className="card-text">Event Date {(eventDetails.start_date) + " to "
+                                                + (eventDetails.end_date)}</p>
+                                            <p className="card-text">Location at {eventDetails.location}</p>
+                                        </div>
+                                        <div className='card-header'> <b>Advanced Payment </b>
+                                            {(eventDetails.advanceStatus == "Received") && <FaCheckCircle color="green" />}
+                                            {(eventDetails.advanceStatus != "Received") && <FaSpinner color="blue" />} </div>
+                                        <div className="card-body">
+                                            <p className="cerd-text">
+                                                {(eventDetails.advanceStatus == "Received") ?
+                                                    <>
+                                                        <table className="table">
+                                                            <td>Rs. {eventDetails.advance}</td>
+                                                            <td>{eventDetails.advanceDate}</td>
+                                                        </table>
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <p>Pending</p>
+                                                    </>
+                                                }
+                                            </p>
+                                        </div>
+                                        <div className='card-header'> <b>Final Payment </b>
+                                            {(eventDetails.finalPayStatus == "Received") && <FaCheckCircle color="green" />}
+                                            {(eventDetails.finalPayStatus != "Received") && <FaSpinner color="blue" />} </div>
+                                        <div className="card-body">
+                                            <p className="cerd-text">
+                                                {(eventDetails.finalPayStatus == "Received") ?
+                                                    <>
+                                                        <table className="table">
+                                                            <td>Rs. {eventDetails.finalPayDate}</td>
+                                                            <td>{eventDetails.finalPay}</td>
+                                                        </table>
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <p>Pending</p>
+                                                    </>
+                                                }
+                                            </p>
+                                        </div>
+                                        <div className="card-header"> <b>Pending Amount</b></div>
+                                        <div className="card-body">
+                                            <p className="card-text">
+                                                Rs. {pending}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div className='container col-md-4  mt-0'><h5 className="card-title">Package: {packageData.category}</h5>
-
-                                        <div className='table-responsive'>
-                                            <table className='table'>
+                                </div>
+                                <div className='mb-4 col-lg-4' id="packageDetailsCard">
+                                    <div className='card shadow md-4'>
+                                        <div className='card-header'> <b>Package</b></div>
+                                        <div className="card-body">
+                                            <p>Name : {packDetails.name}</p>
+                                            <p>Type : {packDetails.category}</p>
+                                            <table className="table" id="my-table">
                                                 <thead>
                                                     <tr>
-                                                        {columns.map((c) => (
-                                                            <th key={c.text} >{c.text}</th>
-                                                        ))}
+                                                        <th>Product/Service</th>
+                                                        <th>Provider</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {packageProducts.map((a) => (
-                                                        <tr id={a._id} key={a.i}>
-                                                            <td>{a.name}</td>
-                                                            <td>Perera and Sons</td>
-                                                            <td><FaSpinner /></td>
-                                                        </tr>
-                                                    ))}
-                                                    {packageServices.map((b) => (
-                                                        <tr id={b._id} key={b.i}>
-                                                            <td>{b.name}</td>
-                                                            <td>Happy Venue</td>
-                                                            <td><FaCheck /></td>
+                                                    {eventProvider.map(e => (
+                                                        <tr key={e._id}>
+                                                            <td>
+                                                                {(e.status == "Accepted") && <FaCheckCircle color="green" />}
+                                                                {(e.status == "Pending") && <FaSpinner color="blue" />}
+                                                                {(e.status == "Rejected") && <FaTimesCircle color="red" />}
+                                                                {" " + e.productname}</td>
+                                                            <td>{e.provider}</td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
-                                    <div className='container col-md-4  mt-0'>
-                                        <h5 className="card-title">Monitored By </h5>
-                                        <p className="card-text">{assignedStaff.firstname + " " + assignedStaff.lastname}</p>
-                                    </div>
-                                    <div className='container col-md-4  mt-3'>
-                                        <h5 className="card-title">Advance Payment</h5>
-                                        <p className="card-text">Payment Status:{eventData.advanceStatus}</p>
-                                        <p className="card-text">Advance Amount:{eventData.advance == null ? <span>Payment Pending</span> : <span>Rs.{' '}{eventData.advance}</span>}</p>
-                                        <p className="card-text">PaymentDate: {eventData.advanceDate == null ? <span>Payment Pending</span> : <span>{eventData.advanceDate.split('T')[0]}</span>}</p>
-                                    </div>
-                                    <div className='container col-md-4  mt-3'>
-                                        <h5 className="card-title">Final Payment</h5>
-                                        <p className="card-text">Payment Status:{eventData.finalPayStatus}</p>
-                                        <p className="card-text">Final Amount:{eventData.finalPay == null ? <span>Payment Pending</span> : <span>Rs.{' '}{eventData.finalPay}</span>}</p>
-                                        <p className="card-text">PaymentDate:{eventData.finalPayDate == null ? <span>Payment Pending</span> : <span>{eventData.finalPayDate.split('T')[0]}</span>}</p>
+                                </div>
+                                <div className='mb-4 col-lg-4' id="staffDetailsCard">
+                                    <div className='card shadow md-4'>
+                                        <div className='card-header d-flex justify-content-between'>
+                                            <b>Monitored By</b>
+                                            {/* <span className="mr-4">
+                                                <button className="btn" onClick={(e) => (staffBtnClicked())}><FaUserPlus /></button>
+                                            </span> */}
+                                        </div>
+                                        <div className="card-body">
+                                            <table className="table">
+                                                <tbody>
+                                                    {(eventStaff.length != 0) && (eventStaff.map(e => (
+                                                        <tr key={e.userid}>
+                                                            <td>{e.firstname + " " + e.lastname}</td>
+                                                            <td className="text-right mr-4">
+                                                            </td>
+                                                        </tr>
+                                                    )))}
+                                                    {(eventStaff.length == 0) && (
+                                                        <tr><td>No Staff Assigned</td></tr>
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
-                    <Footer />
                 </div>
             </div>
         </>
     )
-}
 
+}

@@ -27,6 +27,7 @@ const dashboard = () => {
     // const [approvedevents, setApprovedevents] = useState(0);
     const [pendingevents, setPendingevents] = useState(0);
     // const [user, setUser] = useState([]);
+    const [allasignedevents, setallEmployeeStaff] = useState([]);
 
 
     const events2 = [
@@ -94,6 +95,7 @@ const dashboard = () => {
                     events[i] = e.eventid;
                     i++
 
+
                     // seteventid(eventid => [...eventid, e.eventid]);
                     if ((e.createdAt.split('T')[0] == date) || (e.updatedAt.split('T')[0] == date)) {
                         newEvents++;
@@ -101,13 +103,17 @@ const dashboard = () => {
                     }
                     axios.get(`/event/${e.eventid}`).then((res) => {
                         let eventdetails = res.data.event
-                        // console.log('eventdetails', eventdetails);
+                        console.log('eventdetails', eventdetails);
+                        eventdetails.name = eventdetails.title
+                        eventdetails.date = eventdetails.start_date.split('T')[0]
+                        setallEmployeeStaff(el => [...el, eventdetails])
+
                         // console.log('eventdetails', eventdetails.status);
                         if (eventdetails.status == "Pending") {
                             pendingEvents++;
+
                             setPendingevents(pendingEvents);
                         }
-
                     })
                 }
 
@@ -128,21 +134,21 @@ const dashboard = () => {
 
     }, [])
 
-    // var events = [
-    //     {
-    //         name: "Buyout",
-    //         date: Date.now(),
-    //         allDay: true,
-    //     },
-    //     {
-    //         name: "Reservation",
-    //         date: 1594422992000,
-    //         extra: {
-    //             icon: "M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418 4.72-8.912 1.251-13.678-3.732-13.678-5.082 0-8.464 4.949-3.732 13.678 1.597 2.945-1.725 3.641-5.09           4.418-3.073.71-3.188 2.236-3.178 4.904l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z",
-    //             text: "7 People",
-    //         },
-    //     },
-    // ];
+    var events = [
+        {
+            name: "Buyout",
+            date: Date.now(),
+            allDay: true,
+        },
+        {
+            name: "Reservation",
+            date: "2022-10-21",
+            extra: {
+                icon: "M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418 4.72-8.912 1.251-13.678-3.732-13.678-5.082 0-8.464 4.949-3.732 13.678 1.597 2.945-1.725 3.641-5.09           4.418-3.073.71-3.188 2.236-3.178 4.904l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z",
+                text: "7 People",
+            },
+        },
+    ];
     // console.log("eventstaffs", eventstaffs)
     // console.log("totalevents", totalevents)
     // console.log("eventids", eventids)
@@ -191,11 +197,12 @@ const dashboard = () => {
                             <div id="calendar">
                                 <RevoCalendar
                                     events={
-                                        totalevents
+                                        allasignedevents
                                     }
                                     style={{
                                         borderRadius: "5px",
-                                        border: "5px solid #024fde"
+                                        border: "5px solid #024fde",
+                                        height: "100%"
                                     }}
                                     highlightToday={
                                         true

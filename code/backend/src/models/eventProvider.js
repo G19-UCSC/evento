@@ -45,4 +45,5 @@ const EventProvider = db.define(
 
 EventProvider.sync()
 
+
 module.exports = EventProvider;

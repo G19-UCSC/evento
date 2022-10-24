@@ -30,3 +30,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# upload files
+/uploads
+/public/uploads
