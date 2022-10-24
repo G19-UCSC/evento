@@ -7,6 +7,7 @@ import axios from "../../../utils/axios";
 import { useRouter } from "next/router";
 import { jsPDF } from "jspdf";
 import { FaCheckCircle, FaCross, FaEye, FaMinus, FaPlus, FaSpinner, FaTimesCircle, FaUserPlus } from "react-icons/fa";
+import autoTable from 'jspdf-autotable';
 
 var $ = require('jquery');
 
@@ -179,11 +180,11 @@ export default function event() {
         let doc = new jsPDF();
         //PDF Header
         doc.addImage(('/images/evento-logo.jpeg'), 'JPEG', 20, 20, 0, 30, 50);
-        doc.setFontSize(25)
+        doc.setFontSize(20)
         doc.text(65, 32, 'Evento Event Management');
         doc.setFontSize(8)
         doc.text(125, 5, Date())
-        doc.setFontSize(15)
+        doc.setFontSize(12)
         doc.text(55, 43, `${eventDetails.title}`);
         doc.text(140, 43, 'By:' + ` ${currentUser.firstname}` + ' ' + `${currentUser.lastname}`);
         //PDF Header
@@ -192,7 +193,7 @@ export default function event() {
 
         //Event Details
         doc.setFont(undefined, 'bold').text(20, 60, 'Event Details');
-        doc.setFontSize(12)
+        doc.setFontSize(10)
         doc.setFont(undefined, 'bold').text(20, 70, 'Event Title:').setFont(undefined, 'normal').text(55, 70, `${eventDetails.title}`);
         doc.setFont(undefined, 'bold').text(20, 75, 'Scheduled User:').setFont(undefined, 'normal').text(55, 75, ` ${userDetails.firstname}` + `${userDetails.lastname}`);
         doc.setFont(undefined, 'bold').text(20, 80, 'Event Duration:').setFont(undefined, 'normal').text(55, 80, ` ${eventDetails.start_date}` + '-' + `${eventDetails.end_date}`);
@@ -201,8 +202,8 @@ export default function event() {
         doc.setFont(undefined, 'bold').text(20, 95, 'Status:').setFont(undefined, 'normal').text(55, 95, ` ${eventDetails.status}`);
 
         //Payment Details
-        doc.setFontSize(15).setFont(undefined, 'bold').text(125, 60, 'Payment Details');
-        doc.setFontSize(12)
+        doc.setFontSize(12).setFont(undefined, 'bold').text(125, 60, 'Payment Details');
+        doc.setFontSize(10)
         doc.setFont(undefined, 'bold').text(125, 70, 'Advance Payment');
         doc.setFont(undefined, 'bold').text(125, 80, 'Payment:').setFont(undefined, 'normal').text(150, 80, `${eventDetails.advance}`);
         doc.setFont(undefined, 'bold').text(125, 85, 'Date:').setFont(undefined, 'normal').text(150, 85, ` ${userDetails.advanceDate}`);
@@ -211,17 +212,17 @@ export default function event() {
         doc.setFont(undefined, 'bold').text(125, 105, 'Date:').setFont(undefined, 'normal').text(150, 105, ` ${userDetails.finalPayDate}`);
 
         //Package Details
-        doc.setFontSize(15).setFont(undefined, 'bold').text(20, 125, 'Package Details');
-        doc.setFontSize(12)
+        doc.setFontSize(12).setFont(undefined, 'bold').text(20, 125, 'Package Details');
+        doc.setFontSize(10)
         doc.setFont(undefined, 'bold').text(20, 135, 'Name:').setFont(undefined, 'normal').text(55, 135, `${packDetails.name}`);
         doc.setFont(undefined, 'bold').text(20, 140, 'Type:').setFont(undefined, 'normal').text(55, 140, ` ${packDetails.category}`);
         doc.setFont(undefined, 'bold').text(20, 150, 'Products and Services');
-
+        autoTable(doc, { html: '#my-table', theme: 'plain', startY: 155, startX: 20 })
         //PDF Content
 
         //PDF Footer
         doc.line(205, 275, 5, 275);
-        doc.setFontSize(10)
+        doc.setFontSize(8)
         doc.text(65, 280, 'Address: No.35 Reid Avanue, Colombo 7, Sri Lanka');
         doc.text(60, 285, 'Email: evento@mail.com')
         doc.text(110, 285, 'Contact no: 011 - 000 0000')
@@ -309,7 +310,7 @@ export default function event() {
                                         <div className="card-body">
                                             <p>Name : {packDetails.name}</p>
                                             <p>Type : {packDetails.category}</p>
-                                            <table className="table">
+                                            <table className="table" id="my-table">
                                                 <thead>
                                                     <tr>
                                                         <th>Product/Service</th>
