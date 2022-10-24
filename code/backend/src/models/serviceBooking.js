@@ -61,7 +61,7 @@ const ServiceBooking = db.define(
   }
 );
 
-ServiceBooking.sync()
+ServiceBooking.sync({force:true})
 
 // Product.sync().then((res) => {
 //   Product.create({ 
