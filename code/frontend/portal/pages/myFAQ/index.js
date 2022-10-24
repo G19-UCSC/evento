@@ -160,14 +160,17 @@ export default function myFAQ() {
         axios.get("/faq").then((res) => {
             let allfaqs = res.data.faqs
             console.log("allfaqs", allfaqs);
-            allfaqs.forEach(q => {
-                if (user_.userid == q.userid) {
-                    // console.log("q", q)
-                    setfaqs(faq => [...faq, q]);
-                    // console.log('faqs', faqs);
-                }
+            // allfaqs.forEach(q => {
+            //     if (user_.userid == q.userid) {
+            //         // console.log("q", q)
+            //         setfaqs(faq => [...faq, q]);
+            //         // console.log('faqs', faqs);
+            //     }
 
-            });
+            // });
+            let faqs = allfaqs.filter(element => element.userid == user_.userid);
+            setfaqs(faqs);
+            console.log(faqs);
             table();
 
         }).catch((error) => {
