@@ -1,50 +1,45 @@
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link';
-import "bootstrap/dist/css/bootstrap.css";
-import { FaEdit, FaUserPlus, FaWindowClose } from 'react-icons/fa';
-import Sidebar from "../../components/provider/sidebar";
-import Footer from "../../components/provider/footer"
-import Header from "../../components/provider/header"
-
-
+import { FaAlignJustify, FaDollarSign, FaShoppingCart, FaRegCalendarAlt, FaRegPlayCircle, FaQuestionCircle, FaUserPlus, FaEdit, FaWindowClose } from 'react-icons/fa';
 var $ = require('jquery');
 import 'datatables.net';
 import 'datatables.net-bs4';
-import axios from '../../utils/axios';
 import { useForm } from 'react-hook-form';
 
-export default function product() {
+export default function providerservice() {
 
     const [btn, setBtn] = useState('null')
     const [update, setUpdate] = useState('')
-    const [products, setProducts] = useState([])
-    const [rproducts, setRproducts] = useState([])
+    const [services, setServices] = useState([])
+    const [rservices, setRservices] = useState([])
     const { register, handleSubmit, watch, control, reset, setValue, formState: { errors } } = useForm();
 
     const columns = [{
         text: 'Name'
     }, {
         text: 'Description'
-    }, {
+    },
+    {
         text: 'Price'
     }, {
         text: 'Category'
     }, {
         text: 'Commission Rate'
     }, {
-        text: 'Max Quantity'
+        text: 'Discount'
     }, {
-        text: 'Refund Rate'
+        text: 'Time Slot'
     }, {
+        text: 'User ID'
+    },
+    {
         text: 'Action'
     },
     ];
 
+
     let createFormViewBtn;
 
     if (btn == 'null') {
-        createFormViewBtn = <button className="btn" onClick={e => onClickCreate()} id="createBtn"> <FaUserPlus /> Add/Update Product </button>
+        createFormViewBtn = <button className="btn" onClick={e => onClickCreate()} id="createBtn"> <FaUserPlus /> Add/Update Service </button>
     }
     else {
         createFormViewBtn = <button className="btn" onClick={e => onClickCancel()}> <FaWindowClose /> Cancel </button>
@@ -53,33 +48,35 @@ export default function product() {
     let submitBtn;
 
     if (btn == 'create') {
-        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Add/Update Product </button>
+        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Add/Update Service </button>
     }
     else if (btn == 'update') {
-        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Update Product </button>
+        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Update Service </button>
     }
 
     const findElementById = (arr, id) => arr.filter(element => element._id == id);
     const removeElementById = (arr, id) => arr.filter(element => element._id !== id);
 
     const setForm = (id) => {
-        const product = findElementById(products, id)[0];
-        console.log(product);
-        setValue('name', product.name);
-        setValue('description', product.description);
-        setValue('price', product.price);
-        setValue('category', product.category);
-        setValue('comission', product.comission);
-        setValue('count', product.count);
-        setValue('refundrate', product.refundrate);
-        setValue('image_path', product.image_path);
-        setUpdate(product._id)
+        const service = findElementById(services, id)[0];
+        console.log(service);
+        setValue('name', service.name);
+        setValue('description', service.description);
+        setValue('price', service.price);
+        setValue('category', service.category);
+        setValue('comission', service.comission);
+        setValue('discount', service.discount);
+        setValue('timeSlots', service.timeSlots);
+        setValue('userid', service.userid);
+        setValue('image_path', service.image_path);
+        setUpdate(service._id)
     }
+
 
     function onClickCreate(e) {
         if (btn == 'null') {
             setBtn('create');
-            document.getElementById("productsTableCard").classList.toggle("col-lg-6");
+            document.getElementById("servicesTableCard").classList.toggle("col-lg-6");
         }
     }
 
@@ -88,22 +85,23 @@ export default function product() {
         if (btn == 'null' && id != '') {
             setBtn('update');
             setForm(id);
-            document.getElementById("productsTableCard").classList.toggle("col-lg-6");
+            document.getElementById("servicesTableCard").classList.toggle("col-lg-6");
         }
 
     }
 
     function onClickCancel(e) {
         setBtn('null');
-        document.getElementById("productsTableCard").classList.toggle("col-lg-6");
+        document.getElementById("servicesTableCard").classList.toggle("col-lg-6");
         reset({
             name: '',
             description: '',
             price: '',
             category: '',
             comission: '',
-            count: '',
-            refundrate: '',
+            discount: '',
+            timeSlots: '',
+            userid: '',
             image_path: ''
         })
     }
@@ -111,13 +109,13 @@ export default function product() {
     const onSubmit = (formData) => {
 
         if (btn == 'update' && update != '') {
-            let u = findElementById(products, update)[0];
+            let u = findElementById(services, update)[0];
             formData.id = update
 
             console.log(formData)
-            axios.put(`/product/${update}`, formData).then((res) => {
-                const newProduct = res.data.product.res[1]
-                setProducts([formData].concat(removeElementById(products, newProduct._id)))
+            axios.put(`/providerservice/${update}`, formData).then((res) => {
+                const newService = res.data.service.res[1]
+                setServices([formData].concat(removeElementById(services, newService._id)))
             }).catch((error) => {
                 console.log(error)
             })
@@ -125,9 +123,9 @@ export default function product() {
             onClickCancel();
         } else {
             console.log(formData)
-            axios.post(`/product/`, formData).then((res) => {
-                const newProduct = res.data.product.res[1]
-                setProducts([formData].concat(removeElementById(products, newProduct._id)))
+            axios.post(`/providerservice/`, formData).then((res) => {
+                const newService = res.data.service.res[1]
+                setServices([formData].concat(removeElementById(services, newService._id)))
             }).catch((error) => {
                 console.log(error)
             })
@@ -139,7 +137,7 @@ export default function product() {
     useEffect(() => {
         const table = () => {
             $(function () {
-                $('#productsTable').DataTable({
+                $('#servicesTable').DataTable({
                     ordering: true,
                     select: true,
                     responsive: true,
@@ -150,14 +148,14 @@ export default function product() {
             });
         }
 
-        const getProducts = () => {
-            return axios.get("/product");
+        const getServices = () => {
+            return axios.get("/providerservice");
         }
 
 
-        Promise.all([getProducts()]).then((res) => {
+        Promise.all([getServices()]).then((res) => {
             console.log(res)
-            setProducts(res[0].data.products);
+            setServices(res[0].data.services);
             table();
         }).catch((error) => {
             console.log(error)
@@ -165,25 +163,42 @@ export default function product() {
 
     }, []);
 
+
     return (
-        <>
-            <div id="wrapper">
-                <Sidebar linkId="product" />
-                <div id="content-wrapper" className='d-flex flex-column'>
-                    <div id="content">
-                        <Header />
-                        <div className="container-fluid">
-                            <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 className="h3 mb-0 text-gray-800">Products</h1>
-                                {createFormViewBtn}
+        <div class="site-wrap">
+            <Header />
+
+            <div class="bg-light py-3">
+                <div class="container">
+
+
+                    <div class="row">
+                        <div class="col-md-12 mb-0">
+                            <a href="index.html">Services</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Services</strong></div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="site-section">
+                <div class="container">
+                    <div class="row mb-5">
+                        <div class="col-md-9 order-2">
+
+
+                            <div class="row mb-5">
+                                <h1 className="h3 mb-0 text-gray-800">Services</h1>
+
                             </div>
+
                             <div className='row'>
-                                <div className='mb-4' id="productsTableCard">
+                                {createFormViewBtn}
+                                <div className='mb-4' id="servicesTableCard">
                                     <div className='card shadow md-4'>
-                                        <div className='card-header'>Products</div>
+                                        <div className='card-header'>Services</div>
                                         <div className='card-body'>
                                             <div className='table-responsive'>
-                                                <table className='table' id="productsTable">
+                                                <table className='table' id="servicesTable">
                                                     <thead>
                                                         <tr>
                                                             {columns.map((c) => (
@@ -192,17 +207,20 @@ export default function product() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {products.map((a) => (
+                                                        {services.map((a) => (
                                                             <tr id={a._id} key={a._id}>
                                                                 <td>
                                                                     <img src={a.image_path} width="40px" height="40px" /> <br />
                                                                     {a.name}</td>
-                                                                <td>{a.description}</td>
-                                                                <td>{a.price}</td>
-                                                                <td>{a.category}</td>
-                                                                <td>{a.comission}</td>
-                                                                <td>{a.count}</td>
-                                                                <td>{a.refundRate}</td>
+                                                                <td>{services.description}</td>
+
+
+                                                                <td>{services.price}</td>
+                                                                <td>{services.category}</td>
+                                                                <td>{services.comission}</td>
+                                                                <td>{services.discount}</td>
+                                                                <td>{services.timeSlots}</td>
+                                                                <td>{services.userid}</td>
                                                                 <td>
                                                                     <button className='btn' onClick={(e) => { onClickUpdate(a._id) }}>
                                                                         <FaEdit />
@@ -220,10 +238,10 @@ export default function product() {
                                     <div className='card shadow md-4'>
                                         {(btn != "null") && (
                                             <>
-                                                {(btn == "create") && (<div className='card-header'> Add Product</div>)}
-                                                {(btn == "update") && (<div className='card-header'> Update Product</div>)}
+                                                {(btn == "create") && (<div className='card-header'> Add Service</div>)}
+                                                {(btn == "update") && (<div className='card-header'> Update Service</div>)}
                                                 <div className='card-body'>
-                                                    <form onSubmit={handleSubmit(onSubmit)} className='form' id='productform' >
+                                                    <form onSubmit={handleSubmit(onSubmit)} className='form' id='serviceform' >
                                                         <div className='form-group'>
                                                             <label htmlFor='name' hidden>Name : </label>
                                                             <input className='form-control mb-4' type="text"
@@ -232,12 +250,14 @@ export default function product() {
                                                             <input className='form-control mb-4' type="text"
                                                                 name='description' id='description' placeholder='Description'
                                                                 {...register("description", { required: true })} />
-                                                            <input className='form-control mb-4' type="number"
-                                                                name='count' id='count' placeholder='Max Quantity'
-                                                                {...register("count", { required: true })} />
-                                                            <input className='form-control mb-4' type="number"
+                                                            <input className='form-control mb-4' type="text"
+                                                                name='timeSlots' id='timeSlots' placeholder='Time Slot'
+                                                                {...register("timeSlots", { required: true })} />
+
+                                                            <input className='form-control mb-4' type="text"
                                                                 name='price' id='price' placeholder='Price'
                                                                 {...register("price", { required: true })} />
+
                                                             <input className='form-control mb-4' type="text"
                                                                 name='category' id='category' placeholder='Category'
                                                                 {...register("category", { required: true })} />
@@ -245,12 +265,14 @@ export default function product() {
                                                                 name='comission' id='comission' placeholder='Commission'
                                                                 {...register("comission", { required: true })} />
                                                             <input className='form-control mb-4' type="number"
-                                                                name='refundR ate' id='refundRate' placeholder='Refund Rate'
-                                                                {...register("refundRate", { required: true })} />
+                                                                name='discount' id='discount' placeholder='Discount'
+                                                                {...register("discount", { required: true })} />
+                                                            input className='form-control mb-4' type="text"
+                                                            name='userid' id='userid' placeholder='User ID'
+                                                            {...register("userid", { required: true })} />
                                                             <input className='form-control mb-4' type="text"
                                                                 name='image_path' id='image_path' placeholder='image'
                                                                 {...register("image_path", { required: true })} />
-
 
 
 
@@ -263,11 +285,28 @@ export default function product() {
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-3 order-1 mb-5 mb-md-0">
+
+                                <div class="border p-4 rounded mb-4">
+                                    <a href="./provider" class="h6 list-group-item active"><FaAlignJustify color='black' fontSize="16px" padding-left='10' /><span class="p-4">Dashboard</span></a>
+                                    <a href="#" class="h6 list-group-item "><FaRegPlayCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Products</span></a>
+                                    <a href="#" class="h6 list-group-item "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10' /><span class="p-4">Services</span></a>
+                                    <a href="#" class="h6 list-group-item "><FaShoppingCart color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Purchases</span></a>
+                                    <a href="#" class="h6 list-group-item "><FaDollarSign color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Bookings</span></a>
+                                    <a href="#" class="h6 list-group-item "><FaQuestionCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Events</span></a>
+
+                                </div>
+
+                            </div>
                         </div>
                     </div>
-                    <Footer />
+
+                    {/* <Footer/> */}
                 </div>
             </div>
-        </>
+        </div>
+
+
+
     )
 }
