@@ -43,22 +43,6 @@ const EventProvider = db.define(
   }
 );
 
-// EventProvider.sync()
-EventProvider.sync().then((res) => {
-  EventProvider.create({ 
-    eventid: "ffe3a084-1bea-459b-b421-7f7c6753a6ae", 
-    providerid: "b408382d-712c-4a6f-9c60-368f1d48b9f3",
-    productid: "ace08e61-7aa7-4674-b8eb-61df8bf37f05",
-    status: "Accepted" ,
-    providerpay:20000,
-    providerpay_status:"Pending",
-    providerpay_date:"2023-01-30",
-    
-
-
-  }).then((res) => {
-    console.log(`Insert successful: ${res._id}`);
-  });
-});
+EventProvider.sync()
 
 module.exports = EventProvider;
