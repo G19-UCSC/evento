@@ -23,7 +23,10 @@ export default function sidebar(props) {
                 {/* Sidebar - Brand */}
                 <a className="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                     <div className="sidebar-brand-icon rotate-n-15">
-                        <FaHatCowboy fontSize="2rem" />
+                        {/* <FaHatCowboy fontSize="2rem" /> */}
+                        <br />
+                        <img src="/images/evento-logo.jpeg" style={{ borderRadius: "50%", height: "4rem" }} />
+                        <br />
                     </div>
                     <div className="sidebar-brand-text mx-3">EVENTO</div>
                 </a>
