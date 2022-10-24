@@ -12,8 +12,9 @@ import Swal from 'sweetalert2'
 
 const Creds = () => {
 
+  const router = useRouter()
+
     useEffect(() => {
-        const router = useRouter()
 
     if(!router.query.userid){ 
       router.push('/signup')
@@ -40,7 +41,7 @@ const Creds = () => {
             console.log(error)
         })
       
-        window.location.href = "http://localhost:4000/";
+        window.location.href = "http://localhost:3000/signin";
     
     }
     
