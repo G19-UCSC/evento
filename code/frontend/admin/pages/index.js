@@ -19,7 +19,7 @@ const Basic = () => {
   useEffect(() => {
     const user_ = JSON.parse(localStorage.getItem('user'))
     if (user_) {
-      if (user_.role === 'admin') {
+      if (user_.role === 'Admin') {
         push('/admin')
       } else if (user_.role === 'Customer') {
         push('/customer')
