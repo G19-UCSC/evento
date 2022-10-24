@@ -5,6 +5,7 @@ import Footer from "../../../components/staff/footer";
 import { useEffect, useRef, useState } from "react";
 import axios from "../../../utils/axios";
 import { useRouter } from "next/router";
+import { jsPDF } from "jspdf";
 import { FaCheckCircle, FaCross, FaEye, FaMinus, FaPlus, FaSpinner, FaTimesCircle, FaUserPlus } from "react-icons/fa";
 
 var $ = require('jquery');
@@ -21,6 +22,7 @@ export default function event() {
     const [staff, setStaff] = useState([]);
     const [eventStaff, setEventStaff] = useState([]);
     const [allestaff, setAllestaff] = useState([]);
+    const [currentUser, setCurrentUser] = useState([]);
     const [pending, setPending] = useState(0);
 
 
@@ -38,6 +40,10 @@ export default function event() {
     useEffect(() => {
 
         const user_ = JSON.parse(localStorage.getItem('user'))
+        console.log('currentuse', user_);
+        const getCurrentUser = () => {
+            return (axios.get(`/user/${user_.userid}`))
+        }
 
         const getEvent = () => {
             return (axios.get(`/event/${event}`))
@@ -75,7 +81,7 @@ export default function event() {
             return (axios.get(`/user/`))
         }
 
-        Promise.all([getEventProvider(), getProduct(), getService(), getEvent(), getProvider(), getRUsers(), getEventStaff(), getUsers(), getAllEvents()]).then((res) => {
+        Promise.all([getEventProvider(), getProduct(), getService(), getEvent(), getProvider(), getRUsers(), getEventStaff(), getUsers(), getAllEvents(), getCurrentUser()]).then((res) => {
             let all = res[0].data.eventProviders;
             let eventproviders = all.filter(element => element.eventid == event);
             let products = res[1].data.products;
@@ -85,12 +91,16 @@ export default function event() {
             let rusers = res[5].data.users;
             let users = res[7].data.users;
             let allevents = res[8].data.events;
+            let currentuser = res[9].data.user;
             console.log(eventproviders);
             console.log(products)
             console.log(services)
             console.log(eventdetail)
             console.log(providers)
             console.log(users);
+            console.log(currentuser);
+
+            setCurrentUser(currentuser);
             eventproviders.forEach(e => {
                 products.forEach(p => {
                     if (e.productid == p._id) {
@@ -164,6 +174,64 @@ export default function event() {
 
     }, [event])
 
+
+    function generateReport(e) {
+        let doc = new jsPDF();
+        //PDF Header
+        doc.addImage(('/images/evento-logo.jpeg'), 'JPEG', 20, 20, 0, 30, 50);
+        doc.setFontSize(25)
+        doc.text(65, 32, 'Evento Event Management');
+        doc.setFontSize(8)
+        doc.text(125, 5, Date())
+        doc.setFontSize(15)
+        doc.text(55, 43, `${eventDetails.title}`);
+        doc.text(140, 43, 'By:' + ` ${currentUser.firstname}` + ' ' + `${currentUser.lastname}`);
+        //PDF Header
+
+        //PDF Content
+
+        //Event Details
+        doc.setFont(undefined, 'bold').text(20, 60, 'Event Details');
+        doc.setFontSize(12)
+        doc.setFont(undefined, 'bold').text(20, 70, 'Event Title:').setFont(undefined, 'normal').text(55, 70, `${eventDetails.title}`);
+        doc.setFont(undefined, 'bold').text(20, 75, 'Scheduled User:').setFont(undefined, 'normal').text(55, 75, ` ${userDetails.firstname}` + `${userDetails.lastname}`);
+        doc.setFont(undefined, 'bold').text(20, 80, 'Event Duration:').setFont(undefined, 'normal').text(55, 80, ` ${eventDetails.start_date}` + '-' + `${eventDetails.end_date}`);
+        doc.setFont(undefined, 'bold').text(20, 85, 'Booked Date:').setFont(undefined, 'normal').text(55, 85, ` ${eventDetails.createdAt}`);
+        doc.setFont(undefined, 'bold').text(20, 90, 'Location:').setFont(undefined, 'normal').text(55, 90, ` ${eventDetails.location}`);
+        doc.setFont(undefined, 'bold').text(20, 95, 'Status:').setFont(undefined, 'normal').text(55, 95, ` ${eventDetails.status}`);
+
+        //Payment Details
+        doc.setFontSize(15).setFont(undefined, 'bold').text(125, 60, 'Payment Details');
+        doc.setFontSize(12)
+        doc.setFont(undefined, 'bold').text(125, 70, 'Advance Payment');
+        doc.setFont(undefined, 'bold').text(125, 80, 'Payment:').setFont(undefined, 'normal').text(150, 80, `${eventDetails.advance}`);
+        doc.setFont(undefined, 'bold').text(125, 85, 'Date:').setFont(undefined, 'normal').text(150, 85, ` ${userDetails.advanceDate}`);
+        doc.setFont(undefined, 'bold').text(125, 95, 'Final Payment');
+        doc.setFont(undefined, 'bold').text(125, 100, 'Payment:').setFont(undefined, 'normal').text(150, 100, `${eventDetails.finalPay}`);
+        doc.setFont(undefined, 'bold').text(125, 105, 'Date:').setFont(undefined, 'normal').text(150, 105, ` ${userDetails.finalPayDate}`);
+
+        //Package Details
+        doc.setFontSize(15).setFont(undefined, 'bold').text(20, 125, 'Package Details');
+        doc.setFontSize(12)
+        doc.setFont(undefined, 'bold').text(20, 135, 'Name:').setFont(undefined, 'normal').text(55, 135, `${packDetails.name}`);
+        doc.setFont(undefined, 'bold').text(20, 140, 'Type:').setFont(undefined, 'normal').text(55, 140, ` ${packDetails.category}`);
+        doc.setFont(undefined, 'bold').text(20, 150, 'Products and Services');
+
+        //PDF Content
+
+        //PDF Footer
+        doc.line(205, 275, 5, 275);
+        doc.setFontSize(10)
+        doc.text(65, 280, 'Address: No.35 Reid Avanue, Colombo 7, Sri Lanka');
+        doc.text(60, 285, 'Email: evento@mail.com')
+        doc.text(110, 285, 'Contact no: 011 - 000 0000')
+        //PDF Footer
+        doc.save('EventReport.pdf')
+    }
+
+
+
+
     return (
         <>
             <div id="wrapper">
@@ -175,7 +243,8 @@ export default function event() {
                             <div className="d-sm-flex align-items-center justify-content-between mb-4">
                                 <h1 className="h3 mb-0 text-gray-800">{eventDetails.title + "-" + userDetails.firstname +
                                     " " + userDetails.lastname}</h1>
-                                <button className="btn btn-primary"> Generate Report </button>
+
+                                <button className="btn btn-primary" onClick={e => generateReport(e)}> Generate Report </button>
                             </div>
                             <div className="row" id="rowOne" style={{ height: "100%", overflow: "auto" }}>
                                 <div className='mb-4 col-lg-4' id="eventDetailsCard">
