@@ -92,6 +92,11 @@ export default function event() {
             eventmax : eventDetails.maxPeople,
 
         }]
+
+        let formData = new FormData;
+        formData.append('eventid',event)
+        formData.append('userid',id)
+        formData.append('status',"Removed")
         setAllestaff([newStaff],...allestaff)
         console.log(newStaff)
 
@@ -174,7 +179,7 @@ export default function event() {
                 e.provider = providers.filter(element => element.userid == e.providerid)[0].businessName;
             })
             let staff = rusers.filter(element => element.role == "Staff");
-            let allestaff = res[6].data.alleventstaff;
+            let allestaff = res[6].data.alleventstaff.filter(element => element.status == "Assigned");
             allestaff.forEach(e => {
                 e.firstname = users.filter(element => element._userid == e.userid)[0].firstname;
                 e.lastname = users.filter(element => element._userid == e.userid)[0].lastname;
@@ -343,18 +348,14 @@ export default function event() {
                                                     {(eventStaff.length != 0) && (eventStaff.map(e => (
                                                         <tr key={e.userid}>
                                                             <td>{e.firstname + " " + e.lastname}</td>
-                                                            <td className="text-right mr-4"><button className="btn">
+                                                            <td className="text-right mr-4">
+                                                                <button className="btn">
                                                                 <FaMinus color="red"/></button></td>
                                                         </tr>
                                                     )))}
                                                     {(eventStaff.length == 0) && (
                                                         <tr><td>No Staff Assigned</td></tr>
                                                     )}
-                                                    {/* <tr>
-                                                        <td>Staff1</td>
-                                                        <td className="text-right mr-4"><button className="btn">
-                                                            <FaMinus color="red"/></button></td>
-                                                    </tr> */}
                                                 </tbody>
                                             </table>
                                         </div>
