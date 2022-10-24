@@ -23,8 +23,10 @@ import 'datatables.net-bs4';
 export default function Dashboard() {
   const [setCart, setPrices] = useContext(CartDispatchContext);
   const [cart,prices]= useContext(CartContext);
+  const[product,setProduct] = useState([]);
   const[events,setEvents] = useState([]);
   const[rejectedEvents,setRejectedEvents] = useState([]);
+  const [user, setUser] = useState(null);
   // const[events,setEvents] = useState([]);
   // const[cancels,setCancels] = useState([]);
   // const[totalevents,setTotalevents] = useState(0);
@@ -35,22 +37,14 @@ export default function Dashboard() {
   
   // const [cart, setCart] = useState([])
   const router = useRouter()
-  
-  const months = Array.from({length: 12}, (item, i) => {
-    return new Date(0, i).toLocaleString('en-US',{month: 'long'})
-});
-
-const findElementByMonth = (arr, month) => arr.filter(element => element.createdAt.getMonth == month);
-const findElementByStatus = (arr, status) => arr.filter(element => element.status == status);
-
-const cardtitles= [
-    { one: "TOTAL BOOKINGS"},
-    { two: "PENDING BOOKINGS"},
-    { three: "TOTAL INCOME"},
-    { four: "TOTAL PAYABLE"}
-]
+  const [event, setEvent] = useState([]);
+  const [id, setId] = useState([]);
 
   useEffect(() => {
+    const user_ = JSON.parse(localStorage.getItem('user'))
+      if (user_) {
+          setUser(user_)
+      }
     const table2 = () => {
       $(function() {
           $('#rejectedTable').DataTable({
@@ -93,7 +87,50 @@ const handleClick = (item) => {
   router.push("/cart")
 };
 
-const showEvent= () => {
+const showEvent= (id) => {
+  // axios.get("/eventProvider").then((res)=>{
+  //   return(res.data)
+  // }).then(async (data)=>{
+  //   await axios.get(`/product/${data.productid}`).then((res)=>{
+  //     setProduct(res.data.product);
+  //   }).catch((error) => {
+  //     console.log(error)
+  //   })
+  // }).catch((error) => {
+  //   console.log(error)
+  // })
+
+  const getEventProviders = ()=>{
+    return(axios.get(`/eventProvider`))
+  }
+
+  const getProducts = ()=>{
+    return(axios.get(`/products`))
+  }
+
+  const getServices = ()=>{
+    return(axios.get(`/services`))
+  }
+
+  Promise.all([getEventProviders(),getProducts(),getServices()]).then((res)=>{
+    let eventProvider = res[0].data.events;
+    let products = res[1].data.products;
+    let services = res[2].data.services;
+    eventProvider = eventProvider.filter(element=>element.eventid == event._id);
+    eventProvider.forEach(e=>{
+      products.forEach(p=>{
+        if(e.productid == p._id){
+          e.productName = p.name;
+          e.description = p.description;
+          e.price = p.price;
+          e.category = p.category;
+          e.image_path = p.image_path
+        }
+      })
+    })
+    setProduct(eventProvider);
+  })
+  
   Swal.fire({
     title: 'Sweet!',
     text: 'Modal with a custom image.',
@@ -145,14 +182,15 @@ const showEvent= () => {
                   <tbody>
                   {/* {events.map((a) => ( */}
                   {events.map((item, i) => (
-                    (item.status=="Rejected")?(
+                    (item.status=="Rejected" && item.userid==user.userid)?(
                       <tr key={i}>
                               <td>{item._id}</td>
                               <td>{item.title}</td>
                               <td>{item.status}</td>
                               <td>{item.price}</td>
                               <td>{item.finalPay}</td>
-                              <td onClick={showEvent}><FaEye color='black' fontSize="16px" padding-left='10'/></td>
+                              {/* <td onClick={showEvent(item._id)}><FaEye color='black' fontSize="16px" padding-left='10'/></td> */}
+                              <td onClick={() => router.push(`/myEvents/${encodeURIComponent(item._id)}`)}><FaEye color='black' fontSize="16px" padding-left='10'/></td>
                               
                           </tr>
                     ):(null)
@@ -182,6 +220,7 @@ const showEvent= () => {
                   <tbody>
                   {/* {events.map((a) => ( */}
                   {events.map((item, i) => (
+                    ( item.userid==user.userid)?(
                             <tr key={i}>
                               <td>{item._id}</td>
                               <td>{item.title}</td>
@@ -191,6 +230,7 @@ const showEvent= () => {
                               <td onClick={showEvent}><FaEye color='black' fontSize="16px" padding-left='10'/></td>
                               
                           </tr> 
+                          ):(null)
                       ))} 
                   </tbody>
               </table>
