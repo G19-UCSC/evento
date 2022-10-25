@@ -43,7 +43,7 @@ const Basic = () => {
         confirmButtonColor: "green",
       });
       localStorage.setItem('user', JSON.stringify(res.data[0]))
-      if (res.data[0].role === 'admin') {
+      if (res.data[0].role === 'Admin') {
         push('/admin')
       } else if (res.data[0].role === 'Customer') {
         push('/customer')
