@@ -22,10 +22,13 @@ export default function cashflow() {
             text: 'Date'
         },
         {
-            text: 'Location'
+            text: 'Advance Payment'
         },
         {
-            text: 'Progress'
+            text: 'Final Payment'
+        },
+        {
+            text: 'Provider Payment'
         },
         {
             text: 'Action'
@@ -37,7 +40,11 @@ export default function cashflow() {
             return axios.get("/event");
         }
 
-        const getEvent_Staff = () => {
+        const getPurchases = () => {
+            return axios.get("/event");
+        }
+
+        const getServiceBookings = () => {
             return axios.get("/event");
         }
 

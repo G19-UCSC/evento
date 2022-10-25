@@ -30,25 +30,7 @@ export default function event() {
     const rowTwo = useRef(null);
     const [currentUser, setCurrentUser] = useState([]);
 
-
-    var Data = [
-        // {
-        //     name: "title1",
-        //     date: "2022-10-30",
-        //     userid: "12457893554fjjfk"
-        // },
-        // {
-        //     name: "title2",
-        //     date: "2022-10-26",
-        //     userid: "12457893554fjjfk"
-        // },
-        // {
-        //     name: "title3",
-        //     date: "2022-08-02",
-        //     userid: "12457893554fjjfk"
-        // }
-    ]
-
+    var Data = []
     const [data, setData] = useState(Data);
 
     function getPendingAmount(eventdetail) {
@@ -84,7 +66,7 @@ export default function event() {
     }
 
     function assignStaff(id) {
-        let newStaff = [{
+        let newStaff = {
             userid: id,
             eventid: event,
             firstname: staff.filter(element => element.userid == id)[0].firstname,
@@ -94,14 +76,39 @@ export default function event() {
             eventend: eventDetails.start_date,
             eventend: eventDetails.end_date,
             eventmax: eventDetails.maxPeople,
+            status: "Assigned",
 
-        }]
-        setAllestaff([newStaff], ...allestaff)
-        console.log(newStaff)
+        }
 
-        let allstaff = staff.filter(element => element.userid != id)
-        console.log(allstaff);
-        setStaff(allstaff);
+        axios.post(`/eventStaff/`, newStaff).then((res)=>{
+            console.log(res)
+            newStaff = res.data.eventstaff.res[0];
+            setEventStaff([newStaff], ...eventStaff)
+            let allstaff = staff.filter(element => element.userid != id)
+            console.log(allstaff);
+            setStaff(allstaff);
+            alert('Staff assigned Sucessfully')
+        }).catch((err)=>{
+            console.log(err)
+        })
+
+    }
+
+    function removeStaff (id){
+        let updateid = allestaff.filter(element => element.userid == id)[0]._id;
+        let updateStaff = allestaff.filter(element => element.userid == id)[0]
+        updateStaff.status = "Removed"
+        console.log(updateStaff)
+
+        axios.put(`/eventStaff/${updateid}`,updateStaff).then((res)=>{
+            console.log(res)
+            let estaff = eventStaff.filter(element=> element.userid != id)
+            setEventStaff(estaff)
+            setStaff([updateStaff], ...staff)
+            alert('Staff removed Sucessfully')
+        }).catch((err)=>{
+            console.log(err)
+        })
     }
 
     useEffect(() => {
@@ -184,7 +191,7 @@ export default function event() {
                 e.provider = providers.filter(element => element.userid == e.providerid)[0].businessName;
             })
             let staff = rusers.filter(element => element.role == "Staff");
-            let allestaff = res[6].data.alleventstaff;
+            let allestaff = res[6].data.alleventstaff.filter(element => element.status == "Assigned");
             allestaff.forEach(e => {
                 e.firstname = users.filter(element => element._userid == e.userid)[0].firstname;
                 e.lastname = users.filter(element => element._userid == e.userid)[0].lastname;
@@ -200,7 +207,7 @@ export default function event() {
                 e.lastname = users.filter(element => element._userid == e.userid)[0].lastname;
             })
             estaff.forEach(e => {
-                staff = estaff.filter(element => element.userid != e.userid);
+                staff = staff.filter(element => element.userid != e.userid);
             })
             console.log(staff)
             console.log(estaff)
@@ -238,6 +245,7 @@ export default function event() {
         })
 
     }, [event])
+    
     function generateReport(e) {
         let doc = new jsPDF();
         //PDF Header
@@ -409,21 +417,17 @@ export default function event() {
                                         <div className="card-body">
                                             <table className="table" id="managed-by">
                                                 <tbody>
-                                                    {(eventStaff.length != 0) && (eventStaff.map(e => (
-                                                        <tr key={e.userid}>
-                                                            <td>{e.firstname + " " + e.lastname}</td>
-                                                            <td className="text-right mr-4"><button className="btn">
+                                                    {(eventStaff.length != 0) && (eventStaff.map(s => (
+                                                        <tr key={s.userid}>
+                                                            <td>{s.firstname + " " + s.lastname}</td>
+                                                            <td className="text-right mr-4">
+                                                                <button className="btn" onClick={(e) => (removeStaff(s.userid))}>
                                                                 <FaMinus color="red" /></button></td>
                                                         </tr>
                                                     )))}
                                                     {(eventStaff.length == 0) && (
                                                         <tr><td>No Staff Assigned</td></tr>
                                                     )}
-                                                    {/* <tr>
-                                                        <td>Staff1</td>
-                                                        <td className="text-right mr-4"><button className="btn">
-                                                            <FaMinus color="red"/></button></td>
-                                                    </tr> */}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -443,8 +447,9 @@ export default function event() {
                                                 <div className='card-header d-flex justify-content-between'> <b>Available Staff</b></div>
                                                 <div className="card-body">
                                                     <table className="table">
+                                                        <tbody>
                                                         {(staff.length != 0) && (staff.map(s => (
-                                                            <tr id={s.userid}>
+                                                            <tr key={s.userid}>
                                                                 <td>{s.firstname + " " + s.lastname}</td>
                                                                 <td><button className="btn" onClick={(e) => { viewStaffEvent(s.userid) }}><FaEye /></button></td>
                                                                 <td><button className="btn" onClick={(e) => { assignStaff(s.userid) }}><FaPlus /></button></td>
@@ -453,6 +458,7 @@ export default function event() {
                                                         {(staff.length == 0) && (
                                                             <tr><td>No Staff Available</td></tr>
                                                         )}
+                                                        </tbody>
                                                     </table>
                                                 </div>
                                             </div>

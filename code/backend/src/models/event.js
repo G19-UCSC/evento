@@ -83,21 +83,21 @@ Event.sync()
 
 // Event.sync().then((res) => {
 //   Event.create({ 
-//     title: "House warming", 
-//     start_date: "2023-02-11",
-//     end_date: "2023-03-20",
+//     title: "Birthday Party", 
+//     start_date: "2023-01-11",
+//     end_date: "2023-02-22",
 //     location: "Colombo" ,
-//     maxPeople:350,
-//     userid:"0b3bb10d-5bd4-47aa-bf98-bffefe2b1f13",
+//     maxPeople:150,
+//     userid:"78177470-16c0-43f0-a759-1fe82faf7598",
 //     packageid:"p12",
-//     status:"Rejected",
+//     status:"Approved",
 //     serviceCharge:15,
-//     price:150000,
+//     price:100000,
 //     advance:70000,
 //     advanceStatus:"Received",
-//     finalPay:80000,
+//     finalPay:30000,
 //     finalPayStatus:"Pending",
-//     finalPayDate:"2023-03-30"
+//     finalPayDate:"2023-02-30"
 
 
 //   }).then((res) => {
