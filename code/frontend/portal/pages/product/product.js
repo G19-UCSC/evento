@@ -127,34 +127,35 @@ export default function providerDash() {
                     <div class="row mb-5">
                         <div class="col-md-9 order-2">
 
-                            <div class="row mb-5">
-                                {/* Content Row */}
-                                <div className="row">
-                                    {/*<Cards cardTitles={cardtitles} cardData={[totalevents, pendingevents]} />*/}
-                                </div>
+                            
 
-                                {/* Content Row */}
-                                <div className="row">
-                                    <div className="col-xl-8 col-lg-7">
-                                        {/*<Linechart
+                            <div class="col-md-3 order-1 mb-5 mb-md-0">
+                                <div class="row mb-5">
+                                    {/* Content Row */}
+                                    <div className="row">
+                                        {/*<Cards cardTitles={cardtitles} cardData={[totalevents, pendingevents]} />*/}
+                                    </div>
+
+                                    {/* Content Row */}
+                                    <div className="row">
+                                        <div className="col-xl-8 col-lg-7">
+                                            {/*<Linechart
                                             cardTitle="Bookings vs Time" xData={months} name1="Booked Events" name2="Cancelled Events"
                                             series1={events} series2={cancels}
                                         />
                                     </div>
 
                                     {/* Pie Chart */}
-                                        <div className="col-xl-4 col-lg-5">
-                                            {/* <Piechart
+                                            <div className="col-xl-4 col-lg-5">
+                                                {/* <Piechart
                                             cardTitle="Event Bookings" names={["Booked Events", "Pending Events", "Approved Events", "Cancelled Events"]}
                                             series={[totalevents, pendingevents, approvedevents, cancelledevents]}
                                         />*/}
+                                            </div>
                                         </div>
+
                                     </div>
-
                                 </div>
-                            </div>
-
-                            <div class="col-md-3 order-1 mb-5 mb-md-0">
 
                                 <div class="border p-4 rounded mb-4">
                                     <a href="./provider" class="h6 list-group-item active"><FaAlignJustify color='black' fontSize="16px" padding-left='10' /><span class="p-4">Dashboard</span></a>
