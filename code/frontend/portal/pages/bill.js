@@ -54,14 +54,14 @@ export default function Bill(props) {
     business: {
       name: "Evento",
       address: "No.35, Reid Avenue, Colombo 7, Sri Lanka",
-      phone: "(+94) 11 111 1111",
+      phone: "(+94) 11 000 0000",
       email: "evento@mail.com",
       website: "www.evento.lk",
     },
     contact: {
       label: "Invoice issued for:",
-      name: '[userdetails.firstname] + + [userdetails.lastname]',
-      address: '[userdetails.email]',
+      name: [userdetails.firstname] + ' ' + [userdetails.lastname],
+      address: [userdetails.email],
     },
     invoice: {
       label: "Invoice #: ",

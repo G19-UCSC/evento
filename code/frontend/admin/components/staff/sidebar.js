@@ -28,7 +28,6 @@ export default function sidebar(props) {
                         <img src="/images/evento-logo.jpeg" style={{ borderRadius: "50%", height: "4rem" }} />
                         <br />
                     </div>
-                    <div className="sidebar-brand-text mx-3">EVENTO</div>
                 </a>
 
                 {/* Divider */}

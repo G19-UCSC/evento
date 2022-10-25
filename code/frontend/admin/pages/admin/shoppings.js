@@ -48,9 +48,24 @@ export default function products() {
             let service = res[0].data.service;
             setServices(service)
             let p = res[1].data.products;
-            setProducts(p);
             let review = res[2].data.reviews
-            setReviews(review)
+            console.log('review', p);
+            setProducts(p);
+            p.forEach(e => {
+                let selectedreviews = review.filter(element => element.productid == e._id)
+                e.rating = 0
+                selectedreviews.forEach(sr => {
+                    console.log('e.rating', e.rating);
+                    console.log('sr.rating', sr.rating);
+                    console.log('sr.length', selectedreviews.length);
+                    e.rating = (e.rating + sr.rating) / selectedreviews.length
+                    // x = e.rating
+                });
+
+                setReviews(selectedreviews)
+            });
+
+            // setReviews(review)
             console.log(res);
 
             table();
@@ -81,7 +96,7 @@ export default function products() {
         router.push(`./shopping/${shoppingselected}`);
     }, [router]
     );
-
+    console.log("reviews", products);
     return (
         <>
             <div id="wrapper">
@@ -117,11 +132,56 @@ export default function products() {
                                                                 <td>Rs. {a.price}</td>
                                                                 <td>{a.category}</td>
                                                                 <td>
-                                                                    <FaStar color="yellow" />
-                                                                    <FaStar color="yellow" />
-                                                                    <FaStar color="yellow" />
-                                                                    <FaStar color="" />
-                                                                    <FaStar color="" />
+                                                                    {(a.rating == 5) && (
+                                                                        <>
+                                                                            <FaStar color="yellow" />
+                                                                            <FaStar color="yellow" />
+                                                                            <FaStar color="yellow" />
+                                                                            <FaStar color="yellow" />
+                                                                            <FaStar color="yellow" />
+                                                                        </>
+                                                                    )}
+                                                                    {((a.rating >= 4) && (a.rating < 5)) && (
+                                                                        <>
+                                                                            <FaStar color="yellow" />
+                                                                            <FaStar color="yellow" />
+                                                                            <FaStar color="yellow" />
+                                                                            <FaStar color="yellow" />
+                                                                            <FaStar />
+                                                                        </>
+                                                                    )}
+                                                                    {((a.rating >= 3) && (a.rating < 4)) && (
+                                                                        <>
+                                                                            <FaStar color="yellow" />
+                                                                            <FaStar color="yellow" />
+                                                                            <FaStar color="yellow" />
+                                                                            <FaStar />
+                                                                            <FaStar />
+                                                                        </>
+                                                                    )}
+                                                                    {((a.rating >= 2) && (a.rating < 3)) && (
+                                                                        <>
+                                                                            <FaStar color="yellow" />
+                                                                            <FaStar color="yellow" />
+                                                                            <FaStar />
+                                                                            <FaStar />
+                                                                            <FaStar />
+                                                                        </>
+                                                                    )}
+                                                                    {((a.rating >= 1) && (a.rating < 2)) && (
+                                                                        <>
+                                                                            <FaStar color="yellow" />
+                                                                            <FaStar />
+                                                                            <FaStar />
+                                                                            <FaStar />
+                                                                            <FaStar />
+                                                                        </>
+                                                                    )}
+                                                                    {((a.rating >= 0 && a.rating < 1) || a.rating == null) && (
+                                                                        <>
+                                                                            No Ratings
+                                                                        </>
+                                                                    )}
                                                                 </td>
                                                                 <td>
                                                                     <button className='btn' onClick={() => viewProductDetails(a._id)}><FaEye /></button>

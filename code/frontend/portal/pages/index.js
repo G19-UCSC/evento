@@ -7,7 +7,7 @@ import Footer from "../components/home/footer"
 import Header from "../components/home/header"
 
 import Carousel from "react-multi-carousel";
-
+import "react-multi-carousel/lib/styles.css";
 
 
 export default function Home() {
@@ -147,7 +147,7 @@ export default function Home() {
 
           <div class="row">
             <div class="col-md-12">
-              <div class="block-3 owl-carousel">
+              <div class="block-3 ">
                 {/* {products.map((item, i) => (
                <div class="item">
                  <div class="block-4 text-center">
