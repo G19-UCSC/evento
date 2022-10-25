@@ -40,6 +40,10 @@ const Product = db.define(
     image_path: {
       type: DataTypes.STRING(),
       allowNull: false,
+    },
+    userid: {
+      type: DataTypes.STRING(),
+      allowNull: false,
     }
   }
   ,{

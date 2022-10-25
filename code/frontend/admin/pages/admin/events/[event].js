@@ -35,8 +35,8 @@ export default function event() {
 
     function getPendingAmount(eventdetail) {
         let amount = parseFloat(eventdetail.price, 10) + parseFloat(eventdetail.serviceCharge, 10);
-        (eventdetail.advanceStatus == "Received") ? amount = -parseFloat(eventdetail.advance, 10) : amount;
-        (eventdetail.finalPayStatus == "Received") ? amount = -parseFloat(eventdetail.finalPay, 10) : amount;
+        (eventdetail.advanceStatus == "Received") ? amount =- parseFloat(eventdetail.advance, 10) : amount;
+        (eventdetail.finalPayStatus == "Received") ? amount =- parseFloat(eventdetail.finalPay, 10) : amount;
         return amount;
     }
 
