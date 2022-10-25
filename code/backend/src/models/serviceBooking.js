@@ -24,7 +24,7 @@ const ServiceBooking = db.define(
       allowNull: false,
     },
     Status: {
-      type: DataTypes.ENUM('Pending','Accepted','Paid'),
+      type: DataTypes.ENUM('Pending','Accepted','Paid', 'Rejected', 'Cancelled'),
       allowNull: false,
     }, 
     cancelledOn: {
