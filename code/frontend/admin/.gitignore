@@ -34,3 +34,6 @@ yarn-error.log*
 # upload files
 /uploads
 /public/uploads
+
+# reports
+.pdf

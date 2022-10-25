@@ -16,6 +16,13 @@ const getService = async (req,res) => {
     });
 };
 
+const getServiceCategory = async (req, res) => {
+    await controller(req, res, {
+        validator: serviceValidator.getServiceCategory,
+        service: serviceService.getServiceCategory,
+    });
+};
+
 const setService = async (req,res) => {
     await controller(req, res,{
       validator: serviceValidator.setService,
@@ -41,6 +48,7 @@ module.exports = {
     updateService, 
     deleteService, 
     setService, 
-    getAllServices
+    getAllServices,
+    getServiceCategory
 }
 

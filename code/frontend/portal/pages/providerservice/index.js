@@ -1,3 +1,15 @@
+import Footer from "../../components/home/footer"
+import Header from "../../components/home/header"
+
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
+import { filterByCategory, filterByPrice } from '../../utils/product';
+import { CartContext, CartDispatchContext } from '../../context/productContext';
+import axios from '../../utils/axios'
+import React, { useContext, useState, useEffect } from 'react'
+<script type="text/javascript" src="../../public/js/sidebar.js"></script>
 import { FaAlignJustify, FaDollarSign, FaShoppingCart, FaRegCalendarAlt, FaRegPlayCircle, FaQuestionCircle, FaUserPlus, FaEdit, FaWindowClose } from 'react-icons/fa';
 var $ = require('jquery');
 import 'datatables.net';
@@ -11,6 +23,7 @@ export default function providerservice() {
     const [services, setServices] = useState([])
     const [rservices, setRservices] = useState([])
     const { register, handleSubmit, watch, control, reset, setValue, formState: { errors } } = useForm();
+   
 
     const columns = [{
         text: 'Name'
@@ -113,7 +126,7 @@ export default function providerservice() {
             formData.id = update
 
             console.log(formData)
-            axios.put(`/providerservice/${update}`, formData).then((res) => {
+            axios.put(`/service/${update}`, formData).then((res) => {
                 const newService = res.data.service.res[1]
                 setServices([formData].concat(removeElementById(services, newService._id)))
             }).catch((error) => {
@@ -123,7 +136,7 @@ export default function providerservice() {
             onClickCancel();
         } else {
             console.log(formData)
-            axios.post(`/providerservice/`, formData).then((res) => {
+            axios.post(`/service/`, formData).then((res) => {
                 const newService = res.data.service.res[1]
                 setServices([formData].concat(removeElementById(services, newService._id)))
             }).catch((error) => {
@@ -149,14 +162,14 @@ export default function providerservice() {
         }
 
         const getServices = () => {
-            return axios.get("/providerservice");
+            return axios.get("/service");
         }
 
 
         Promise.all([getServices()]).then((res) => {
             console.log(res)
-            setServices(res[0].data.services);
-            table();
+            setServices(res[0].data.service);
+            { /*table();*/ }
         }).catch((error) => {
             console.log(error)
         })
@@ -207,27 +220,26 @@ export default function providerservice() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        {console.log('services',services)}
                                                         {services.map((a) => (
                                                             <tr id={a._id} key={a._id}>
-                                                                <td>
+                                                                    <td>
                                                                     <img src={a.image_path} width="40px" height="40px" /> <br />
                                                                     {a.name}</td>
-                                                                <td>{services.description}</td>
-
-
-                                                                <td>{services.price}</td>
-                                                                <td>{services.category}</td>
-                                                                <td>{services.comission}</td>
-                                                                <td>{services.discount}</td>
-                                                                <td>{services.timeSlots}</td>
-                                                                <td>{services.userid}</td>
-                                                                <td>
-                                                                    <button className='btn' onClick={(e) => { onClickUpdate(a._id) }}>
-                                                                        <FaEdit />
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                        ))}
+                                                                <td>{a.description}</td>
+                                                                <td>{a.price}</td>
+                                                                <td>{a.category}</td>
+                                                                <td>{a.comission}</td>
+                                                                <td>{a.discount}</td>
+                                                                <td>{a.timeSlots}</td>
+                                                                <td>{a.userid}</td>
+                                                                    <td>
+                                                                        <button className='btn' onClick={(e) => { onClickUpdate(a._id) }}>
+                                                                            <FaEdit />
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -243,14 +255,15 @@ export default function providerservice() {
                                                 <div className='card-body'>
                                                     <form onSubmit={handleSubmit(onSubmit)} className='form' id='serviceform' >
                                                         <div className='form-group'>
-                                                            <label htmlFor='name' hidden>Name : </label>
+                                                            <label htmlFor='name' >Name : </label>
                                                             <input className='form-control mb-4' type="text"
                                                                 name='name' id='name' placeholder='Name'
                                                                 {...register("name", { required: true })} />
+                                                            <label htmlFor='name' >Name : </label>
                                                             <input className='form-control mb-4' type="text"
                                                                 name='description' id='description' placeholder='Description'
                                                                 {...register("description", { required: true })} />
-                                                            <input className='form-control mb-4' type="text"
+                                                            <input className='form-control mb-4' type="time"
                                                                 name='timeSlots' id='timeSlots' placeholder='Time Slot'
                                                                 {...register("timeSlots", { required: true })} />
 
@@ -267,7 +280,7 @@ export default function providerservice() {
                                                             <input className='form-control mb-4' type="number"
                                                                 name='discount' id='discount' placeholder='Discount'
                                                                 {...register("discount", { required: true })} />
-                                                            input className='form-control mb-4' type="text"
+                                                            <input className='form-control mb-4' type="text"
                                                             name='userid' id='userid' placeholder='User ID'
                                                             {...register("userid", { required: true })} />
                                                             <input className='form-control mb-4' type="text"
@@ -285,20 +298,21 @@ export default function providerservice() {
                                     </div>
                                 </div>
                             </div>
+                        </div>
                             <div class="col-md-3 order-1 mb-5 mb-md-0">
 
                                 <div class="border p-4 rounded mb-4">
-                                    <a href="./provider" class="h6 list-group-item active"><FaAlignJustify color='black' fontSize="16px" padding-left='10' /><span class="p-4">Dashboard</span></a>
-                                    <a href="#" class="h6 list-group-item "><FaRegPlayCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Products</span></a>
-                                    <a href="#" class="h6 list-group-item "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10' /><span class="p-4">Services</span></a>
-                                    <a href="#" class="h6 list-group-item "><FaShoppingCart color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Purchases</span></a>
-                                    <a href="#" class="h6 list-group-item "><FaDollarSign color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Bookings</span></a>
-                                    <a href="#" class="h6 list-group-item "><FaQuestionCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Events</span></a>
+                                    <a href="./provider" class="h6 list-group-item"><FaAlignJustify color='black' fontSize="16px" padding-left='10' /><span class="p-4">Dashboard</span></a>
+                                    <a href="./product" class="h6 list-group-item "><FaRegPlayCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Products</span></a>
+                                    <a href="#" class="h6 list-group-item active "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10' /><span class="p-4">Services</span></a>
+                                    <a href="./purchase" class="h6 list-group-item "><FaShoppingCart color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Purchases</span></a>
+                                    <a href="./servicebooking" class="h6 list-group-item "><FaDollarSign color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Bookings</span></a>
+                                    <a href="./providerevents" class="h6 list-group-item "><FaQuestionCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Events</span></a>
 
                                 </div>
 
                             </div>
-                        </div>
+                        
                     </div>
 
                     {/* <Footer/> */}

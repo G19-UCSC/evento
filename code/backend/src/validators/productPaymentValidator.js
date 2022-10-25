@@ -1,6 +1,6 @@
 const validate = require('../utilities/validationHelper')
 const {
-    getAllProductPaymentSchema,
+    getAllProductPaymentsSchema,
     getProductPaymentSchema,
     setProductPaymentSchema,
     updateProductPaymentSchema,
@@ -12,7 +12,7 @@ const getAllProductPayments = async (req) => {
 
     const attributes = { id: req.params.id }
 
-    return validate(getAllProductPaymentSchema(), attributes);
+    return validate(getAllProductPaymentsSchema(), attributes);
 };
 
 const getProductPayment= async (req) => {

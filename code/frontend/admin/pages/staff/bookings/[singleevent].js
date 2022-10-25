@@ -25,7 +25,20 @@ export default function event() {
     const [allestaff, setAllestaff] = useState([]);
     const [currentUser, setCurrentUser] = useState([]);
     const [pending, setPending] = useState(0);
+    const rowOne = useRef(null);
+    const rowTwo = useRef(null);
 
+    const [staffAssign, setStaffAssign] = useState(false);
+    const [staffView, setStaffView] = useState(false);
+    const columns = [{
+        text: 'Provider'
+    }, {
+        text: 'Amount'
+    }, {
+        text: 'Payment Status'
+    }, {
+        text: 'Action'
+    },];
 
     function getPendingAmount(eventdetail) {
         let amount = parseFloat(eventdetail.price, 10) + parseFloat(eventdetail.serviceCharge, 10);
@@ -37,7 +50,19 @@ export default function event() {
     function getDateOnly(string) {
         return (string).split('T')[0];
     }
-
+    function staffBtnClicked(e) {
+        if (staffAssign) {
+            setStaffAssign(false);
+            setStaffView(false);
+            rowOne.current.style.overflowY = "auto"
+            rowOne.current.style.height = "100%"
+        }
+        else {
+            setStaffAssign(true);
+            rowOne.current.style.overflowY = "scroll"
+            rowOne.current.style.height = "200px"
+        }
+    }
     useEffect(() => {
 
         const user_ = JSON.parse(localStorage.getItem('user'))
@@ -106,6 +131,7 @@ export default function event() {
                 products.forEach(p => {
                     if (e.productid == p._id) {
                         e.productname = p.name;
+                        e.productcommission = p.comission;
                     }
                 })
             })
@@ -113,6 +139,7 @@ export default function event() {
                 services.forEach(p => {
                     if (e.productid == p._id) {
                         e.productname = p.name;
+                        e.productcommission = p.comission;
                     }
                 })
             })
@@ -231,7 +258,7 @@ export default function event() {
     }
 
 
-
+    console.log('eventProvider', eventProvider);
 
     return (
         <>
@@ -247,7 +274,7 @@ export default function event() {
 
                                 <button className="btn btn-primary" onClick={e => generateReport(e)}> Generate Report </button>
                             </div>
-                            <div className="row" id="rowOne" style={{ height: "100%", overflow: "auto" }}>
+                            <div className="row" id="rowOne" ref={rowOne} style={{ height: "100%", overflow: "auto" }}>
                                 <div className='mb-4 col-lg-4' id="eventDetailsCard">
                                     <div className='card shadow md-4'>
                                         <div className='card-header'> <h5>Event</h5> </div>
@@ -306,7 +333,10 @@ export default function event() {
                                 </div>
                                 <div className='mb-4 col-lg-4' id="packageDetailsCard">
                                     <div className='card shadow md-4'>
-                                        <div className='card-header'> <b>Package</b></div>
+                                        <div className='d-flex card-header justify-content-between'> <b>Package</b>
+                                            <button className="btn btn-dark align-right" onClick={(e) => (staffBtnClicked())}>Pay Providers</button>
+                                        </div>
+
                                         <div className="card-body">
                                             <p>Name : {packDetails.name}</p>
                                             <p>Type : {packDetails.category}</p>
@@ -333,6 +363,7 @@ export default function event() {
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className='mb-4 col-lg-4' id="staffDetailsCard">
                                     <div className='card shadow md-4'>
                                         <div className='card-header d-flex justify-content-between'>
@@ -360,7 +391,39 @@ export default function event() {
                                     </div>
                                 </div>
                             </div>
+                            {(staffAssign) && (
+                                <>
+                                    <div className="row text-right mr-4">
+                                        <div style={{ borderTop: "1px solid" }}>
+                                            <button className="btn" onClick={(e) => (staffBtnClicked())}><FaTimesCircle /></button>
+                                        </div>
+                                    </div>
+                                    <div className="row" id="rowTwo" ref={rowTwo} style={{ overflow: "auto" }}>
+                                        <div className="w-100">
+                                            <table className='table' id="shoppingHistory">
+                                                <thead>
+                                                    <tr className="card-header">
+                                                        {columns.map((c) => (
+                                                            <th key={c.text} >{c.text}</th>
+                                                        ))}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {eventProvider.map(e => (
+                                                        <tr key={e._id}>
+                                                            <td>{e.provider}</td>
+                                                            <td>Rs.{' '}{e.providerpay - ((e.providerpay * e.productcommission) / 100)}</td>
+                                                            <td>{e.providerpay_status}</td>
+                                                            <td><button className="btn btn-dark">Pay</button></td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
 
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>

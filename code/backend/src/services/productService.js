@@ -42,6 +42,7 @@ const setProduct = async (attributes) => {
             comission: attributes.comission,
             count: attributes.count,
             image_path : attributes.image_path,
+            userid : attributes.userid,
           }).then((res) => {
             console.log(`Insert successful: ${res._id}`);
             return {
@@ -68,6 +69,7 @@ const updateProduct = async (attributes) => {
             comission: attributes.comission,
             count: attributes.count,
             image_path : attributes.image_path,
+            userid : attributes.userid,
           },{
             where: { _id: attributes.id },
             returning: true,

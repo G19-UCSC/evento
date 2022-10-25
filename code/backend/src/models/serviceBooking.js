@@ -24,7 +24,7 @@ const ServiceBooking = db.define(
       allowNull: false,
     },
     Status: {
-      type: DataTypes.ENUM('Pending','Accepted','Paid'),
+      type: DataTypes.ENUM('Pending','Accepted','Paid', 'Rejected', 'Cancelled'),
       allowNull: false,
     }, 
     cancelledOn: {
@@ -61,17 +61,15 @@ const ServiceBooking = db.define(
   }
 );
 
-ServiceBooking.sync({force:true})
+ServiceBooking.sync()
 
-// Product.sync().then((res) => {
-//   Product.create({ 
-//     name: "Black Forest", 
-//     description: "Black forest cake",
-//     price : 1200,
-//     category: "food",
-//     comission : 50,
-//     count: 20,
-//     image_path:"https://i.ytimg.com/vi/PDxvTCFutc8/maxresdefault.jpg"
+// ServiceBooking.sync({force:true}).then((res) => {
+//   ServiceBooking.create({ 
+//     userid: "49535395-1f49-440c-8583-ea0d03400a24",
+//      productid: "49535395-1f49-440c-8583-ea0d03400a24",
+//     timeSlots:['2022-11-10', '2022-12-10'],
+//      status: "Pending",
+//      CustPayStatus: "Pending", ProviderPayStatus: "Pending",
 
 //   }).then((res) => {
 //     console.log(`Insert successful: ${res._id}`);

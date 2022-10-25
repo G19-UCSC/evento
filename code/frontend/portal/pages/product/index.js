@@ -23,6 +23,10 @@ export default function product() {
     const [products, setProducts] = useState([])
     const [rproducts, setRproducts] = useState([])
     const { register, handleSubmit, watch, control, reset, setValue, formState: { errors } } = useForm();
+    const [files, setFiles] = useState([])
+    const [imgadmin, setImgadmin] = useState('');
+    const [imgportal, setImgportal] = useState('');
+    const [user,setUser] = useState('')
 
     const columns = [{
         text: 'Name'
@@ -109,16 +113,45 @@ export default function product() {
             category: '',
             comission: '',
             count: '',
-            refundrate: '',
             image_path: ''
         })
     }
 
     const onSubmit = (formData) => {
 
+        let path;
+
+        formData.userid = user.userid
+
+        const fileData = new FormData();
+        fileData.append("name", files[0].name)
+        fileData.append("files", files[0]);
+        fileData.append("filename", Date.now() + files[0].name)
+        path = Date.now() + files[0].name
+        for (var key of fileData.entries()) {
+            console.log(key[0] + ', ' + key[1])
+        }
+
+        axios.post(`/uploadAdmin`, fileData).then((res) => {
+            console.log(res)
+            setImgadmin(res.data.path)
+        }).catch((err) => {
+            console.log(err)
+        })
+
+        axios.post(`/uploadPortal`, fileData).then((res) => {
+            console.log(res)
+            setImgportal(res.data.filename)
+            path = res.data.filename
+            console.log(path)
+        }).catch((err) => {
+            console.log(err)
+        })
+
         if (btn == 'update' && update != '') {
             let u = findElementById(products, update)[0];
             formData.id = update
+            formData.image_path = path;
 
             console.log(formData)
             axios.put(`/product/${update}`, formData).then((res) => {
@@ -130,6 +163,7 @@ export default function product() {
 
             onClickCancel();
         } else {
+            formData.image_path = path;
             console.log(formData)
             axios.post(`/product/`, formData).then((res) => {
                 const newProduct = res.data.product.res[1]
@@ -143,6 +177,10 @@ export default function product() {
     }
 
     useEffect(() => {
+
+        const user_ = JSON.parse(localStorage.getItem('user'))
+        setUser(user_);
+
         const table = () => {
             $(function () {
                 $('#productsTable').DataTable({
@@ -220,7 +258,7 @@ export default function product() {
                                                         {products.map((a) => (
                                                             <tr id={a._id} key={a._id}>
                                                                 <td>
-                                                                    <img src={a.image_path} width="40px" height="40px" /> <br />
+                                                                    <Image src={'/uploads/'+a.image_path} width="40px" height="40px" /> <br />
                                                                     {a.name}</td>
                                                                 <td>{a.description}</td>
                                                                 <td>{a.price}</td>
@@ -254,29 +292,37 @@ export default function product() {
                                                             <input className='form-control mb-4' type="text"
                                                                 name='name' id='name' placeholder='Name'
                                                                 {...register("name", { required: true })} />
+                                                            <label htmlFor='description' hidden>Description : </label>
                                                             <input className='form-control mb-4' type="text"
                                                                 name='description' id='description' placeholder='Description'
                                                                 {...register("description", { required: true })} />
+                                                            <label htmlFor='count' hidden>Max Quantity : </label>
                                                             <input className='form-control mb-4' type="number"
                                                                 name='count' id='count' placeholder='Max Quantity'
                                                                 {...register("count", { required: true })} />
+                                                            <label htmlFor='price' hidden>Price : </label>
                                                             <input className='form-control mb-4' type="number"
                                                                 name='price' id='price' placeholder='Price'
                                                                 {...register("price", { required: true })} />
+                                                            <label htmlFor='discount' hidden>Discount : </label>
                                                             <input className='form-control mb-4' type="number"
                                                                 name='discount' id='discount' placeholder='Discount'
                                                                 {...register("discount", { required: true })} />
+                                                            <label htmlFor='category' hidden>Category : </label>
                                                             <input className='form-control mb-4' type="text"
                                                                 name='category' id='category' placeholder='Category'
                                                                 {...register("category", { required: true })} />
+                                                            <label htmlFor='comission' hidden>Commission : </label>
                                                             <input className='form-control mb-4' type="number"
                                                                 name='comission' id='comission' placeholder='Commission'
                                                                 {...register("comission", { required: true })} />
+                                                            <label htmlFor='Image' hidden>Image : </label>
 
-
-                                                            <input className='form-control mb-4' type="text"
-                                                                name='image_path' id='image_path' placeholder='image'
-                                                                {...register("image_path", { required: true })} />
+                                                            <input className='form-control mb-4' type="file"
+                                                                name='files' id='image_path' placeholder='image'
+                                                                {...register("image_path", { required: true })}
+                                                                onChange={e => setFiles(e.target.files)}
+                                                                />
 
 
 
@@ -290,20 +336,21 @@ export default function product() {
                                     </div>
                                 </div>
                             </div>
+                        </div>
                             <div class="col-md-3 order-1 mb-5 mb-md-0">
 
                                 <div class="border p-4 rounded mb-4">
-                                    <a href="./provider" class="h6 list-group-item active"><FaAlignJustify color='black' fontSize="16px" padding-left='10' /><span class="p-4">Dashboard</span></a>
-                                    <a href="#" class="h6 list-group-item "><FaRegPlayCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Products</span></a>
-                                    <a href="#" class="h6 list-group-item "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10' /><span class="p-4">Services</span></a>
-                                    <a href="#" class="h6 list-group-item "><FaShoppingCart color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Purchases</span></a>
-                                    <a href="#" class="h6 list-group-item "><FaDollarSign color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Bookings</span></a>
-                                    <a href="#" class="h6 list-group-item "><FaQuestionCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Events</span></a>
+                                    <a href="./provider" class="h6 list-group-item"><FaAlignJustify color='black' fontSize="16px" padding-left='10' /><span class="p-4">Dashboard</span></a>
+                                    <a href="#" class="h6 list-group-item active"><FaRegPlayCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Products</span></a>
+                                    <a href="./providerservice" class="h6 list-group-item "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10' /><span class="p-4">Services</span></a>
+                                    <a href="./purchase" class="h6 list-group-item "><FaShoppingCart color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Purchases</span></a>
+                                    <a href="./servicebooking" class="h6 list-group-item "><FaDollarSign color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Bookings</span></a>
+                                    <a href="./providerevents" class="h6 list-group-item "><FaQuestionCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Events</span></a>
 
                                 </div>
                            
                             </div>
-                        </div>
+                       
                     </div>
 
                     {/* <Footer/> */}
