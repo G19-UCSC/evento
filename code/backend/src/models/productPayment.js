@@ -11,11 +11,11 @@ const ProductPayment = db.define(
       primaryKey: true,
     },
     userid: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     productid: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     quantity: {
@@ -57,20 +57,25 @@ const ProductPayment = db.define(
   }
 );
 
-ProductPayment.sync()
+// ProductPayment.sync()
 
-// Product.sync().then((res) => {
-//   Product.create({ 
-//     name: "Black Forest", 
-//     description: "Black forest cake",
-//     price : 1200,
-//     category: "food",
-//     comission : 50,
-//     count: 20,
-//     image_path:"https://i.ytimg.com/vi/PDxvTCFutc8/maxresdefault.jpg"
+// ProductPayment.sync().then((res) => {
+//   ProductPayment.create({ 
+//     userid: "ee890a73-408d-4101-b494-38e7bb44aa53", 
+//     productid: "0c648705-fecf-4771-9e2f-33baee6e4821",
+//     quantity : 1,
+//     purchaseDate: Date(),
+//     price : 5500,
+//     commission: 1375,
+//     CusPayStatus: "Pending",
+//     CusPayDate: null,
+//     ProviderPayStatus: "Pending",
+//     ProviderPayDate: null,
 
 //   }).then((res) => {
 //     console.log(`Insert successful: ${res._id}`);
+//   }).catch((err)=>{
+//     console.log(err);
 //   });
 // });
 
