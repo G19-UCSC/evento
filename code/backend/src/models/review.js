@@ -33,7 +33,16 @@ const REVIEW = db.define(
 
 REVIEW.sync()
 
-
+// REVIEW.sync().then((res) => {
+//     REVIEW.create({ 
+//   productid:"9832b50d-1ac1-440d-8e09-2934ad448766",
+//     userid:"1d6aefa6-cd84-40e8-af62-bd44f97e8a7d",
+//    review:"Brightness is very low!",
+//    rating:"2"
+//   }).then((res) => {
+//     console.log(`Insert successful: ${res._id}`);
+//   });
+// });
 
 
 module.exports = REVIEW;
