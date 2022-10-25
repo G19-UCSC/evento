@@ -190,7 +190,7 @@ const showEvent= (id) => {
                               <td>{item.price}</td>
                               <td>{item.finalPay}</td>
                               {/* <td onClick={showEvent(item._id)}><FaEye color='black' fontSize="16px" padding-left='10'/></td> */}
-                              <td onClick={() => router.push(`/myEvents/${encodeURIComponent(item._id)}`)}><FaEye color='black' fontSize="16px" padding-left='10'/></td>
+                              <td onClick={() => router.push(`/dashboard/events/${encodeURIComponent(item._id)}`)}><FaEye color='black' fontSize="16px" padding-left='10'/></td>
                               
                           </tr>
                     ):(null)
