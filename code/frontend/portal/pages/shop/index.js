@@ -27,6 +27,7 @@ export default function Shop() {
     axios.get("/product").then((res)=>{
     setProducts(res.data.products)
     setProductsAll(res.data.products)
+    
 }).catch((error) => {
     console.log(error.response.data)
 })}, [])
@@ -93,7 +94,7 @@ const handleClick = (item) => {
                     <a href="shop-single.html"><img src={item.image_path} style={{objectFit: "cover",height: "400px"}} layout='fill' alt="Image placeholder" class="img-fluid" /></a>
                   </figure>
                   <div class="block-4-text p-4">
-                    <h3><a href="shop-single.html">{item.name}</a></h3>
+                    <h3><a href={`/shop/${item._id}`}>{item.name}</a></h3>
                     <p class="mb-0">{item.description}</p>
                     <p class="text-primary font-weight-bold">Rs.{item.price}</p>
                   </div>

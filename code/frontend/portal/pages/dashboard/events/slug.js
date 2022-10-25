@@ -1,12 +1,12 @@
 
-import Footer from "../../components/home/footer"
-import Header from "../../components/home/header"
+import Footer from "../../../components/home/footer"
+import Header from "../../../components/home/header"
 import { useRouter } from 'next/router'
 
 import React, {  useContext,useState,useEffect} from "react";
-import axios from '../../utils/axios'
-import { CartContext, CartDispatchContext } from '../../context/productContext';
-import { filterByCategory } from '../../utils/product';
+import axios from '../../../utils/axios'
+import { CartContext, CartDispatchContext } from '../../../context/productContext';
+import { filterByCategory } from '../../../utils/product';
 export default function Product() {
   const router = useRouter()
   const slug = router.query.slug
