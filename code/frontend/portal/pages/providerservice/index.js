@@ -61,7 +61,7 @@ export default function providerservice() {
     let submitBtn;
 
     if (btn == 'create') {
-        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Add/Update Service </button>
+        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Add Service </button>
     }
     else if (btn == 'update') {
         submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Update Service </button>
@@ -306,7 +306,7 @@ export default function providerservice() {
                                     <a href="./product" class="h6 list-group-item "><FaRegPlayCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Products</span></a>
                                     <a href="#" class="h6 list-group-item active "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10' /><span class="p-4">Services</span></a>
                                    
-                                    <a href="./servicebooking" class="h6 list-group-item "><FaDollarSign color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Bookings</span></a>
+                                    
                                     <a href="./providerevents" class="h6 list-group-item "><FaQuestionCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Events</span></a>
 
                                 </div>
