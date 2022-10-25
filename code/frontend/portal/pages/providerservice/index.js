@@ -168,8 +168,8 @@ export default function providerservice() {
 
         Promise.all([getServices()]).then((res) => {
             console.log(res)
-            setServices(res[0].data.services);
-            table();
+            setServices(res[0].data.service);
+            { /*table();*/ }
         }).catch((error) => {
             console.log(error)
         })
@@ -220,7 +220,7 @@ export default function providerservice() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        console.log('services',services);
+                                                        {console.log('services',services)}
                                                         {services.map((a) => (
                                                             <tr id={a._id} key={a._id}>
                                                                     <td>
@@ -255,14 +255,15 @@ export default function providerservice() {
                                                 <div className='card-body'>
                                                     <form onSubmit={handleSubmit(onSubmit)} className='form' id='serviceform' >
                                                         <div className='form-group'>
-                                                            <label htmlFor='name' hidden>Name : </label>
+                                                            <label htmlFor='name' >Name : </label>
                                                             <input className='form-control mb-4' type="text"
                                                                 name='name' id='name' placeholder='Name'
                                                                 {...register("name", { required: true })} />
+                                                            <label htmlFor='name' >Name : </label>
                                                             <input className='form-control mb-4' type="text"
                                                                 name='description' id='description' placeholder='Description'
                                                                 {...register("description", { required: true })} />
-                                                            <input className='form-control mb-4' type="text"
+                                                            <input className='form-control mb-4' type="time"
                                                                 name='timeSlots' id='timeSlots' placeholder='Time Slot'
                                                                 {...register("timeSlots", { required: true })} />
 
