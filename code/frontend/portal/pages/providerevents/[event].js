@@ -28,6 +28,38 @@ export default function providerevent() {
         return (string).split('T')[0];
     }
 
+    function respondEvent(id, response) {
+        if (response == "Accepted") {
+            const formData = eventProviders.filter(element => element._id == id)[0]
+            formData.status = response;
+            axios.put(`/eventProvider/${id}`, formData).then((res) => {
+                console.log(res)
+                alert("Accepted Successfully")
+            }).catch((err) => {
+                console.log(err)
+            })
+        } else {
+            const formData = eventProviders.filter(element => element._id == id)[0]
+            formData.status = response;
+            const eventData = eventDetails;
+            eventData.status = "Rejected"
+            axios.put(`/eventProvider/${id}`, formData).then((res) => {
+                console.log(res)
+                alert("Rejected Successfully")
+            }).catch((err) => {
+                console.log(err)
+            })
+
+            axios.put(`/event/${event}`, eventData).then((res) => {
+                console.log(res)
+                alert("Rejected Successfully")
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
+        
+    }
+
 
     useEffect(() => {
 
@@ -46,7 +78,7 @@ export default function providerevent() {
         }
 
         const getServices = () => {
-            return axios.get("/service")
+            return axios.get("/service/")
 		}
 
 
@@ -140,6 +172,10 @@ export default function providerevent() {
                                                     <tr key={e._id}>
                                                         <td>
                                                             {e.productname}</td>
+                                                        <td>
+                                                            <button class="btn" onClick={respondtEvent(e._id,"Accepted")}>Accept</button>
+                                                            <button class="btn" onClick={respondtEvent(e._id, "Rejected")}>Reject</button>
+                                                        </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
