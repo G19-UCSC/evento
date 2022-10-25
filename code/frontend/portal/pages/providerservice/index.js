@@ -267,7 +267,7 @@ export default function providerservice() {
                                                             <input className='form-control mb-4' type="number"
                                                                 name='discount' id='discount' placeholder='Discount'
                                                                 {...register("discount", { required: true })} />
-                                                            input className='form-control mb-4' type="text"
+                                                            <input className='form-control mb-4' type="text"
                                                             name='userid' id='userid' placeholder='User ID'
                                                             {...register("userid", { required: true })} />
                                                             <input className='form-control mb-4' type="text"

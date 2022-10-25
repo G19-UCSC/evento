@@ -26,9 +26,6 @@ const columns = [
         text: 'Name',
     },
     {
-        text: 'Customer',
-    },
-    {
         text: 'Event Date'
     },
     {
@@ -37,16 +34,13 @@ const columns = [
     {
         text: 'Status'
     },
-
-
     {
         text: 'Progress'
+    },
+    {
+        text: 'Action'
     }
-]
-
-    useEffect(() => {
-
-        const user_ = JSON.parse(localStorage.getItem('user'))
+    ]
 
     const table = () => {
         $(function () {
@@ -61,6 +55,12 @@ const columns = [
         });
     }
 
+    useEffect(() => {
+
+        const user_ = JSON.parse(localStorage.getItem('user'))
+
+    
+
     const getEvents = () => {
         return axios.get("/event");
     }
@@ -74,10 +74,11 @@ const columns = [
         let events = res[0].data.events;
         let eventProviders = res[1].data.eventProviders;
         console.log('events', events)
+        console.log(user_)
         let myevents = []
         events.forEach(e => {
             eventProviders.forEach(eventP => {
-                if ((e._id == eventP.eventid) && (eventP.userid == user.userid)) {
+                if ((e._id == eventP.eventid) && (eventP.providerid == user_.userid)) {
                     e.eventid = eventP.eventid;
                     myevents.push(e);
                 }
@@ -85,6 +86,7 @@ const columns = [
         });
         console.log('myevents',myevents);
         setEvents(myevents);
+        table();
     }).catch((error) => {
         console.log(error)
     })
@@ -136,7 +138,6 @@ return (
                                                     {events.map((a) => (
                                                         <tr id={a._id} key={a._id}>
                                                             <td>{a.title}</td>
-                                                            <td>{a.userName}</td>
                                                             <td>{(a.start_date).split('T')[0] + " to " + (a.end_date).split('T')[0]}</td>
                                                             <td>{a.createdAt}</td>
                                                             <td>{a.location}</td>
@@ -186,12 +187,13 @@ return (
                                                                 )}
                                                             </td>
                                                             <td>
-                                                                <button className='btn' onClick={(e) => { onClickAccept() }}> Accept {/*</button>*/}
-                                                                        <FaEdit />
-                                                                  //  </button> 
-                                                                <Link href={`events/${encodeURIComponent(a._id)}`}>
+                                                                <Link href={`providerevents/${encodeURIComponent(a._id)}`}>
                                                                     <FaEdit />
                                                                 </Link>
+
+                                                                {/*<button className='btn' onClick={(e) => { onClickAccept() }}> Accept </button>
+                                                                    <FaEdit />
+                                                                </button> */}
                                                             </td>
                                                         </tr>
                                                     ))}
