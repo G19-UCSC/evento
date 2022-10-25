@@ -20,6 +20,16 @@ const getService = async (attributes) => {
     };
 };
 
+const getServiceCategory = async (attributes) => {
+
+    // fetch one service
+    const service = await Service.findAll({ where: { category: attributes.category } });
+
+    return {
+        service
+    };
+};
+
 const setService = async (attributes) => {
 
     // create one product
@@ -97,5 +107,6 @@ module.exports = {
     getService,
     setService,
     updateService,
-    deleteService
+    deleteService,
+    getServiceCategory
 }

@@ -22,7 +22,7 @@ const EventProvider = db.define(
         allowNull: false,
     },
     status: {
-        type: DataTypes.ENUM('Pending', 'Accepted', 'Rejected'),
+        type: DataTypes.ENUM('Pending', 'Accepted', 'Rejected','Cancelled'),
         allowNull: false,
     },
     providerpay: {

@@ -40,6 +40,7 @@ const setProduct  = async (req) => {
         comission: req.body.comission,
         count: req.body.count,
         image_path : req.body.image_path,
+        userid : req.body.userid,
     }
     
     return validate(setProductSchema(), attributes);
@@ -57,6 +58,7 @@ const updateProduct  = async (req) => {
         comission: req.body.comission,
         count: req.body.count,
         image_path : req.body.image_path,
+        userid : req.body.userid,
     }
     
     return validate(updateProductSchema(), attributes);
