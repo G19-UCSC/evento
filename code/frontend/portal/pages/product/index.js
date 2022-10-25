@@ -336,6 +336,7 @@ export default function product() {
                                     </div>
                                 </div>
                             </div>
+                        </div>
                             <div class="col-md-3 order-1 mb-5 mb-md-0">
 
                                 <div class="border p-4 rounded mb-4">
@@ -349,7 +350,7 @@ export default function product() {
                                 </div>
                            
                             </div>
-                        </div>
+                       
                     </div>
 
                     {/* <Footer/> */}
