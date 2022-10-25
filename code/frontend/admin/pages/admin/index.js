@@ -21,6 +21,14 @@ const dashboard = () => {
     const[cancelledevents,setCancelledevents] = useState(0);
     const[approvedevents,setApprovedevents] = useState(0);
     const[pendingevents,setPendingevents] = useState(0);
+    const [purchases, setPurchases] = useState([])
+    const [bookings, setBookings] = useState([])
+    const [pendingProductPayment, setPendingProductPayment] = useState(0)
+    const [pendingServicePayment, setPendingServicePayment] = useState(0)
+    const [pendingEventPayment, setPendingEventPayment] = useState(0)
+    const [productIncome, setProductIncome] = useState(0)
+    const [serviceIncome, setServiceIncome] = useState(0)
+    const [eventIncome, setEventIncome] = useState(0)
 
     const events2 = [
         {
@@ -104,6 +112,44 @@ const dashboard = () => {
             setPendingevents(pending.length);
             setApprovedevents(approved.length);
 
+        }).then(async()=>{
+            await axios.get(`/productPayment`).then((res)=>{
+                let purchases = res.data.payments;
+                console.log(purchases)
+                setPurchases(purchases)
+                purchases = purchases.filter(element => element.ProviderPayStatus == "Pending")
+                let payment = 0;
+                purchases.forEach(p => {
+                    payment += (p.price - p.price*p.commission)
+                })
+                let income = 0;
+                purchases.forEach(p => {
+                    income += (p.price)
+                })
+                setProductIncome(income)
+                setPendingProductPayment(payment)
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }).then(async()=>{
+            await axios.get(`/serviceBooking`).then((res)=>{
+                let bookings = res.data.services;
+                console.log(bookings)
+                setBookings(bookings)
+                bookings = bookings.filter(element => element.ProviderPayStatus == "Pending")
+                let payment = 0;
+                bookings.forEach(p => {
+                    payment += (p.price - p.price*p.commission)
+                })
+                let income = 0;
+                bookings.forEach(p => {
+                    income += (p.price)
+                })
+                setServiceIncome(income)
+                setPendingServicePayment(payment)
+            }).catch((err)=>{
+                console.log(err)
+            })
         }).catch((error) => {
             console.log(error)
         })
@@ -141,7 +187,9 @@ const dashboard = () => {
 
                     {/* Content Row */}
                     <div className="row">
-                        <Cards cardTitles={cardtitles} cardData={[totalevents,pendingevents]} />
+                        <Cards cardTitles={cardtitles} 
+                        cardData={[totalevents,pendingevents,pendingProductPayment+pendingServicePayment+pendingEventPayment,
+                        productIncome+serviceIncome+eventIncome]} />
                     </div>
 
                     {/* Content Row */}
