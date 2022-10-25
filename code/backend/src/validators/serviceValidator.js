@@ -4,7 +4,8 @@ const {
     getServiceSchema,
     setServiceSchema,
     updateServiceSchema,
-    deleteServiceSchema
+    deleteServiceSchema,
+    getServiceCategorySchema
 } = require('../schema/serviceSchema');
 
 const getAllServices = async (req) => {
@@ -20,6 +21,14 @@ const getService = async (req) => {
 
     return validate(getServiceSchema(), attributes);
 };
+
+const getServiceCategory = async (req) => {
+
+    const attributes = { category: req.params.category }
+
+    return validate(getServiceCategorySchema(), attributes);
+};
+
 
 const setService  = async (req) => {
 
@@ -69,5 +78,6 @@ module.exports = {
     getService ,
     setService ,
     updateService,
-    deleteService 
+    deleteService,
+    getServiceCategory
 }

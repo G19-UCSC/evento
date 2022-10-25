@@ -39,7 +39,7 @@ export default function providerevent() {
 
         const getEventProviders = () => {
             return axios.get("/eventprovider/");
-        }
+        } 
 
         const getProducts = () => {
             return axios.get("/product/")

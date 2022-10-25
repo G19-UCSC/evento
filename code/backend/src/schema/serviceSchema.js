@@ -4,7 +4,11 @@ const getAllServicesSchema = () => Joi.object().keys({});
 
 const getServiceSchema = () => Joi.object().keys({
     id: Joi.alternatives(Joi.string(), Joi.number()).required(),
-  });
+});
+
+const getServiceCategorySchema = () => Joi.object().keys({
+    category: Joi.string().required()
+});
 
 const setServiceSchema = () => Joi.object().keys({
   name: Joi.string().required(),
@@ -14,7 +18,7 @@ const setServiceSchema = () => Joi.object().keys({
   comission: Joi.number().precision(2).required(),
   image_path : Joi.string().required(),
   discount: Joi.number().required(),
-  timeSlots: Joi.array().required(),
+  timeSlots: Joi.string().required(),
   userid: Joi.string().required(),
 });
 
@@ -27,7 +31,7 @@ const updateServiceSchema = () => Joi.object().keys({
     comission: Joi.number().precision(2).required(),
     image_path : Joi.string().required(),
     discount: Joi.number().required(),
-    timeSlots: Joi.array().required(),
+    timeSlots: Joi.string().required(),
     userid: Joi.string().required(),
   });
 
@@ -41,5 +45,6 @@ module.exports = {
     getServiceSchema,
     setServiceSchema,
     updateServiceSchema,
-    deleteServiceSchema
+    deleteServiceSchema,
+    getServiceCategorySchema
 };

@@ -109,7 +109,6 @@ export default function product() {
             category: '',
             comission: '',
             count: '',
-            refundrate: '',
             image_path: ''
         })
     }

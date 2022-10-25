@@ -1,3 +1,15 @@
+import Footer from "../../components/home/footer"
+import Header from "../../components/home/header"
+
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
+import { filterByCategory, filterByPrice } from '../../utils/product';
+import { CartContext, CartDispatchContext } from '../../context/productContext';
+import axios from '../../utils/axios'
+import React, { useContext, useState, useEffect } from 'react'
+<script type="text/javascript" src="../../public/js/sidebar.js"></script>
 import { FaAlignJustify, FaDollarSign, FaShoppingCart, FaRegCalendarAlt, FaRegPlayCircle, FaQuestionCircle, FaUserPlus, FaEdit, FaWindowClose } from 'react-icons/fa';
 var $ = require('jquery');
 import 'datatables.net';
@@ -11,6 +23,7 @@ export default function providerservice() {
     const [services, setServices] = useState([])
     const [rservices, setRservices] = useState([])
     const { register, handleSubmit, watch, control, reset, setValue, formState: { errors } } = useForm();
+   
 
     const columns = [{
         text: 'Name'
@@ -113,7 +126,7 @@ export default function providerservice() {
             formData.id = update
 
             console.log(formData)
-            axios.put(`/providerservice/${update}`, formData).then((res) => {
+            axios.put(`/service/${update}`, formData).then((res) => {
                 const newService = res.data.service.res[1]
                 setServices([formData].concat(removeElementById(services, newService._id)))
             }).catch((error) => {
@@ -123,7 +136,7 @@ export default function providerservice() {
             onClickCancel();
         } else {
             console.log(formData)
-            axios.post(`/providerservice/`, formData).then((res) => {
+            axios.post(`/service/`, formData).then((res) => {
                 const newService = res.data.service.res[1]
                 setServices([formData].concat(removeElementById(services, newService._id)))
             }).catch((error) => {
@@ -149,7 +162,7 @@ export default function providerservice() {
         }
 
         const getServices = () => {
-            return axios.get("/providerservice");
+            return axios.get("/service");
         }
 
 
@@ -207,27 +220,26 @@ export default function providerservice() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {services.map((a) => (
+                                                        
+                                                        {services?.map((a) => (
                                                             <tr id={a._id} key={a._id}>
-                                                                <td>
+                                                                    <td>
                                                                     <img src={a.image_path} width="40px" height="40px" /> <br />
                                                                     {a.name}</td>
-                                                                <td>{services.description}</td>
-
-
-                                                                <td>{services.price}</td>
-                                                                <td>{services.category}</td>
-                                                                <td>{services.comission}</td>
-                                                                <td>{services.discount}</td>
-                                                                <td>{services.timeSlots}</td>
-                                                                <td>{services.userid}</td>
-                                                                <td>
-                                                                    <button className='btn' onClick={(e) => { onClickUpdate(a._id) }}>
-                                                                        <FaEdit />
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                        ))}
+                                                                <td>{a.description}</td>
+                                                                <td>{a.price}</td>
+                                                                <td>{a.category}</td>
+                                                                <td>{a.comission}</td>
+                                                                <td>{a.discount}</td>
+                                                                <td>{a.timeSlots}</td>
+                                                                <td>{a.userid}</td>
+                                                                    <td>
+                                                                        <button className='btn' onClick={(e) => { onClickUpdate(a._id) }}>
+                                                                            <FaEdit />
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
                                                     </tbody>
                                                 </table>
                                             </div>
