@@ -1,14 +1,14 @@
 
-import Footer from "../../components/home/footer"
-import Header from "../../components/home/header"
+import Footer from "../../../components/home/footer"
+import Header from "../../../components/home/header"
 
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { filterByCategory, filterByPrice } from '../../utils/product';
-import { CartContext, CartDispatchContext } from '../../context/productContext';
-import axios from '../../utils/axios'
+import { filterByCategory, filterByPrice } from '../../../utils/product';
+import { CartContext, CartDispatchContext } from '../../../context/productContext';
+import axios from '../../../utils/axios'
 import React, { useContext, useState,useEffect } from 'react'
 
 import Swal from 'sweetalert2'
