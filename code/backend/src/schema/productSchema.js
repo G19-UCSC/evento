@@ -26,11 +26,11 @@ const updateProductSchema = () => Joi.object().keys({
     id: Joi.alternatives(Joi.string(), Joi.number()).required(),
     name: Joi.string().required(),
     description: Joi.string().required(),
-    price: Joi.string().required(),
+    price: Joi.number().required(),
     discount: Joi.number().required(),
     category: Joi.string().required(),
     comission: Joi.number().precision(2).required(),
-    count: Joi.string().required(),
+    count: Joi.number().required(),
     image_path: Joi.string().required(),
 });
 
