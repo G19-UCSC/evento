@@ -199,7 +199,7 @@ export default function Product() {
                   <img src={item.image_path} layout='fill' alt="Image" class="img-fluid" />
                 </td>
                 <td class="product-name">
-                  <h2 class="h5 text-black">{item.name}</h2>
+                  <h2 class="h5 text-black">{item.productName}</h2>
                 </td>
                 <td>{item.price}</td>
                 <td class="product-name">

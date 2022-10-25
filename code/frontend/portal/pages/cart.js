@@ -56,6 +56,7 @@ export default function Cart() {
     if (cart_) {
         setCart(cart_)
     }
+    handlePrice()
   });
 
   const checkout = () => {

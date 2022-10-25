@@ -23,6 +23,8 @@ export default function Product() {
   const [treviews, setTreviews] = useState(0)
   const [users, setUsers] = useState([])
 
+  const slug = router.query.slug
+
 
   const findElementByProductId = (arr, id) => arr.filter(element => element.productid == id);
   const findElementByUserId = (a, b) => b.filter(element => element.userid == b._id)
@@ -30,8 +32,8 @@ export default function Product() {
   const removeElementById = (arr, id) => arr.filter(element => element._id !== id);
 
   useEffect(() => {
-    const slug = router.query.slug
-    axios.get(`/product/9832b50d-1ac1-440d-8e09-2934ad448766`).then((res)=>{
+
+    axios.get(`/product/${slug}`).then((res)=>{
     setProduct(res.data.product)
     console.log(res.data.product)
     

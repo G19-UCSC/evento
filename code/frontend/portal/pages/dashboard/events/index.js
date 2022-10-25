@@ -20,7 +20,7 @@ import 'datatables.net';
 import 'datatables.net-bs4';
 
 
-export default function Dashboard() {
+export default function Events() {
   const [setCart, setPrices] = useContext(CartDispatchContext);
   const [cart,prices]= useContext(CartContext);
   const[product,setProduct] = useState([]);
@@ -227,7 +227,7 @@ const showEvent= (id) => {
                               <td>{item.status}</td>
                               <td>{item.price}</td>
                               <td>{item.finalPay}</td>
-                              <td onClick={showEvent}><FaEye color='black' fontSize="16px" padding-left='10'/></td>
+                              <td onClick={() => router.push(`/dashboard/events/${encodeURIComponent(item._id)}`)}><FaEye color='black' fontSize="16px" padding-left='10'/></td>
                               
                           </tr> 
                           ):(null)

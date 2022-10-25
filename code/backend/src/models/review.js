@@ -31,13 +31,13 @@ const REVIEW = db.define(
     }
 );
 
-REVIEW.sync()
+// REVIEW.sync()
 
 // REVIEW.sync().then((res) => {
 //     REVIEW.create({ 
-//   productid:"9832b50d-1ac1-440d-8e09-2934ad448766",
-//     userid:"1d6aefa6-cd84-40e8-af62-bd44f97e8a7d",
-//    review:"Brightness is very low!",
+//   productid:"0c648705-fecf-4771-9e2f-33baee6e4821",
+//     userid:"ee890a73-408d-4101-b494-38e7bb44aa53",
+//    review:"Very Tasty Cake!",
 //    rating:"2"
 //   }).then((res) => {
 //     console.log(`Insert successful: ${res._id}`);

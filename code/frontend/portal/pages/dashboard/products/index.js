@@ -1,106 +1,68 @@
-
 import Footer from "../../../components/home/footer"
 import Header from "../../../components/home/header"
-
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-
-import { filterByCategory, filterByPrice } from '../../../utils/product';
-import { CartContext, CartDispatchContext } from '../../../context/productContext';
 import axios from '../../../utils/axios'
-import React, { useContext, useState, useEffect } from 'react'
-
-import Swal from 'sweetalert2'
-
-
+import React, { useContext, useState, useEffect, useForm } from 'react'
 import { FaAlignJustify, FaDollarSign, FaShoppingCart, FaRegCalendarAlt, FaRegPlayCircle, FaQuestionCircle, FaEye } from 'react-icons/fa';
 var $ = require('jquery');
 import 'datatables.net';
 import 'datatables.net-bs4';
 
 
-export default function Dashboard() {
-    const [setCart, setPrices] = useContext(CartDispatchContext);
-    const [cart, prices] = useContext(CartContext);
+export default function Products() {
     const [product, setProduct] = useState([]);
-    const [events, setEvents] = useState([]);
-    const [rejectedEvents, setRejectedEvents] = useState([]);
     const [user, setUser] = useState(null);
     const [btn, setBtn] = useState(false);
-    const [productid, setProductId] = useState('');
-    const { register, handleSubmit, watch, control, reset, setValue, formState: { errors } } = useForm();
-    // const[events,setEvents] = useState([]);
-    // const[cancels,setCancels] = useState([]);
-    // const[totalevents,setTotalevents] = useState(0);
-    // const[cancelledevents,setCancelledevents] = useState(0);
-    // const[approvedevents,setApprovedevents] = useState(0);
-    // const[pendingevents,setPendingevents] = useState(0);
+    const [productid, setProductId] = useState(null);
+    // const { register, handleSubmit, watch, control, reset, setValue } = useForm();
 
+    function addReview(id) {
 
-    // const [cart, setCart] = useState([])
-    const router = useRouter()
-    const [event, setEvent] = useState([]);
-    const [id, setId] = useState([]);
-
-    function addReview(id){
-        if(btn){
-            setBtn(false)
-            setProductId('')
-        }
-        else{
-            setBtn(true)
-            setProductId(id)
-        }
+        setBtn(true)
+        setProductId(id)
+        // if(btn){
+        //     setBtn(false)
+        //     setProductId(id)
+        // }
+        // else{
+        //     setBtn(true)
+        //     setProductId(null)
+        // }
     }
 
-    const onSubmit = (formData) => {
-            formData.productid = productid
-            formData.userid = user.userid
-            console.log(formData)
-            axios.post(`/review`, formData).then((res) => {
-                const newReview = res.data.review
-                console.log(res)
-            }).catch((error) => {
-                console.log(error)
-            })
+    const handleSubmit = (formData) => {
+        e.preventDefault();
+        formData.productid = productid
+        formData.userid = user.userid
+        console.log(formData)
 
-            onClickCancel();
+        axios.post(`/review`, formData).then((res) => {
+            const newReview = res.data.review
+            console.log(res)
+            setBtn(false)
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
 
     useEffect(() => {
-        const user_ = JSON.parse(localStorage.getItem('user'))
-        if (user_) {
-            setUser(user_)
-        }
 
-        const table1 = () => {
-            $(function () {
-                $('#bookingsTable').DataTable({
-                    ordering: true,
-                    select: true,
-                    responsive: true,
-                    buttons: [
-                        'copy', 'excel', 'pdf'
-                    ]
-                });
-            });
-        }
-        
+        const user_ = JSON.parse(localStorage.getItem('user'))
+        // setUser(user_)
 
         const getProductPayment = () => {
             return (axios.get(`/productPayment`))
         }
 
         const getProducts = () => {
-            return (axios.get(`/products`))
+            return (axios.get(`/product`))
         }
 
         Promise.all([getProductPayment(), getProducts()]).then((res) => {
-            let purchases = res[0].data.payment;
+            let purchases = res[0].data.payments;
             let products = res[1].data.products;
-            purchases = purchases.filter(element => element.userid == user.userid);
+            console.log(res)
+            // purchases = purchases.filter(element => element.userid == user.userid);
             purchases.forEach(e => {
                 products.forEach(p => {
                     if (e.productid == p._id) {
@@ -110,27 +72,16 @@ export default function Dashboard() {
                     }
                 })
             })
-            setProduct(purchases);
-            console.log(purchases)
+
+            // setProduct(purchases)
+            // console.log(purchases)
+
+        }).catch((err) => {
+            console.log(err)
         })
 
+    },[])
 
-
-
-    }, [])
-
-    // const showEvent = (id) => {
-        // axios.get("/eventProvider").then((res)=>{
-        //   return(res.data)
-        // }).then(async (data)=>{
-        //   await axios.get(`/product/${data.productid}`).then((res)=>{
-        //     setProduct(res.data.product);
-        //   }).catch((error) => {
-        //     console.log(error)
-        //   })
-        // }).catch((error) => {
-        //   console.log(error)
-        // })
     return (
         <div class="site-wrap">
             <Header />
@@ -158,20 +109,16 @@ export default function Dashboard() {
                                 <table className='table' id="bookingsTable">
                                     <thead>
                                         <tr>
-                                            {/* {columns.map((c) => ( */}
-                                            {/* <th key={c.text} >{c.text}</th> */}
                                             <th>Product Name</th>
                                             <th>Description</th>
                                             <th>Price</th>
                                             <th>Pay Status</th>
                                             <th>Pay Date</th>
                                             <th>Action</th>
-                                            {/* ))} */}
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {/* {events.map((a) => ( */}
-                                        {events.map((item, i) => (
+                                        {product.map((item, i) => (
                                             <tr key={i}>
                                                 <td>{item.name}</td>
                                                 <td>{item.description}</td>
@@ -189,14 +136,14 @@ export default function Dashboard() {
                             <div class="row mb-5 border p-4 rounded">
                                 {btn && (
                                     <>
-                                    <form onSubmit={handleSubmit(onSubmit)} className='form' id='userform'>
-                                  <input className='form-control mb-4' type="text"
-                                  name='review' id='review' placeholder="your review" required/>
-                                <input className='form-control mb-4' type="number" min={0} max={5}
-                                  name='rating' id='rating' required/>
-                                  <button type="submit" className="btn">Save Review</button>
-                                  </form>
-                                  </>
+                                        <form onSubmit={(e) => { handleSubmit() }} className='form' id='userform'>
+                                            <input className='form-control mb-4' type="text"
+                                                name='review' id='review' placeholder="your review" required />
+                                            <input className='form-control mb-4' type="number" min={0} max={5}
+                                                name='rating' id='rating' required />
+                                            <button type="submit" className="btn">Save Review</button>
+                                        </form>
+                                    </>
                                 )}
                             </div>
                         </div>
