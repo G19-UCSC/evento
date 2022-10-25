@@ -62,7 +62,7 @@ export default function product() {
     let submitBtn;
 
     if (btn == 'create') {
-        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Add/Update Product </button>
+        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Add Product </button>
     }
     else if (btn == 'update') {
         submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Update Product </button>

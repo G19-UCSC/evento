@@ -52,7 +52,7 @@ export default function providerservice() {
     let createFormViewBtn;
 
     if (btn == 'null') {
-        createFormViewBtn = <button className="btn" onClick={e => onClickCreate()} id="createBtn"> <FaUserPlus /> Add/Update Service </button>
+        createFormViewBtn = <button className="btn" onClick={e => onClickCreate()} id="createBtn"> <FaUserPlus /> Add Service </button>
     }
     else {
         createFormViewBtn = <button className="btn" onClick={e => onClickCancel()}> <FaWindowClose /> Cancel </button>
