@@ -53,7 +53,7 @@ export default function product() {
     let createFormViewBtn;
 
     if (btn == 'null') {
-        createFormViewBtn = <button className="btn" onClick={e => onClickCreate()} id="createBtn"> <FaUserPlus /> Add/Update Product </button>
+        createFormViewBtn = <button className="btn" onClick={e => onClickCreate()} id="createBtn"> <FaUserPlus /> Add Product </button>
     }
     else {
         createFormViewBtn = <button className="btn" onClick={e => onClickCancel()}> <FaWindowClose /> Cancel </button>
@@ -62,7 +62,7 @@ export default function product() {
     let submitBtn;
 
     if (btn == 'create') {
-        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Add/Update Product </button>
+        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Add Product </button>
     }
     else if (btn == 'update') {
         submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Update Product </button>
@@ -343,8 +343,7 @@ export default function product() {
                                     <a href="./provider" class="h6 list-group-item"><FaAlignJustify color='black' fontSize="16px" padding-left='10' /><span class="p-4">Dashboard</span></a>
                                     <a href="#" class="h6 list-group-item active"><FaRegPlayCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Products</span></a>
                                     <a href="./providerservice" class="h6 list-group-item "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10' /><span class="p-4">Services</span></a>
-                                    <a href="./purchase" class="h6 list-group-item "><FaShoppingCart color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Purchases</span></a>
-                                    <a href="./servicebooking" class="h6 list-group-item "><FaDollarSign color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Bookings</span></a>
+                                    
                                     <a href="./providerevents" class="h6 list-group-item "><FaQuestionCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Events</span></a>
 
                                 </div>
