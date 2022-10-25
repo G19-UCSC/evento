@@ -58,6 +58,7 @@ app.use('/api/service', require('./routes/serviceRoutes'))
 app.use('/api/faq', require('./routes/faqRoutes'))
 app.use('/api/eventProvider', require('./routes/eventProviderRoutes'))
 app.use('/api/provider', require('./routes/providerRoutes'))
+app.use('/api/serviceBooking', require('./routes/serviceBookingRoutes'))
 
 app.post("/api/uploadAdmin",uploadAdmin.single('files'), uploadFile);
 function uploadFile(req,res){
