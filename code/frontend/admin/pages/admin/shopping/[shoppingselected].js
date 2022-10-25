@@ -41,9 +41,9 @@ export default function shoppingselected() {
         //     return (axios.get(`/product/`))
         // }
 
-        // const getService = () => {
-        //     return (axios.get(`/service/`))
-        // }
+        const getService = () => {
+            return (axios.get(`/service/`))
+        }
 
         Promise.all([getProduct(), getProductReview(), getProvider()]).then((res) => {
             let Product = res[0].data.product;
@@ -171,8 +171,67 @@ export default function shoppingselected() {
                                 </div>
                                 <div className='mb-4 col-lg-4' id="providerDetailsCard">
                                     <div className='card shadow md-4'>
-                                        <div className='card-header'>
+                                        <div className='card-header container-fluid'>
                                             <b>Provider</b>
+                                            {reviewDetails.map((a, i) => (
+
+                                                <tr id={a._id} key={i}>
+                                                    <td >
+                                                        {(a.rating == 5) && (
+                                                            <>
+                                                                <FaStar color="yellow" />
+                                                                <FaStar color="yellow" />
+                                                                <FaStar color="yellow" />
+                                                                <FaStar color="yellow" />
+                                                                <FaStar color="yellow" />
+                                                            </>
+                                                        )}
+                                                        {(a.rating == 4) && (
+                                                            <>
+                                                                <FaStar color="yellow" />
+                                                                <FaStar color="yellow" />
+                                                                <FaStar color="yellow" />
+                                                                <FaStar color="yellow" />
+                                                                <FaStar />
+                                                            </>
+                                                        )}
+                                                        {(a.rating == 3) && (
+                                                            <>
+                                                                <FaStar color="yellow" />
+                                                                <FaStar color="yellow" />
+                                                                <FaStar color="yellow" />
+                                                                <FaStar />
+                                                                <FaStar />
+                                                            </>
+                                                        )}
+                                                        {(a.rating == 2) && (
+                                                            <>
+                                                                <FaStar color="yellow" />
+                                                                <FaStar color="yellow" />
+                                                                <FaStar />
+                                                                <FaStar />
+                                                                <FaStar />
+                                                            </>
+                                                        )}
+                                                        {(a.rating == 1) && (
+                                                            <>
+                                                                <FaStar color="yellow" />
+                                                                <FaStar />
+                                                                <FaStar />
+                                                                <FaStar />
+                                                                <FaStar />
+                                                            </>
+                                                        )}
+                                                        {(a.rating == 0 || a.rating == null) && (
+                                                            <>
+                                                                No Ratings
+                                                            </>
+                                                        )}
+                                                    </td>
+
+                                                </tr>
+                                            ))}
+
                                         </div>
                                         <div className="card-body">
                                             <p>Provider Name and description</p>
@@ -180,7 +239,7 @@ export default function shoppingselected() {
                                             <p>Joined On 2022-05-18</p>
 
                                         </div>
-                                        <div className='card-header'>
+                                        {/* <div className='card-header'>
                                             <b>Review</b>
                                         </div>
                                         <div className="card-body">
@@ -198,7 +257,7 @@ export default function shoppingselected() {
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                                 <div className="w-100">
