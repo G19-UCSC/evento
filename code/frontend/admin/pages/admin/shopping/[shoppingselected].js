@@ -13,6 +13,7 @@ export default function shoppingselected() {
     const { shoppingselected } = router.query
     const [productDetails, setProductDetails] = useState([]);
     const [reviewDetails, setReviewDetails] = useState([]);
+    const [ProviderDetails, setProviderDetails] = useState([]);
 
     const columns = [{
         text: 'Customer'
@@ -37,21 +38,57 @@ export default function shoppingselected() {
             return (axios.get(`/provider/`))
         }
 
-        // const getProduct = () => {
-        //     return (axios.get(`/product/`))
-        // }
-
-        const getService = () => {
-            return (axios.get(`/service/`))
+        const getAllProduct = () => {
+            return (axios.get(`/product/`))
         }
 
-        Promise.all([getProduct(), getProductReview(), getProvider()]).then((res) => {
+        const getService = () => {
+            return (axios.get(`/service/${shoppingselected}`))
+        }
+
+        Promise.all([getProduct(), getProductReview(), getProvider(), getService(), getAllProduct()]).then((res) => {
             let Product = res[0].data.product;
             let allReviews = res[1].data.reviews
             let Reviews = allReviews.filter(element => element.productid == shoppingselected);
-            let allProviders = res[2].data.reviews;
-            // let Provider = allReviews.filter(element => element.userid == allProviders.userid);
-            setProductDetails(Product)
+            let allProviders = res[2].data.providers;
+            let Service = res[3].data.service;
+            let p = res[4].data.products;
+            // let allProviders=res[4].data.providers
+            let Provider
+            if (Product == null) {
+                setProductDetails(Service)
+                allProviders.forEach(e => {
+                    if (e.userid == Service.userid) {
+                        setProviderDetails(e)
+                        Provider = e
+                    }
+
+                });
+            } else if (Service == null) {
+                setProductDetails(Product)
+                allProviders.forEach(e => {
+                    if (e.userid == Product.userid) {
+                        setProviderDetails(e)
+                        Provider = e
+                    }
+
+                });
+            }
+            // Provider.rating = 0
+            // // console.log('Provider', Provider)
+            // let selectedproducts = p.filter(p => p.userid == Provider.userid)
+            // let selectedreviews = allReviews.filter(e => e.productid == selectedproducts._id)
+            // console.log('selectedreviews', selectedreviews)
+
+
+
+            // selectedreviews.forEach(sr => {
+            //     console.log('sr.rating', sr.rating);
+            //     console.log('sr.length', selectedreviews.length);
+            //     Provider.rating = (Provider.rating + selectedreviews.rating) / selectedreviews.length
+            //     // x = e.rating
+            // });
+            Provider.rating = 3
             setReviewDetails(Reviews)
             console.log('allReviews', allReviews)
             console.log('Reviews', Reviews)
@@ -62,6 +99,8 @@ export default function shoppingselected() {
 
     }, [shoppingselected])
     // console.log(reviewDetails);
+    console.log('ProviderDetails', ProviderDetails);
+
     return (
         <>
             <div id="wrapper">
@@ -73,7 +112,7 @@ export default function shoppingselected() {
                             <div className="d-sm-flex align-items-center justify-content-between mb-4">
                                 {/* <h1 className="h3 mb-0 text-gray-800">{eventDetails.title + "-" + userDetails.firstname +
                                     " " + userDetails.lastname}</h1> */}
-                                <h1 className="h3 mb-0 text-gray-800">{productDetails.name} - Provider name</h1>
+                                <h1 className="h3 mb-0 text-gray-800">{productDetails.name} - {ProviderDetails.businessName}</h1>
                                 {/* <button className="btn btn-primary"> Generate Report </button> */}
                             </div>
                             <div className="row container-fluid">
@@ -171,93 +210,66 @@ export default function shoppingselected() {
                                 </div>
                                 <div className='mb-4 col-lg-4' id="providerDetailsCard">
                                     <div className='card shadow md-4'>
-                                        <div className='card-header container-fluid'>
+                                        <div className='card-header'>
                                             <b>Provider</b>
-                                            {reviewDetails.map((a, i) => (
-
-                                                <tr id={a._id} key={i}>
-                                                    <td >
-                                                        {(a.rating == 5) && (
-                                                            <>
-                                                                <FaStar color="yellow" />
-                                                                <FaStar color="yellow" />
-                                                                <FaStar color="yellow" />
-                                                                <FaStar color="yellow" />
-                                                                <FaStar color="yellow" />
-                                                            </>
-                                                        )}
-                                                        {(a.rating == 4) && (
-                                                            <>
-                                                                <FaStar color="yellow" />
-                                                                <FaStar color="yellow" />
-                                                                <FaStar color="yellow" />
-                                                                <FaStar color="yellow" />
-                                                                <FaStar />
-                                                            </>
-                                                        )}
-                                                        {(a.rating == 3) && (
-                                                            <>
-                                                                <FaStar color="yellow" />
-                                                                <FaStar color="yellow" />
-                                                                <FaStar color="yellow" />
-                                                                <FaStar />
-                                                                <FaStar />
-                                                            </>
-                                                        )}
-                                                        {(a.rating == 2) && (
-                                                            <>
-                                                                <FaStar color="yellow" />
-                                                                <FaStar color="yellow" />
-                                                                <FaStar />
-                                                                <FaStar />
-                                                                <FaStar />
-                                                            </>
-                                                        )}
-                                                        {(a.rating == 1) && (
-                                                            <>
-                                                                <FaStar color="yellow" />
-                                                                <FaStar />
-                                                                <FaStar />
-                                                                <FaStar />
-                                                                <FaStar />
-                                                            </>
-                                                        )}
-                                                        {(a.rating == 0 || a.rating == null) && (
-                                                            <>
-                                                                No Ratings
-                                                            </>
-                                                        )}
-                                                    </td>
-
-                                                </tr>
-                                            ))}
-
+                                            <div>{(ProviderDetails.rating == 5) && (
+                                                <>
+                                                    <FaStar color="yellow" />
+                                                    <FaStar color="yellow" />
+                                                    <FaStar color="yellow" />
+                                                    <FaStar color="yellow" />
+                                                    <FaStar color="yellow" />
+                                                </>
+                                            )}
+                                                {((ProviderDetails.rating >= 4) && (ProviderDetails.rating < 5)) && (
+                                                    <>
+                                                        <FaStar color="yellow" />
+                                                        <FaStar color="yellow" />
+                                                        <FaStar color="yellow" />
+                                                        <FaStar color="yellow" />
+                                                        <FaStar />
+                                                    </>
+                                                )}
+                                                {((ProviderDetails.rating >= 3) && (ProviderDetails.rating < 4)) && (
+                                                    <>
+                                                        <FaStar color="yellow" />
+                                                        <FaStar color="yellow" />
+                                                        <FaStar color="yellow" />
+                                                        <FaStar />
+                                                        <FaStar />
+                                                    </>
+                                                )}
+                                                {((ProviderDetails.rating >= 2) && (ProviderDetails.rating < 3)) && (
+                                                    <>
+                                                        <FaStar color="yellow" />
+                                                        <FaStar color="yellow" />
+                                                        <FaStar />
+                                                        <FaStar />
+                                                        <FaStar />
+                                                    </>
+                                                )}
+                                                {((ProviderDetails.rating >= 1) && (ProviderDetails.rating < 2)) && (
+                                                    <>
+                                                        <FaStar color="yellow" />
+                                                        <FaStar />
+                                                        <FaStar />
+                                                        <FaStar />
+                                                        <FaStar />
+                                                    </>
+                                                )}
+                                                {((ProviderDetails.rating >= 0 && ProviderDetails.rating < 1) || ProviderDetails.rating == null) && (
+                                                    <>
+                                                        No Ratings
+                                                    </>
+                                                )}</div>
                                         </div>
                                         <div className="card-body">
-                                            <p>Provider Name and description</p>
+                                            <p>{ProviderDetails.businessName}{' '}{ProviderDetails.location}</p>
                                             {/* <p>{eventDetails.title}</p> */}
-                                            <p>Joined On 2022-05-18</p>
+                                            <p>Joined On {ProviderDetails.createdAt}</p>
 
                                         </div>
-                                        {/* <div className='card-header'>
-                                            <b>Review</b>
-                                        </div>
-                                        <div className="card-body">
-                                            <table className="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <th>Comment</th>
-                                                        <th>Rating</th>
 
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Comment goes here</td>
-                                                        <td><FaStar /><FaStar /><FaStar /><FaStar /><FaStar /></td>
-
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div> */}
                                     </div>
                                 </div>
                                 <div className="w-100">
