@@ -47,6 +47,8 @@ const Basic = () => {
         push('/admin')
       } else if (res.data[0].role === 'Customer') {
         push('/customer')
+      } else if (res.data[0],role === 'Staff') {
+        push('/staff')
       }
       // push({pathname:'/signup/otp', query:{otp:'hello',firstname:formData.firstname, lastname:formData.lastname,email:formData.email}},'/signup/otp')
       // push({pathname:'/signup/creds', query:{userid:res.data.user._userid}},'/signup/creds')

@@ -127,7 +127,7 @@ export default function product() {
         fileData.append("name", files[0].name)
         fileData.append("files", files[0]);
         fileData.append("filename", Date.now() + files[0].name)
-        path = Date.now() + files[0].name
+        path = '/uploads/' + Date.now() + "-" + files[0].name
         for (var key of fileData.entries()) {
             console.log(key[0] + ', ' + key[1])
         }
@@ -142,7 +142,6 @@ export default function product() {
         axios.post(`/uploadPortal`, fileData).then((res) => {
             console.log(res)
             setImgportal(res.data.filename)
-            path = res.data.filename
             console.log(path)
         }).catch((err) => {
             console.log(err)
@@ -198,10 +197,11 @@ export default function product() {
             return axios.get("/product");
         }
 
-
         Promise.all([getProducts()]).then((res) => {
+            let products = res[0].data.products;
+            products = products.filter(element => element.userid == user_.userid)
             console.log(res)
-            setProducts(res[0].data.products);
+            setProducts(products);
             table();
 
         }).catch((error) => {
@@ -258,7 +258,7 @@ export default function product() {
                                                         {products.map((a) => (
                                                             <tr id={a._id} key={a._id}>
                                                                 <td>
-                                                                    <Image src={'/uploads/'+a.image_path} width="40px" height="40px" /> <br />
+                                                                    <img src={a.image_path} width="40px" height="40px" /> <br />
                                                                     {a.name}</td>
                                                                 <td>{a.description}</td>
                                                                 <td>{a.price}</td>

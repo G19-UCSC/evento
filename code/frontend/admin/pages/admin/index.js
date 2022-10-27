@@ -75,7 +75,7 @@ const dashboard = () => {
         let pending = all.filter(element => element.ProviderPayStatus == "Pending")
         let payment = 0;
         pending.forEach(p => {
-            payment += (p.price - p.price * p.commission)
+            payment += (p.price - p.price * p.commission/100)
         })
         return payment
     }

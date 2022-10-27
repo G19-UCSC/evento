@@ -22,6 +22,7 @@ export default function providerservice() {
     const [update, setUpdate] = useState('')
     const [services, setServices] = useState([])
     const [rservices, setRservices] = useState([])
+    const [user, setUser] = useState([]);
     const { register, handleSubmit, watch, control, reset, setValue, formState: { errors } } = useForm();
    
 
@@ -148,6 +149,10 @@ export default function providerservice() {
     }
 
     useEffect(() => {
+
+        const user_ = JSON.parse(localStorage.getItem('user'))
+        setUser(user_);
+
         const table = () => {
             $(function () {
                 $('#servicesTable').DataTable({
@@ -168,7 +173,8 @@ export default function providerservice() {
 
         Promise.all([getServices()]).then((res) => {
             console.log(res)
-            setServices(res[0].data.service);
+            let service = res[0].data.service.filter(element => element.userid == user_.userid)
+            setServices(service);
             { /*table();*/ }
         }).catch((error) => {
             console.log(error)

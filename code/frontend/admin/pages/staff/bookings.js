@@ -77,14 +77,16 @@ export default function account() {
                         users.forEach(u => {
                             if (e.userid == u._userid) {
                                 e.userName = u.firstname + " " + u.lastname;
-                                setevents(event => [...event, e]);
+                                console.log(e.userName)
+                                // setevents(event => [...event, e]);
                             }
                         })
                     }
 
                 });
             });
-            // setevents(events)
+            console.log(users)
+            setevents(events)
             // console.log('eventstaff', eventstaff);
             // console.log('selectedevents', selectedevents);
 
