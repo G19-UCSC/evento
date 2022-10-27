@@ -31,10 +31,9 @@ export default function Product() {
 
   const findElementByProductId = (arr, id) => arr.filter(element => element.productid == id);
   const findElementByUserId = (a, b) => b.filter(element => element.userid == b._id)
-  const findAverageRating = (arr) => Math.round(arr.reduce((total, next) => total + next.rating, 0) / 5)
+  const findAverageRating = (arr) => Math.round(Math.round(arr.reduce((total, next) => total + next.rating, 0) / 5) / 5)
   const removeElementById = (arr, id) => arr.filter(element => element._id !== id);
 
-  const changeReview = (newrating) =>   setIsstar(newrating)
   const onSubmit = () => {
     axios.post(`/review`,{userid:user.userid, productid:product._id, rating:isStar, review:review}).then((res)=>{
 setReviews([...reviews,res.data.review.res])
@@ -61,7 +60,7 @@ console.log(users)
 
   axios.get("/review").then((res) => {
     setReviews(findElementByProductId(res.data.reviews,product._id))
-    setTreviews(findAverageRating(findElementByProductId(res.data.reviews,product._id)))
+    setTreviews(3)
     console.log((findAverageRating(findElementByProductId(res.data.reviews,product._id))))
     setReviews(res.data.reviews)
   }).catch((error) => {
@@ -118,6 +117,7 @@ const handleClick = (item) => {
 
             </div>
             <div>
+            <div>
             <p><a  class="buy-now btn btn-sm btn-primary"  onClick={() => handleClick(product)}>Add To Cart</a></p>
             
             
@@ -157,6 +157,8 @@ const handleClick = (item) => {
         </div>
         
         <br />
+        
+        <br />
        
         <div class="row">
           <div class="col-md-12">
@@ -175,7 +177,8 @@ const handleClick = (item) => {
                 </div>
               </div>
             ))} */}
-          
+            </div>
+
             <div class="row">
                         <div class="col-md-8">
                             {reviews.map((item, i) => (
@@ -193,9 +196,7 @@ const handleClick = (item) => {
 
                         </div>
 
-                    </div>
-
-              
+            </div>
 
             </div>
           </div>

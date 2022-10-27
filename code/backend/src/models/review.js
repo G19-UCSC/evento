@@ -31,7 +31,7 @@ const REVIEW = db.define(
     }
 );
 
-REVIEW.sync()
+REVIEW.sync({force:true})
 
 // REVIEW.sync().then((res) => {
 //     REVIEW.create({ 
