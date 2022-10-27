@@ -60,7 +60,7 @@ export default function cashflow() {
 
     function payPurchaseProvider(id) {
         console.log(id);
-        let data = purchases.filter(element => element._id == id)
+        let data = purchases.filter(element => element._id == id)[0]
         data.ProviderPayStatus = "Paid"
         data.ProviderPayDate = Date();
         console.log(data)
@@ -78,7 +78,7 @@ export default function cashflow() {
 
     function payServiceProvider(id) {
         console.log(id);
-        let data = bookings.filter(element => element._id == id)
+        let data = bookings.filter(element => element._id == id)[0];
         data.ProviderPayStatus = "Paid"
         data.ProviderPayDate = Date();
         console.log(data)
@@ -211,11 +211,11 @@ export default function cashflow() {
                                                                 <td>{a.firstname + " " + a.lastname}</td>
                                                                 <td>{(a.purchaseDate)}</td>
                                                                 <td>{(a.eventid != null) ? "Event" : "Individual Purchase"}</td>
-                                                                <td><p>{(a.CustPayStatus == "Pending") && <FaSpinner color="blue" />}
-                                                                    {(a.CustPayStatus == "Received") &&<FaCheckCircle color="green" />}
+                                                                <td><p>{(a.CusPayStatus == "Pending") && <FaSpinner color="blue" />}
+                                                                    {(a.CusPayStatus == "Received") &&<FaCheckCircle color="green" />}
                                                                     {" " + a.price}
                                                                     </p>
-                                                                    <p>{(a.CustPayStatus == "Paid") && "Paid On : " + a.CustPayDate}
+                                                                    <p>{(a.CusPayStatus == "Paid") && "Paid On : " + a.CustPayDate}
                                                                     </p>
                                                                 </td>
                                                                 <td><p>{(a.ProviderPayStatus == "Pending") && <FaSpinner color="blue" />}
@@ -226,7 +226,7 @@ export default function cashflow() {
                                                                     </p>
                                                                 </td>
                                                                 <td>
-                                                                    <button className='btn' onClick={(e) => { payProvider(a._id) }}>
+                                                                    <button className='btn' onClick={(e) => { payPurchaseProvider(a._id) }}>
                                                                         Pay
                                                                     </button>
                                                                 </td>
@@ -260,13 +260,13 @@ export default function cashflow() {
                                                             <td>{a.firstname + " " + a.lastname}</td>
                                                             <td>{(a.timeslot).split('T')[0]}</td>
                                                             <td>{(a.eventid != null) ? "Event" : "Individual Service Booking"}</td>
-                                                            <td><p>{(a.CustPayStatus == "Pending") && <FaSpinner color="blue" />}
-                                                                {(a.CustPayStatus == "Received") &&<FaCheckCircle color="green" />}
+                                                            <td><p>{(a.CusPayStatus == "Pending") && <FaSpinner color="blue" />}
+                                                                {(a.CusPayStatus == "Received") &&<FaCheckCircle color="green" />}
                                                                 {(a.Status == "Cancelled") &&<FaTimesCircle color="red" />}
                                                                 {(a.Status != "Cancelled") && " " + a.price}
                                                                 {(a.Status == "Cancelled") && "Service Cancelled"}
                                                                 </p>
-                                                                <p>{(a.CustPayStatus == "Paid") && "Paid On : " + a.CustPayDate}
+                                                                <p>{(a.CusPayStatus == "Paid") && "Paid On : " + a.CustPayDate}
                                                                 </p>
                                                             </td>
                                                             <td><p>{(a.ProviderPayStatus == "Pending") && <FaSpinner color="blue" />}
@@ -279,7 +279,7 @@ export default function cashflow() {
                                                                 </p>
                                                             </td>
                                                             <td>
-                                                                <button className='btn' onClick={(e) => { payProvider(a._id) }}
+                                                                <button className='btn' onClick={(e) => { payServiceProvider(a._id) }}
                                                                 disabled={(a.Status == "Cancelled")}>
                                                                     Pay
                                                                 </button>

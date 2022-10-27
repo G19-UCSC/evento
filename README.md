@@ -135,14 +135,9 @@ User visit public and Home page
 
 User can sign in or sign up
 
-## Standard
-
-[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
-
 ## BUGs or comments
 
 [Create new Issues](https://github.com/G19-UCSC/evento/issues) (preferred)
-
 
 ## Author
 [G19-UCSC](https://github.com/G19-UCSC)

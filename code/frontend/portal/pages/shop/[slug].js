@@ -178,9 +178,7 @@ const handleClick = (item) => {
 
                         </div>
 
-                    </div>
-
-              
+            </div>
 
             </div>
           </div>

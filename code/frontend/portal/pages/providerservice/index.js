@@ -22,6 +22,7 @@ export default function providerservice() {
     const [update, setUpdate] = useState('')
     const [services, setServices] = useState([])
     const [rservices, setRservices] = useState([])
+    const [user, setUser] = useState([]);
     const { register, handleSubmit, watch, control, reset, setValue, formState: { errors } } = useForm();
    
 
@@ -52,7 +53,7 @@ export default function providerservice() {
     let createFormViewBtn;
 
     if (btn == 'null') {
-        createFormViewBtn = <button className="btn" onClick={e => onClickCreate()} id="createBtn"> <FaUserPlus /> Add/Update Service </button>
+        createFormViewBtn = <button className="btn" onClick={e => onClickCreate()} id="createBtn"> <FaUserPlus /> Add Service </button>
     }
     else {
         createFormViewBtn = <button className="btn" onClick={e => onClickCancel()}> <FaWindowClose /> Cancel </button>
@@ -61,7 +62,7 @@ export default function providerservice() {
     let submitBtn;
 
     if (btn == 'create') {
-        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Add/Update Service </button>
+        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Add Service </button>
     }
     else if (btn == 'update') {
         submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Update Service </button>
@@ -148,6 +149,10 @@ export default function providerservice() {
     }
 
     useEffect(() => {
+
+        const user_ = JSON.parse(localStorage.getItem('user'))
+        setUser(user_);
+
         const table = () => {
             $(function () {
                 $('#servicesTable').DataTable({
@@ -168,7 +173,8 @@ export default function providerservice() {
 
         Promise.all([getServices()]).then((res) => {
             console.log(res)
-            setServices(res[0].data.service);
+            let service = res[0].data.service.filter(element => element.userid == user_.userid)
+            setServices(service);
             { /*table();*/ }
         }).catch((error) => {
             console.log(error)
@@ -305,8 +311,8 @@ export default function providerservice() {
                                     <a href="./provider" class="h6 list-group-item"><FaAlignJustify color='black' fontSize="16px" padding-left='10' /><span class="p-4">Dashboard</span></a>
                                     <a href="./product" class="h6 list-group-item "><FaRegPlayCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Products</span></a>
                                     <a href="#" class="h6 list-group-item active "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10' /><span class="p-4">Services</span></a>
-                                    <a href="./purchase" class="h6 list-group-item "><FaShoppingCart color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Purchases</span></a>
-                                    <a href="./servicebooking" class="h6 list-group-item "><FaDollarSign color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Bookings</span></a>
+                                   
+                                    
                                     <a href="./providerevents" class="h6 list-group-item "><FaQuestionCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Events</span></a>
 
                                 </div>

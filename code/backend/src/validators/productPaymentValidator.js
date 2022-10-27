@@ -25,16 +25,16 @@ const getProductPayment= async (req) => {
 const setProductPayment = async (req) => {
 
     const attributes = {
-        userid: req.params.userid,
-        productid: req.params.productid,
-        quantity: req.params.quantity,
-        purchaseDate: req.params.purchaseDate,
-        price: req.params.price,
-        commission: req.params.commission,
-        CusPayStatus: req.params.CusPayStatus,
-        CusPayDate: req.params.CusPayDate,
-        ProviderPayStatus: req.params.ProviderPayStatus,
-        ProviderPayDate: req.params.ProviderPayDate,
+        userid: req.body.userid,
+        productid: req.body.productid,
+        quantity: req.body.quantity,
+        purchaseDate: req.body.purchaseDate,
+        price: req.body.price,
+        commission: req.body.commission,
+        CusPayStatus: req.body.CusPayStatus,
+        CusPayDate: req.body.CusPayDate,
+        ProviderPayStatus: req.body.ProviderPayStatus,
+        ProviderPayDate: req.body.ProviderPayDate,
     }
 
     return validate(setProductPaymentSchema(), attributes);
@@ -44,16 +44,16 @@ const updateProductPayment= async (req) => {
 
     const attributes = {
         id: req.params.id,
-        userid: req.params.userid,
-        productid: req.params.productid,
-        quantity: req.params.quantity,
-        purchaseDate: req.params.purchaseDate,
-        price: req.params.price,
-        commission: req.params.commission,
-        CusPayStatus: req.params.CusPayStatus,
-        CusPayDate: req.params.CusPayDate,
-        ProviderPayStatus: req.params.ProviderPayStatus,
-        ProviderPayDate: req.params.ProviderPayDate,
+        userid: req.body.userid,
+        productid: req.body.productid,
+        quantity: req.body.quantity,
+        purchaseDate: req.body.purchaseDate,
+        price: req.body.price,
+        commission: req.body.commission,
+        CusPayStatus: req.body.CusPayStatus,
+        CusPayDate: req.body.CusPayDate,
+        ProviderPayStatus: req.body.ProviderPayStatus,
+        ProviderPayDate: req.body.ProviderPayDate,
     }
 
     return validate(updateProductPaymentSchema(), attributes);
