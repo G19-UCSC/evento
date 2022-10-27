@@ -17,6 +17,7 @@ export default function Product() {
 
   const [products,setProducts] = useState([])
   const [services,setServices] = useState([])
+ 
   const [category,setCategory] = useState('wash')
 
   const handleClick = (item) => {
@@ -81,17 +82,24 @@ export default function Product() {
         eventProvider.forEach(e=>{
           products.forEach(p=>{
             if(e.productid == p._id){
+              console.log(p)
+              if(e.status=="Accepted"){
+                setCart([...cart, p])
+              }
+              
               e.productName = p.name;
               e.description = p.description;
               e.price = p.price;
               e.category = p.category;
               e.image_path = p.image_path
+              
             }
           })
         })
         eventProvider.forEach(e=>{
             services.forEach(p=>{
               if(e.productid == p._id){
+                
                 e.productName = p.name;
                 e.description = p.description;
                 e.price = p.price;
@@ -187,19 +195,21 @@ export default function Product() {
                 <th class="h6">Product</th>
                 <th class="h6">Unit Price</th>
                 <th class="h6">Quantity</th>
-                
-                <th class="h6">Remove</th>
+                <th class="h6">Status</th>
+                <th class="h6">Action</th>
               </tr>
             </thead>
             <tbody>
             {products.map((item) => (
+              // setCart([...cart, item]),
+              // console.log(cart),
               <tr>
               
                 <td class="product-thumbnail">
                   <img src={item.image_path} layout='fill' alt="Image" class="img-fluid" />
                 </td>
                 <td class="product-name">
-                  <h2 class="h5 text-black">{item.name}</h2>
+                  <h2 class="h5 text-black">{item.productName}</h2>
                 </td>
                 <td>{item.price}</td>
                 <td class="product-name">
@@ -221,8 +231,12 @@ export default function Product() {
                   
 
                 </td>
-                
-                <td><button onClick={() => handleRemove(item._id)} class="btn btn-primary btn-sm">X</button></td>
+                <td>{item.status}</td>
+                { item.status=="Rejected" ? (
+                <td><button onClick={() => handleRemove(item._id)} class="btn btn-primary btn-sm">Suggest</button></td>
+                ):(
+                  <td><button class="btn btn-primary btn-sm"></button>Done</td>
+                )}
               </tr>
               ))}
             </tbody>
@@ -291,7 +305,7 @@ export default function Product() {
                           <a href="shop-single.html"><img src={item.image_path} style={{objectFit: "cover",height: "250px"}} layout='fill' alt="Image placeholder" class="img-fluid" /></a>
                         </figure>
                         <div class="block-4-text p-4">
-                          <h3><a href="shop-single.html">{item.name}</a></h3>
+                          <h3><a href="shop-single.html">{item.productName}</a></h3>
                           <p class="mb-0">{item.description}</p>
                           <p class="text-primary font-weight-bold">${item.price}</p>
                         </div>
