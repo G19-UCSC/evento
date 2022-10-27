@@ -112,31 +112,13 @@ export default function Checkout() {
 
    const checkout = () =>{
     Swal.fire({
-      title: 'Enter Card Details',
-      html: `
-      <div class="icon-container">
-      <i class="fa fa-cc-visa" style="color:navy;"></i>
-      <i class="fa fa-cc-amex" style="color:blue;"></i>
-      <i class="fa fa-cc-mastercard" style="color:red;"></i>
-      <i class="fa fa-cc-discover" style="color:orange;"></i>
-    </div>
-      <input type="text" id="login" class="swal2-input" placeholder="Username">
-      <input type="password" id="password" class="swal2-input" placeholder="Password">`,
-      confirmButtonText: 'Sign in',
-      focusConfirm: false,
-      preConfirm: () => {
-        const login = Swal.getPopup().querySelector('#login').value
-        const password = Swal.getPopup().querySelector('#password').value
-        if (!login || !password) {
-          Swal.showValidationMessage(`Please enter login and password`)
-        }
-        return { login: login, password: password }
-      }
-    }).then((result) => {
-      Swal.fire(`
-        Login: ${result.value.login}
-        Password: ${result.value.password}
-      `.trim())
+      icon:'success',
+      title: `Checkout is successfull!`,
+      iconColor: "green",
+      confirmButtonColor: "green",
+    
+}).catch((error) => {
+      console.log(error)
     })
     
    }
@@ -309,7 +291,7 @@ export default function Checkout() {
                 <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control" placeholder="Write your notes here..."></textarea>
               </div> */}
 
-<div class="form-group">
+        <div class="row">
           <div class="col-md-6 mb-3">
             <label for="cc-name">Name on card</label>
             <input type="text" class="form-control" id="cc-name" placeholder="" required="" />
@@ -323,6 +305,22 @@ export default function Checkout() {
             <input type="text" class="form-control" id="cc-number" placeholder="" required="" />
             <div class="invalid-feedback">
               Credit card number is required
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <label for="cc-expiration">Expiration</label>
+            <input type="text" class="form-control" id="cc-expiration" placeholder="" required="" />
+            <div class="invalid-feedback">
+              Expiration date required
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="cc-cvv">CVV</label>
+            <input type="text" class="form-control" id="cc-cvv" placeholder="" required="" />
+            <div class="invalid-feedback">
+              Security code required
             </div>
           </div>
         </div>
