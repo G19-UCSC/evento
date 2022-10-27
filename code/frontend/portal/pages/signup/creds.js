@@ -92,7 +92,7 @@ const Creds = () => {
         <div className="form-group mt-3">
           <label>Confirm Password</label>
           <input
-            type="cpassword"
+            type="password"
             className="form-control mt-1"
             placeholder="Enter confirm password"
             {...register("cpassword", { required: true })}
@@ -103,7 +103,6 @@ const Creds = () => {
           <select className="form-control" {...register("role", { required: true })}>
               <option value="Customer">Customer</option>
               <option value="Provider">Provider</option>
-              <option value="CorpCustomer">Cooperate Customer</option>
           </select>
         </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
         <div className="d-grid gap-2 mt-3">
