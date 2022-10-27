@@ -56,6 +56,7 @@ export default function Cart() {
     if (cart_) {
         setCart(cart_)
     }
+    handlePrice();
   });
 
   const checkout = () => {
@@ -65,6 +66,7 @@ export default function Cart() {
     cart.map((item) => (discount += item.amount * (item.price  * (item.discount)/100)));
     localStorage.setItem('price',ans)
     localStorage.setItem('discount',discount)
+    localStorage.setItem('cart',cart)
     router.push('/checkout')
 }
 

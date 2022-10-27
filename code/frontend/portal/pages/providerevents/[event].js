@@ -57,7 +57,7 @@ export default function providerevent() {
                 console.log(err)
             })
         }
-        
+
     }
 
 
@@ -71,7 +71,7 @@ export default function providerevent() {
 
         const getEventProviders = () => {
             return axios.get("/eventprovider/");
-        } 
+        }
 
         const getProducts = () => {
             return axios.get("/product/")
@@ -79,7 +79,7 @@ export default function providerevent() {
 
         const getServices = () => {
             return axios.get("/service/")
-		}
+        }
 
 
         Promise.all([getEvent(), getEventProviders(), getProducts(), getServices()]).then((res) => {
@@ -92,6 +92,7 @@ export default function providerevent() {
             console.log(res)
             let eventproviders = res[1].data.eventProviders.filter(element => element.providerid == user_.userid);
             eventproviders = eventproviders.filter(element => element.eventid == event);
+            console.log(eventproviders)
             let products = res[2].data.products;
             let services = res[3].data.services;
             eventproviders.forEach(e => {
@@ -173,7 +174,7 @@ export default function providerevent() {
                                                         <td>
                                                             {e.productname}</td>
                                                         <td>
-                                                            <button class="btn" onClick={respondtEvent(e._id,"Accepted")}>Accept</button>
+                                                            <button class="btn" onClick={respondtEvent(e._id, "Accepted")}>Accept</button>
                                                             <button class="btn" onClick={respondtEvent(e._id, "Rejected")}>Reject</button>
                                                         </td>
                                                     </tr>
@@ -183,21 +184,20 @@ export default function providerevent() {
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-md-3 order-1 mb-5 mb-md-0">
+                        </div>
+                        <div class="col-md-3 order-1 mb-5 mb-md-0">
 
                                 <div class="border p-4 rounded mb-4">
-                                    <a href="./provider" class="h6 list-group-item active"><FaAlignJustify color='black' fontSize="16px" padding-left='10' /><span class="p-4">Dashboard</span></a>
-                                    <a href="#" class="h6 list-group-item "><FaRegPlayCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Products</span></a>
-                                    <a href="#" class="h6 list-group-item "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10' /><span class="p-4">Services</span></a>
-                                    <a href="#" class="h6 list-group-item "><FaShoppingCart color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Purchases</span></a>
-                                    <a href="#" class="h6 list-group-item "><FaDollarSign color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Bookings</span></a>
-                                    <a href="#" class="h6 list-group-item "><FaQuestionCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Events</span></a>
+                                    <a href="./provider" class="h6 list-group-item"><FaAlignJustify color='black' fontSize="16px" padding-left='10' /><span class="p-4">Dashboard</span></a>
+                                    <a href="./product" class="h6 list-group-item "><FaRegPlayCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Products</span></a>
+                                    <a href="./providerservice" class="h6 list-group-item "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10' /><span class="p-4">Services</span></a>
+
+
+                                    <a href="#" class="h6 list-group-item active"><FaQuestionCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Events</span></a>
 
                                 </div>
 
                             </div>
-                        </div>
                     </div>
 
                 </div>

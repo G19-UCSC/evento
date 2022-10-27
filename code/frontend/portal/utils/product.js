@@ -22,8 +22,17 @@ import axios from '../utils/axios'
         
     });
   }
+
+  const filterBySamePrice = (products,price) => {
+
+    return products.filter(function(el){
+      return (price - 1000) <=el.price && el.price <= (price + 1000);
+        
+    });
+  }
+
 module.exports = { 
     filterByCategory, 
-    filterByPrice
-    
+    filterByPrice,
+    filterBySamePrice
 }

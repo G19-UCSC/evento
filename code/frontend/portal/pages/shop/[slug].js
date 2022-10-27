@@ -14,6 +14,7 @@ export default function Product() {
   const router = useRouter()
   const [setCart, setPrices] = useContext(CartDispatchContext);
   const [cart,prices]= useContext(CartContext);
+  const slug = router.query.slug
 
   const [product,setProduct] = useState({})
   const [productAll,setProductAll] = useState({})
@@ -22,18 +23,37 @@ export default function Product() {
   const [reviewsAll, setReviewsAll] = useState([])
   const [treviews, setTreviews] = useState(0)
   const [users, setUsers] = useState([])
+  const [user, setUser] = useState([])
+  const [isReview, setIsreview] = useState(0)
+  const [isStar, setIsstar] = useState(0)
+  const [review, setReview] = useState('Nice Product!')
 
 
   const findElementByProductId = (arr, id) => arr.filter(element => element.productid == id);
   const findElementByUserId = (a, b) => b.filter(element => element.userid == b._id)
-  const findAverageRating = (arr) => arr.reduce((total, next) => total + next.rating, 0)
+  const findAverageRating = (arr) => Math.round(arr.reduce((total, next) => total + next.rating, 0) / 5)
   const removeElementById = (arr, id) => arr.filter(element => element._id !== id);
 
+  const changeReview = (newrating) =>   setIsstar(newrating)
+  const onSubmit = () => {
+    axios.post(`/review`,{userid:user.userid, productid:product._id, rating:isStar, review:review}).then((res)=>{
+setReviews([...reviews,res.data.review.res])
+console.log([...reviews,res.data.review.res])
+console.log(users)
+    }).catch((error) => {
+      console.log(error)
+    })
+    setIsreview(0)
+  
+  }
+
   useEffect(() => {
-    const slug = router.query.slug
-    axios.get(`/product/9832b50d-1ac1-440d-8e09-2934ad448766`).then((res)=>{
+    const user_ = JSON.parse(localStorage.getItem('user'))
+    if (user_) {
+        setUser(user_)
+    }
+    axios.get(`/product/${slug}`).then((res)=>{
     setProduct(res.data.product)
-    console.log(res.data.product)
     
   }).catch((error) => {
     console.log(error)
@@ -41,8 +61,9 @@ export default function Product() {
 
   axios.get("/review").then((res) => {
     setReviews(findElementByProductId(res.data.reviews,product._id))
-    setTreviews(findAverageRating(findElementByProductId(res.data.reviews,product._id))/2)
-    setReviewsAll(res.data.reviews)
+    setTreviews(findAverageRating(findElementByProductId(res.data.reviews,product._id)))
+    console.log((findAverageRating(findElementByProductId(res.data.reviews,product._id))))
+    setReviews(res.data.reviews)
   }).catch((error) => {
       console.log(error)
   })
@@ -52,10 +73,9 @@ export default function Product() {
   }).catch((error) => {
       console.log(error)
   })
-
   // reviews.forEach((x,i)={})
   
-},[])
+},[slug])
 
 const handleClick = (item) => {
   item.amount = 1
@@ -97,8 +117,31 @@ const handleClick = (item) => {
             </div>
 
             </div>
+            <div>
             <p><a  class="buy-now btn btn-sm btn-primary"  onClick={() => handleClick(product)}>Add To Cart</a></p>
+            
+            
+            {(isReview == 0)?(<><p><a  class="buy-now btn btn-sm btn-outline-primary"  onClick={() => setIsreview(1)}>Rate</a></p></>):(<><div class="form-group row">
+              <div class="col-md-6">
+                <label for="c_diff_state_country" class="d-block text-black">Rate <span class="text-danger">*</span></label>
+                {(isStar != 0)?
+                                  <StarRatings rating={isStar}  class="d-block" starRatedColor="#ffd700" starDimension="30px" starSpacing="1px" />:
+                <StarRatings changeRating={changeReview} class="d-block" starRatedColor="#ffd700" starDimension="30px" starSpacing="1px" />}
 
+              </div>
+              <div class="col-md-6">
+                <label for="c_diff_postal_zip" class="text-black">Review <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="c_diff_postal_zip" name="c_diff_postal_zip" value={review}
+          onChange={(e) => setReview(e.target.value)} />
+              </div>
+            </div><div class="d-flex form-group row text-center">
+            <div class="col-md-6 ">
+            <p><a  class="d-flex btn btn-sm btn-success mt-3 "  onClick={onSubmit}>Submit</a></p>
+            </div><div class="col-md-6">
+            <p><a  class="d-flex btn btn-sm btn-danger mt-3 "  onClick={() => {setIsstar(0); setIsreview(0)}}>Cancel</a></p>
+            </div>
+            </div></>)}
+            </div>
           </div>
           
         </div>
@@ -107,11 +150,13 @@ const handleClick = (item) => {
 
     <div class="site-section block-3 site-blocks-2 bg-light">
       <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-md-7 site-section-heading text-center pt-4">
-            {/* <h2>Featured Products</h2> */}
+        <div class="row">
+          <div class="col-md-7 site-section-heading pt-4">
+            <h2>Reviews</h2>
           </div>
         </div>
+        
+        <br />
        
         <div class="row">
           <div class="col-md-12">
@@ -130,13 +175,13 @@ const handleClick = (item) => {
                 </div>
               </div>
             ))} */}
-
+          
             <div class="row">
                         <div class="col-md-8">
                             {reviews.map((item, i) => (
                                 <div key={i}>
                                     <div style={{display:'flex', justifyContent:'space-between'}}>
-                                    <div class="float-md-left"><p class="h5" style={{ color: "#7971EA" }}><strong>{item.userid}</strong></p></div>
+                                    <div class="float-md-left"><p class="h5" style={{ color: "#7971EA" }}><strong>{(users.filter((e)=> e._userid == item.userid)[0].firstname)?(users.filter((e)=> e._userid == item.userid)[0].firstname):"Sahan Kumara"} {users.filter((e)=> e._userid == item.userid)[0].lastname}</strong></p></div>
                                     <div class="float-md-left"><p style={{ color: "#7971EA" }}>{item.updatedAt.split('T')[0]}</p></div>
                                     </div>
                                     <div style={{display:'flex', justifyContent:'space-between'}}>
