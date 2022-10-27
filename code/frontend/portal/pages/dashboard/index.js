@@ -48,8 +48,10 @@ const cardtitles= [
 ]
 
   useEffect(() => {
+    const user_ = JSON.parse(localStorage.getItem('user'))
+    
     axios.get("/event").then((res)=>{
-        let events = res.data.events
+        let events = res.data.events.filter(element => element.userid == user_.userid)
         let bookingCount = [0,0,0,0,0,0,0,0,0,0,0,0];
         let cancellationCount = [0,0,0,0,0,0,0,0,0,0,0,0];
         events.forEach(e=>{
@@ -165,11 +167,11 @@ const handleClick = (item) => {
               {/* <h3 class="h6 text-uppercase text-black d-block">Dashboard</h3>
               <h3 class="h6 text-uppercase text-black d-block">My Events</h3> */}
               <a href="#" class="h6 list-group-item active"><FaAlignJustify color='black' fontSize="16px" padding-left='10'/><span class="p-4">Dashboard</span></a>
-              <a href="./myEvents" class="h6 list-group-item "><FaRegPlayCircle color='black' fontSize="16px" padding-left='10'/> <span class="p-4">My Events</span></a>
-              <a href="#" class="h6 list-group-item "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10'/><span class="p-4">My Bookings</span></a>
-              <a href="#" class="h6 list-group-item "><FaShoppingCart color='black' fontSize="16px" padding-left='10'/> <span class="p-4">My Purchases</span></a>
+              <a href="./dashboard/events" class="h6 list-group-item "><FaRegPlayCircle color='black' fontSize="16px" padding-left='10'/> <span class="p-4">My Events</span></a>
+              <a href="./dashboard/services" class="h6 list-group-item "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10'/><span class="p-4">My Bookings</span></a>
+              <a href="./dashboard/products" class="h6 list-group-item "><FaShoppingCart color='black' fontSize="16px" padding-left='10'/> <span class="p-4">My Purchases</span></a>
               <a href="#" class="h6 list-group-item "><FaDollarSign color='black' fontSize="16px" padding-left='10'/> <span class="p-4">My Payments</span></a>
-              <a href="#" class="h6 list-group-item "><FaQuestionCircle color='black' fontSize="16px" padding-left='10'/> <span class="p-4">FAQ</span></a>
+              <a href="./myFAQ" class="h6 list-group-item "><FaQuestionCircle color='black' fontSize="16px" padding-left='10'/> <span class="p-4">FAQ</span></a>
               {/* <ul class="list-unstyled mb-0">
               <li class="mb-1"><a href="#" onClick={() => setProducts(productsAll)} class="d-flex"><span>All</span> <span class="text-black ml-auto"> &nbsp;({productsAll.length})</span></a></li>
                 <li class="mb-1"><a href="#" onClick={() => setProducts(filterByCategory(productsAll,'clothing'))} class="d-flex"><span>Past</span> <span class="text-black ml-auto"> &nbsp;({filterByCategory(productsAll,'clothing').length})</span></a></li>

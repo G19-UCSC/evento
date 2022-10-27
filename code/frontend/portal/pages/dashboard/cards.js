@@ -44,7 +44,7 @@ export default function Cards (props) {
                 </div>
             </div>
 
-            <div className="col-xl-3 col-md-6 mb-4">
+            {/* <div className="col-xl-3 col-md-6 mb-4">
                 <div className="card border-left-info shadow h-100 py-2">
                     <div className="card-body">
                         <div className="row no-gutters align-items-center">
@@ -60,9 +60,9 @@ export default function Cards (props) {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="col-xl-3 col-md-6 mb-4">
+            {/* <div className="col-xl-3 col-md-6 mb-4">
                 <div className="card border-left-warning shadow h-100 py-2">
                     <div className="card-body">
                         <div className="row no-gutters align-items-center">
@@ -77,7 +77,7 @@ export default function Cards (props) {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
         </>
     )

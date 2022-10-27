@@ -45,5 +45,19 @@ const EventProvider = db.define(
 
 EventProvider.sync()
 
+// EventProvider.sync().then((res) => {
+//   EventProvider.create({ 
+//     eventid: "3b23111c-abd9-4253-886f-a7a5db3df534",
+//     providerid: "b928dd43-fb9f-4103-9045-a9596e45325d",
+//   productid:"0c648705-fecf-4771-9e2f-33baee6e4821",
+//    status:"Rejected",
+//    providerpay:null,
+//    providerpay_status: "Pending",
+//    providerpay_date: null,
+//   }).then((res) => {
+//     console.log(`Insert successful: ${res._id}`);
+//   });
+// });
+
 
 module.exports = EventProvider;

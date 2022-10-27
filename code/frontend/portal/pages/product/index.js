@@ -53,7 +53,7 @@ export default function product() {
     let createFormViewBtn;
 
     if (btn == 'null') {
-        createFormViewBtn = <button className="btn" onClick={e => onClickCreate()} id="createBtn"> <FaUserPlus /> Add/Update Product </button>
+        createFormViewBtn = <button className="btn" onClick={e => onClickCreate()} id="createBtn"> <FaUserPlus /> Add Product </button>
     }
     else {
         createFormViewBtn = <button className="btn" onClick={e => onClickCancel()}> <FaWindowClose /> Cancel </button>
@@ -62,7 +62,7 @@ export default function product() {
     let submitBtn;
 
     if (btn == 'create') {
-        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Add/Update Product </button>
+        submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Add Product </button>
     }
     else if (btn == 'update') {
         submitBtn = <button type='submit' className="w-100 btn btn-secondary btn-lg" > Update Product </button>
@@ -127,7 +127,7 @@ export default function product() {
         fileData.append("name", files[0].name)
         fileData.append("files", files[0]);
         fileData.append("filename", Date.now() + files[0].name)
-        path = Date.now() + files[0].name
+        path = '/uploads/' + Date.now() + "-" + files[0].name
         for (var key of fileData.entries()) {
             console.log(key[0] + ', ' + key[1])
         }
@@ -142,7 +142,6 @@ export default function product() {
         axios.post(`/uploadPortal`, fileData).then((res) => {
             console.log(res)
             setImgportal(res.data.filename)
-            path = res.data.filename
             console.log(path)
         }).catch((err) => {
             console.log(err)
@@ -198,10 +197,11 @@ export default function product() {
             return axios.get("/product");
         }
 
-
         Promise.all([getProducts()]).then((res) => {
+            let products = res[0].data.products;
+            products = products.filter(element => element.userid == user_.userid)
             console.log(res)
-            setProducts(res[0].data.products);
+            setProducts(products);
             table();
 
         }).catch((error) => {
@@ -258,7 +258,7 @@ export default function product() {
                                                         {products.map((a) => (
                                                             <tr id={a._id} key={a._id}>
                                                                 <td>
-                                                                    <Image src={'/uploads/'+a.image_path} width="40px" height="40px" /> <br />
+                                                                    <img src={a.image_path} width="40px" height="40px" /> <br />
                                                                     {a.name}</td>
                                                                 <td>{a.description}</td>
                                                                 <td>{a.price}</td>
@@ -343,8 +343,7 @@ export default function product() {
                                     <a href="./provider" class="h6 list-group-item"><FaAlignJustify color='black' fontSize="16px" padding-left='10' /><span class="p-4">Dashboard</span></a>
                                     <a href="#" class="h6 list-group-item active"><FaRegPlayCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Products</span></a>
                                     <a href="./providerservice" class="h6 list-group-item "><FaRegCalendarAlt color='black' fontSize="16px" padding-left='10' /><span class="p-4">Services</span></a>
-                                    <a href="./purchase" class="h6 list-group-item "><FaShoppingCart color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Purchases</span></a>
-                                    <a href="./servicebooking" class="h6 list-group-item "><FaDollarSign color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Bookings</span></a>
+                                    
                                     <a href="./providerevents" class="h6 list-group-item "><FaQuestionCircle color='black' fontSize="16px" padding-left='10' /> <span class="p-4">Events</span></a>
 
                                 </div>

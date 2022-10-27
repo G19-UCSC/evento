@@ -1,132 +1,132 @@
 
-import Footer from "../../components/home/footer"
-import Header from "../../components/home/header"
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+// import Footer from "../../components/home/footer"
+// import Header from "../../components/home/header"
+// import Link from 'next/link'
+// import { useRouter } from 'next/router'
 
-import { filterByCategory, filterByPrice } from '../../utils/product';
-import { CartContext, CartDispatchContext } from '../../context/productContext';
-import axios from '../../utils/axios'
-import React, { useContext, useState,useEffect } from 'react'
-import dayjs from 'dayjs';
-import TextField from '@mui/material/TextField';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import Stack from '@mui/material/Stack';
+// import { filterByCategory, filterByPrice } from '../../utils/product';
+// import { CartContext, CartDispatchContext } from '../../context/productContext';
+// import axios from '../../utils/axios'
+// import React, { useContext, useState,useEffect } from 'react'
+// import dayjs from 'dayjs';
+// import TextField from '@mui/material/TextField';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+// import Stack from '@mui/material/Stack';
 
-export default function create() {
-    const [value, setValue] = React.useState(dayjs('2022-04-07'));  
-  // const [setPackages, setCost] = useContext(CartDispatchContext);
-  // const [packages,cost]= useContext(CartContext);
+// export default function create() {
+//     const [value, setValue] = React.useState(dayjs('2022-04-07'));  
+//   // const [setPackages, setCost] = useContext(CartDispatchContext);
+//   // const [packages,cost]= useContext(CartContext);
 
-  const [setCart, setPrices,setTotalCount] = useContext(CartDispatchContext);
-  const [cart,prices, TotalCount]= useContext(CartContext);
+//   const [setCart, setPrices,setTotalCount] = useContext(CartDispatchContext);
+//   const [cart,prices, TotalCount]= useContext(CartContext);
 
-  const router = useRouter()
+//   const router = useRouter()
 
-  // Products and Services
-  const [cnt, setCnt] = useState(0);
-  const [services, setServices] = useState([])
-  const [servicesAll, setServicesAll] = useState([])
-  const [products, setProducts] = useState([])
-  const [productsAll, setProductsAll] = useState([])
+//   // Products and Services
+//   const [cnt, setCnt] = useState(0);
+//   const [services, setServices] = useState([])
+//   const [servicesAll, setServicesAll] = useState([])
+//   const [products, setProducts] = useState([])
+//   const [productsAll, setProductsAll] = useState([])
 
-  // Cart Functions
-  const [discount, setDiscount] = useState(0);
-  const [data, setData] = useState({ name: 0 });
+//   // Cart Functions
+//   const [discount, setDiscount] = useState(0);
+//   const [data, setData] = useState({ name: 0 });
 
-  const handleClick = (item) => {
-    item.amount = 1
-    if (packages.indexOf(item) !== -1) return;
-    setPackages([...packages, item]);
-  //   router.push("/package")
-  };
-  const handleClicks = (item) => {
+//   const handleClick = (item) => {
+//     item.amount = 1
+//     if (packages.indexOf(item) !== -1) return;
+//     setPackages([...packages, item]);
+//   //   router.push("/package")
+//   };
+//   const handleClicks = (item) => {
       
-      item.amount = 1
-      if (cart.indexOf(item) !== -1) return;
-      setCart([...cart, item]);
-      handlePrice([...cart, item])
-      console.log([...cart, item])
+//       item.amount = 1
+//       if (cart.indexOf(item) !== -1) return;
+//       setCart([...cart, item]);
+//       handlePrice([...cart, item])
+//       console.log([...cart, item])
       
-    };
-  const handleChange = (item, d) => {
-    const ind = cart.indexOf(item);
-    const arr = cart;
-    item.count ? setData({name : 0 }) : setData({name : 1})
-    arr[ind].amount += d;
-    if (arr[ind].amount === 0) arr[ind].amount = 1;
-    setCart([...arr]);
-    handlePrice([...arr])
-  };
+//     };
+//   const handleChange = (item, d) => {
+//     const ind = cart.indexOf(item);
+//     const arr = cart;
+//     item.count ? setData({name : 0 }) : setData({name : 1})
+//     arr[ind].amount += d;
+//     if (arr[ind].amount === 0) arr[ind].amount = 1;
+//     setCart([...arr]);
+//     handlePrice([...arr])
+//   };
   
-  const handleRemove = (id) => {
-    const arr = cart.filter((item) => item._id !== id);
-    setCart(arr);
-    handlePrice(arr);
-  };
+//   const handleRemove = (id) => {
+//     const arr = cart.filter((item) => item._id !== id);
+//     setCart(arr);
+//     handlePrice(arr);
+//   };
 
-  const handlePrice = (cart) => {
-    let ans = 0;
-    let discount = 0;
-    cart.map((item) => (ans += item.amount * item.price));
-    cart.map((item) => (discount += item.amount * (item.price  * (item.discount)/100)));
-    setPrices(ans);
-    setDiscount(discount);
-  };
+//   const handlePrice = (cart) => {
+//     let ans = 0;
+//     let discount = 0;
+//     cart.map((item) => (ans += item.amount * item.price));
+//     cart.map((item) => (discount += item.amount * (item.price  * (item.discount)/100)));
+//     setPrices(ans);
+//     setDiscount(discount);
+//   };
 
-  // Use effect
-  useEffect(() => {
-    axios.get("/service").then((res)=>{
-      setServices(res.data.service)
-      setServicesAll(res.data.service)
-    }).catch((error) => {
-        console.log(error)
-    })
-    axios.get("/product").then((res)=>{
-      setProducts(res.data.products)
-      setProductsAll(res.data.products)
-    }).catch((error) => {
-      console.log(error.response.data)
-    })
-}, [])
+//   // Use effect
+//   useEffect(() => {
+//     axios.get("/service").then((res)=>{
+//       setServices(res.data.service)
+//       setServicesAll(res.data.service)
+//     }).catch((error) => {
+//         console.log(error)
+//     })
+//     axios.get("/product").then((res)=>{
+//       setProducts(res.data.products)
+//       setProductsAll(res.data.products)
+//     }).catch((error) => {
+//       console.log(error.response.data)
+//     })
+// }, [])
 
-    useEffect(()=>{
-        localStorage.removeItem('cart');
-        localStorage.setItem('cart',JSON.stringify(cart))
-    },[cart])
+//     useEffect(()=>{
+//         localStorage.removeItem('cart');
+//         localStorage.setItem('cart',JSON.stringify(cart))
+//     },[cart])
 
-    const checkout = () => {
-        localStorage.setItem('price',prices)
-        localStorage.setItem('discount',discount)
-        router.push('/checkout')
-    }
+//     const checkout = () => {
+//         localStorage.setItem('price',prices)
+//         localStorage.setItem('discount',discount)
+//         router.push('/checkout')
+//     }
 
-return(
-  <div class="site-wrap">
+// return(
+//   <div class="site-wrap">
     
-    <Header />
+//     <Header />
 
-    <div class="site-section">
-      <div class="container">
-        <div class="row mb-1">
-          <form class="col-md-12" method="post">
-            <div class="site-blocks-table">
-              <table class="table table-bordered">
-                <thead >
-                  <tr>
-                    <th class="h6">Image</th>
-                    <th class="h6">Product</th>
-                    <th class="h6">Unit Price</th>
-                    <th class="h6">Quantity</th>
+//     <div class="site-section">
+//       <div class="container">
+//         <div class="row mb-1">
+//           <form class="col-md-12" method="post">
+//             <div class="site-blocks-table">
+//               <table class="table table-bordered">
+//                 <thead >
+//                   <tr>
+//                     <th class="h6">Image</th>
+//                     <th class="h6">Product</th>
+//                     <th class="h6">Unit Price</th>
+//                     <th class="h6">Quantity</th>
                     
-                    <th class="h6">Remove</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {cart.map((item) => (
-                  <tr>
+//                     <th class="h6">Remove</th>
+//                   </tr>
+//                 </thead>
+//                 <tbody>
+//                 {cart.map((item) => (
+//                   <tr>
                   
                     <td class="product-thumbnail">
                       <img src={item.image_path} layout='fill' alt="Image" class="img-fluid" />
@@ -315,47 +315,47 @@ return(
                       </div>
                     </div>
           
-                    <div class="col-md-3 order-1 mb-5 mb-md-0">
-                      <div class="border p-4 rounded mb-4">
-                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
-                        <ul class="list-unstyled mb-0">
-                        <li class="mb-1"><a href="#" onClick={() => setProducts(productsAll)} class="d-flex"><span>All</span> <span class="text-black ml-auto"> &nbsp;({productsAll.length})</span></a></li>
-                          <li class="mb-1"><a href="#" onClick={() => setProducts(filterByCategory(productsAll,'clothing'))} class="d-flex"><span>Clothing</span> <span class="text-black ml-auto"> &nbsp;({filterByCategory(productsAll,'clothing').length})</span></a></li>
-                          <li class="mb-1"><a href="#" onClick={() => setProducts(filterByCategory(productsAll,'food'))} class="d-flex"><span>Food</span> <span class="text-black ml-auto">&nbsp;({filterByCategory(productsAll,'food').length})</span></a></li>
-                          <li class="mb-1"><a href="#" onClick={() => setProducts(filterByCategory(productsAll,'decor'))} class="d-flex"><span>Decor</span> <span class="text-black ml-auto">&nbsp;({filterByCategory(productsAll,'decor').length})</span></a></li>
-                        </ul>
-                      </div>
+//                     <div class="col-md-3 order-1 mb-5 mb-md-0">
+//                       <div class="border p-4 rounded mb-4">
+//                         <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
+//                         <ul class="list-unstyled mb-0">
+//                         <li class="mb-1"><a href="#" onClick={() => setProducts(productsAll)} class="d-flex"><span>All</span> <span class="text-black ml-auto"> &nbsp;({productsAll.length})</span></a></li>
+//                           <li class="mb-1"><a href="#" onClick={() => setProducts(filterByCategory(productsAll,'clothing'))} class="d-flex"><span>Clothing</span> <span class="text-black ml-auto"> &nbsp;({filterByCategory(productsAll,'clothing').length})</span></a></li>
+//                           <li class="mb-1"><a href="#" onClick={() => setProducts(filterByCategory(productsAll,'food'))} class="d-flex"><span>Food</span> <span class="text-black ml-auto">&nbsp;({filterByCategory(productsAll,'food').length})</span></a></li>
+//                           <li class="mb-1"><a href="#" onClick={() => setProducts(filterByCategory(productsAll,'decor'))} class="d-flex"><span>Decor</span> <span class="text-black ml-auto">&nbsp;({filterByCategory(productsAll,'decor').length})</span></a></li>
+//                         </ul>
+//                       </div>
           
-                      <div class="border p-4 rounded mb-4">
+//                       <div class="border p-4 rounded mb-4">
                         
-                          <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
-                        <ul class="list-unstyled mb-0"> 
-                          <li class="mb-1"><a href="#" onClick={() => setProducts(productsAll)} class="d-flex"><span>Any Price</span> </a></li>
-                          <li class="mb-1"><a href="#" onClick={() => setProducts(filterByPrice(productsAll,0,1000))} class="d-flex"><span>Under Rs.1000</span> </a></li>
-                          <li class="mb-1"><a href="#" onClick={() => setProducts(filterByPrice(productsAll,1000,5000))} class="d-flex"><span>Rs.1000 to Rs.5000</span> </a></li>
-                          <li class="mb-1"><a href="#" onClick={() => setProducts(filterByPrice(productsAll,5000,10000))} class="d-flex"><span>Rs.5000 to Rs.10,000</span> </a></li>
-                          <li class="mb-1"><a href="#" onClick={() => setProducts(filterByPrice(productsAll,10000,10000000))} class="d-flex"><span>Above Rs.10,000</span></a></li>
-                        </ul>
+//                           <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
+//                         <ul class="list-unstyled mb-0"> 
+//                           <li class="mb-1"><a href="#" onClick={() => setProducts(productsAll)} class="d-flex"><span>Any Price</span> </a></li>
+//                           <li class="mb-1"><a href="#" onClick={() => setProducts(filterByPrice(productsAll,0,1000))} class="d-flex"><span>Under Rs.1000</span> </a></li>
+//                           <li class="mb-1"><a href="#" onClick={() => setProducts(filterByPrice(productsAll,1000,5000))} class="d-flex"><span>Rs.1000 to Rs.5000</span> </a></li>
+//                           <li class="mb-1"><a href="#" onClick={() => setProducts(filterByPrice(productsAll,5000,10000))} class="d-flex"><span>Rs.5000 to Rs.10,000</span> </a></li>
+//                           <li class="mb-1"><a href="#" onClick={() => setProducts(filterByPrice(productsAll,10000,10000000))} class="d-flex"><span>Above Rs.10,000</span></a></li>
+//                         </ul>
                         
           
-                      </div>
-                          <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
-                        </div>
+//                       </div>
+//                           <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
+//                         </div>
           
-                      </div>
+//                       </div>
                     
         
-      </div>
-    </div>
+//       </div>
+//     </div>
 
     
-    <Footer/>
-    </div>
+//     <Footer/>
+//     </div>
 
   
    
   
-)
+// )
 
 
-}
+// }
