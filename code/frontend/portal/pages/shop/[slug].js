@@ -1,4 +1,3 @@
-
 import Footer from "../../components/home/footer"
 import Header from "../../components/home/header"
 import { useRouter } from 'next/router'
@@ -34,6 +33,7 @@ export default function Product() {
   const findAverageRating = (arr) => Math.round(Math.round(arr.reduce((total, next) => total + next.rating, 0) / 5) / 5)
   const removeElementById = (arr, id) => arr.filter(element => element._id !== id);
 
+  const changeReview = (newrating) =>   setIsstar(newrating)
   const onSubmit = () => {
     axios.post(`/review`,{userid:user.userid, productid:product._id, rating:isStar, review:review}).then((res)=>{
 setReviews([...reviews,res.data.review.res])
@@ -95,7 +95,7 @@ const handleClick = (item) => {
       </div>
     </div>
 
-    <div class="site-section">
+      <div class="site-section">
       <div class="container">
         <div class="row">
           <div class="col-md-6">
@@ -120,6 +120,7 @@ const handleClick = (item) => {
             <div>
             <p><a  class="buy-now btn btn-sm btn-primary"  onClick={() => handleClick(product)}>Add To Cart</a></p>
             
+          
             
             {(isReview == 0)?(<><p><a  class="buy-now btn btn-sm btn-outline-primary"  onClick={() => setIsreview(1)}>Rate</a></p></>):(<><div class="form-group row">
               <div class="col-md-6">
@@ -127,7 +128,6 @@ const handleClick = (item) => {
                 {(isStar != 0)?
                                   <StarRatings rating={isStar}  class="d-block" starRatedColor="#ffd700" starDimension="30px" starSpacing="1px" />:
                 <StarRatings changeRating={changeReview} class="d-block" starRatedColor="#ffd700" starDimension="30px" starSpacing="1px" />}
-
               </div>
               <div class="col-md-6">
                 <label for="c_diff_postal_zip" class="text-black">Review <span class="text-danger">*</span></label>
@@ -159,33 +159,15 @@ const handleClick = (item) => {
         <br />
         
         <br />
-       
-        <div class="row">
-          <div class="col-md-12">
-            <div class="nonloop-block-3 owl-carousel">
-            {/* {productAll.map((item, i) => (
-              <div class="item" key={i}>
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src= {item.image_path}alt="Image placeholder" class="img-fluid" />
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">{item.name}</a></h3>
-                    <p class="mb-0">{item.description}</p>
-                    <p class="text-primary font-weight-bold">{item.price}</p>
-                  </div>
-                </div>
-              </div>
-            ))} */}
-            </div>
-
+      
+                    
             <div class="row">
                         <div class="col-md-8">
                             {reviews.map((item, i) => (
                                 <div key={i}>
                                     <div style={{display:'flex', justifyContent:'space-between'}}>
-                                    <div class="float-md-left"><p class="h5" style={{ color: "#7971EA" }}><strong>{(users.filter((e)=> e._userid == item.userid)[0].firstname)?(users.filter((e)=> e._userid == item.userid)[0].firstname):"Sahan Kumara"} {users.filter((e)=> e._userid == item.userid)[0].lastname}</strong></p></div>
-                                    <div class="float-md-left"><p style={{ color: "#7971EA" }}>{item.updatedAt.split('T')[0]}</p></div>
+                                      <div class="float-md-left"><p class="h5" style={{ color: "#7971EA" }}><strong>{(users.filter((e)=> e._userid == item.userid)[0].firstname)?(users.filter((e)=> e._userid == item.userid)[0].firstname):"Sahan"} {users.filter((e)=> e._userid == item.userid)[0].lastname}</strong></p></div>
+                                      <div class="float-md-left"><p style={{ color: "#7971EA" }}>{item.updatedAt.split('T')[0]}</p></div>
                                     </div>
                                     <div style={{display:'flex', justifyContent:'space-between'}}>
                                     <div class="float-md-left mb-4"><p class="h6" style={{ color: "#808080" }}>{item.review}</p></div>
@@ -201,9 +183,6 @@ const handleClick = (item) => {
             </div>
           </div>
         </div>
-      
-      </div>
-    </div>
     
      <Footer />
    </div>

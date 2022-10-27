@@ -148,7 +148,6 @@ export default function Event() {
   return (
     //      <div class="site-wrap">
     //      <Header />
-
     //      <div class="bg-light py-3">
     //       <div class="container">
     //         <div class="row">
@@ -335,7 +334,7 @@ export default function Event() {
                           <a href="shop-single.html"><img src={item.image_path} style={{objectFit: "cover",height: "250px"}} layout='fill' alt="Image placeholder" class="img-fluid" /></a>
                         </figure>
                         <div class="block-4-text p-4">
-                          <h3><a href="shop-single.html">{item.name}</a></h3>
+                          <h3><a href="shop-single.html">{item.productName}</a></h3>
                           <p class="mb-0">{item.description}</p>
                           <p class="text-primary font-weight-bold">${item.price}</p>
                         </div>
