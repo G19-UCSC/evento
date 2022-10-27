@@ -53,7 +53,7 @@ const Product = db.define(
 
 Product.sync()
 
-// Product.sync().then((res) => {
+// Product.sync({force:true}).then((res) => {
 //   Product.create({ 
 
 //     name: "130ft Led", 
@@ -63,7 +63,8 @@ Product.sync()
 //     category: "food",
 //     comission : 50,
 //     count: 20,
-//     image_path:"https://m.media-amazon.com/images/I/81f9ShZY6nL._AC_SL1500_.jpg"
+//     image_path:"https://m.media-amazon.com/images/I/81f9ShZY6nL._AC_SL1500_.jpg",
+//     userid:"e1ee36fe-03d2-4b49-8159-8d6e06e1d20a"
 
 
 //   }).then((res) => {
