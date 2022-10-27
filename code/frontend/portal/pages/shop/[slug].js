@@ -15,7 +15,6 @@ export default function Product() {
   const [setCart, setPrices] = useContext(CartDispatchContext);
   const [cart,prices]= useContext(CartContext);
   const slug = router.query.slug
-  const slug = router.query.slug
 
   const [product,setProduct] = useState({})
   const [productAll,setProductAll] = useState({})
@@ -28,10 +27,6 @@ export default function Product() {
   const [isReview, setIsreview] = useState(0)
   const [isStar, setIsstar] = useState(0)
   const [review, setReview] = useState('Nice Product!')
-  const [user, setUser] = useState([])
-  const [isReview, setIsreview] = useState(0)
-  const [isStar, setIsstar] = useState(0)
-  const [review, setReview] = useState('Nice Product!')
 
 
   const findElementByProductId = (arr, id) => arr.filter(element => element.productid == id);
@@ -39,20 +34,6 @@ export default function Product() {
   const findAverageRating = (arr) => Math.round(Math.round(arr.reduce((total, next) => total + next.rating, 0) / 5) / 5)
   const removeElementById = (arr, id) => arr.filter(element => element._id !== id);
 
-  const changeReview = (newrating) =>   setIsstar(newrating)
-  const onSubmit = () => {
-    axios.post(`/review`,{userid:user.userid, productid:product._id, rating:isStar, review:review}).then((res)=>{
-setReviews([...reviews,res.data.review.res])
-console.log([...reviews,res.data.review.res])
-console.log(users)
-    }).catch((error) => {
-      console.log(error)
-    })
-    setIsreview(0)
-  
-  }
-
-  const changeReview = (newrating) =>   setIsstar(newrating)
   const onSubmit = () => {
     axios.post(`/review`,{userid:user.userid, productid:product._id, rating:isStar, review:review}).then((res)=>{
 setReviews([...reviews,res.data.review.res])
@@ -93,7 +74,7 @@ console.log(users)
   })
   // reviews.forEach((x,i)={})
   
-},[slugslug])
+},[slug])
 
 const handleClick = (item) => {
   item.amount = 1
@@ -146,29 +127,7 @@ const handleClick = (item) => {
                 {(isStar != 0)?
                                   <StarRatings rating={isStar}  class="d-block" starRatedColor="#ffd700" starDimension="30px" starSpacing="1px" />:
                 <StarRatings changeRating={changeReview} class="d-block" starRatedColor="#ffd700" starDimension="30px" starSpacing="1px" />}
-            
-            
-            {(isReview == 0)?(<><p><a  class="buy-now btn btn-sm btn-outline-primary"  onClick={() => setIsreview(1)}>Rate</a></p></>):(<><div class="form-group row">
-              <div class="col-md-6">
-                <label for="c_diff_state_country" class="d-block text-black">Rate <span class="text-danger">*</span></label>
-                {(isStar != 0)?
-                                  <StarRatings rating={isStar}  class="d-block" starRatedColor="#ffd700" starDimension="30px" starSpacing="1px" />:
-                <StarRatings changeRating={changeReview} class="d-block" starRatedColor="#ffd700" starDimension="30px" starSpacing="1px" />}
 
-              </div>
-              <div class="col-md-6">
-                <label for="c_diff_postal_zip" class="text-black">Review <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="c_diff_postal_zip" name="c_diff_postal_zip" value={review}
-          onChange={(e) => setReview(e.target.value)} />
-              </div>
-            </div><div class="d-flex form-group row text-center">
-            <div class="col-md-6 ">
-            <p><a  class="d-flex btn btn-sm btn-success mt-3 "  onClick={onSubmit}>Submit</a></p>
-            </div><div class="col-md-6">
-            <p><a  class="d-flex btn btn-sm btn-danger mt-3 "  onClick={() => {setIsstar(0); setIsreview(0)}}>Cancel</a></p>
-            </div>
-            </div></>)}
-            </div>
               </div>
               <div class="col-md-6">
                 <label for="c_diff_postal_zip" class="text-black">Review <span class="text-danger">*</span></label>
@@ -218,13 +177,14 @@ const handleClick = (item) => {
                 </div>
               </div>
             ))} */}
-                    
+            </div>
+
             <div class="row">
                         <div class="col-md-8">
                             {reviews.map((item, i) => (
                                 <div key={i}>
                                     <div style={{display:'flex', justifyContent:'space-between'}}>
-                                    <div class="float-md-left"><p class="h5" style={{ color: "#7971EA" }}><strong>{(users.filter((e)=> e._userid == item.userid)[0].firstname)?(users.filter((e)=> e._userid == (users.filter((e)=> e._userid == item.userid)[0].firstname)?(users.filter((e)=> e._userid == item.userid)[0].firstname):"Sahan Kumara"} {users.filter((e)=> e._userid == item.userid)[0].lastname)[0].firstname):"Sahan Kumara"} {users.filter((e)=> e._userid == item.userid)[0].lastname}</strong></p></div>
+                                    <div class="float-md-left"><p class="h5" style={{ color: "#7971EA" }}><strong>{(users.filter((e)=> e._userid == item.userid)[0].firstname)?(users.filter((e)=> e._userid == item.userid)[0].firstname):"Sahan Kumara"} {users.filter((e)=> e._userid == item.userid)[0].lastname}</strong></p></div>
                                     <div class="float-md-left"><p style={{ color: "#7971EA" }}>{item.updatedAt.split('T')[0]}</p></div>
                                     </div>
                                     <div style={{display:'flex', justifyContent:'space-between'}}>
@@ -236,9 +196,7 @@ const handleClick = (item) => {
 
                         </div>
 
-                    </div>
-
-              
+            </div>
 
             </div>
           </div>
