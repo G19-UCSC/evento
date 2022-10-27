@@ -10,7 +10,7 @@ const setReviewSchema = () => Joi.object().keys({
     productid: Joi.string().required(),
     userid: Joi.string().required(),
     review: Joi.string().allow(null),
-    rating: Joi.string().required(),
+    rating: Joi.number().required(),
 });
 
 const updateReviewSchema = () => Joi.object().keys({
@@ -18,7 +18,7 @@ const updateReviewSchema = () => Joi.object().keys({
     productid: Joi.string().required(),
     userid: Joi.string().required(),
     review: Joi.string().allow(null),
-    rating: Joi.string().required(),
+    rating: Joi.number().required(),
 });
 
 const deleteReviewSchema = () => Joi.object().keys({
